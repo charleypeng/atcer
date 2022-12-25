@@ -1,0 +1,103 @@
+﻿@namespace ATCer.HRCenter.Client.Pages
+@using System.ComponentModel.DataAnnotations
+@inherits EditOperationDialogBase<TimeItemDto, long>
+
+@if (_editModel != null)
+{
+    <Form Loading="@_isLoading"
+            Model="@_editModel"
+            LabelCol="new ColLayoutParam { Span = 8 }"
+            WrapperCol="new ColLayoutParam { Span = 16 }"
+            OnFinish="OnFormFinish"
+            Context="model">
+        <FormItem>
+            <Input @bind-Value="@model.UserName" />
+        </FormItem>
+        <FormItem>
+            <Input @bind-Value="@model.SectorName" />
+        </FormItem>
+        <FormItem>
+            <Input @bind-Value="@model.BeginTime" />
+        </FormItem>
+        <FormItem>
+            <Input @bind-Value="@model.EndTime" />
+        </FormItem>
+        <FormItem Label="登入方式">
+            <SimpleSelect @bind-Value="_currentEditModelLoginType"
+                          DefaultValue="@(model.TypeOfLogin.ToString())"
+                          Style="width:120px;">
+                <SelectOptions>
+                    @foreach(var item in EnumHelper.EnumToDictionary<ATCLoginType>())
+                    {
+                        <SimpleSelectOption Value="@(item.Key.ToString())" Label="@(item.Value)"></SimpleSelectOption>
+                    }
+                </SelectOptions>
+            </SimpleSelect>
+        </FormItem>
+        <FormItem Label="登出方式">
+            <SimpleSelect @bind-Value="_currentEditLogouttType"
+                          DefaultValue="@(model.TypeOfLogout.ToString())"
+                          Style="width:120px;">
+                <SelectOptions>
+                    @foreach(var item in EnumHelper.EnumToDictionary<ATCLoginType>())
+                    {
+                        <SimpleSelectOption Value="@(item.Key.ToString())" Label="@(item.Value)"></SimpleSelectOption>
+                    }
+                </SelectOptions>
+            </SimpleSelect>
+        </FormItem>
+        @if (this.Options.Type.Equals(DrawerInputType.Edit) || this.Options.Type.Equals(DrawerInputType.Select))
+        {
+            <FormItem Label="创建时间">
+                <span>@model.CreatedTime.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+            <FormItem Label="更新时间">
+                <span>@model.UpdatedTime?.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+        }
+        <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <Space>
+                @if (!DrawerInputType.Select.Equals(this.Options.Type))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Primary" HtmlType="submit">
+                            @localizer["保存"]
+                        </Button>
+                    </SpaceItem>
+                }
+                <SpaceItem>
+                    <Button OnClick="_=>OnFormCancel()">
+                        @localizer["取消"]
+                    </Button>
+                </SpaceItem>
+            </Space>
+        </FormItem>
+    </Form>
+
+    @code{
+        [Required(ErrorMessage ="不能为空")]
+        private string _currentEditModelLoginType
+        {
+            get
+            {
+                return _editModel.TypeOfLogin.ToString();
+            }
+            set
+            {
+                _editModel.TypeOfLogin = (ATCLoginType)Enum.Parse(typeof(ATCLoginType), value);
+            }
+        }
+        [Required(ErrorMessage ="不能为空")]
+        private string _currentEditLogouttType
+        {
+            get
+            {
+                return _editModel.TypeOfLogout.ToString();
+            }
+            set
+            {
+                _editModel.TypeOfLogout = (ATCLoginType)Enum.Parse(typeof(ATCLoginType), value);
+            }
+        }
+    }
+}

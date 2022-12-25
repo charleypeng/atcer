@@ -1,0 +1,58 @@
+﻿// -----------------------------------------------------------------------------
+// ATCer 全平台综合性空中交通管理系统
+//  作者：彭磊
+//  CopyRight(C) 2022  版权所有 
+// -----------------------------------------------------------------------------
+
+using AntDesign;
+using AntDesign.ProLayout;
+using ATCer.Common;
+using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
+
+namespace ATCer.Client.Base
+{
+    /// <summary>
+    /// tab基类
+    /// </summary>
+    public abstract class ReuseTabsPageBase : ComponentBase, IReuseTabsPage
+    {
+        /// <summary>
+        /// 获取页面title
+        /// </summary>
+        /// <returns></returns>
+        public RenderFragment GetPageTitle()
+        {
+            return GetPageTitleValue().ToRenderFragment();
+        }
+
+        /// <summary>
+        /// 获取页面title
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// 根据页面路由path获取对应菜单名字作为title
+        /// </remarks>
+        public virtual string GetPageTitleValue()
+        {
+            string title = "";
+            RouteAttribute routeAttribute = this.GetType().GetAttribute<RouteAttribute>(true);
+            if (routeAttribute != null)
+            {
+                //根据路由去匹配菜单的名称
+                MenuDataItem menu = ClientMenuCache.Get(routeAttribute.Template);
+                title = menu?.Name;
+            }
+            return title;
+        }
+
+        /// <summary>
+        /// 强制dom渲染
+        /// </summary>
+        /// <returns></returns>
+        public async Task RefreshPageDom()
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

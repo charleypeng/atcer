@@ -1,0 +1,28 @@
+@namespace ATCer.Client.Components
+@inherits AntDomComponentBase
+
+<div class="@ClassMapper.Class">
+    <Dropdown Placement="@Placement.BottomRight"
+              OverlayClassName="container popover"
+              Trigger="_trigger"
+              Visible="Visible"
+              OverlayEnterCls="@(" ")">
+        <Overlay>
+            <Tabs Class="tabs">
+                <CascadingValue Value="this">
+                    @ChildContent
+                </CascadingValue>
+            </Tabs>
+        </Overlay>
+        <Unbound>
+            <span @ref="@context.Current" class="@ClassMapper.Class">
+                <Badge Count="Count">
+                    @*Style="box-shadow: none;" Class="badge">*@
+                    <Avatar Shape="@AvatarShape.Circle" Icon="mail" />
+                </Badge>
+            </span>
+        </Unbound>
+    </Dropdown>
+
+</div>
+

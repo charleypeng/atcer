@@ -1,0 +1,47 @@
+﻿@*@namespace ATCer.Client.Components
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using ATCer.Client.Components
+@using System.Runtime.InteropServices
+
+@if (RuntimeInformation.OSArchitecture == Architecture.Wasm)
+{
+    var ss = RuntimeInformation.OSArchitecture;
+
+    <div style="width:600px;height:400px">
+        <CartesianChart Series="ViewModel.Series" XAxes="ViewModel.XAxes" YAxes="ViewModel.YAxes"></CartesianChart>
+    </div>
+}
+else
+{
+    var ss = RuntimeInformation.OSArchitecture;
+    var a = RuntimeInformation.OSDescription;
+    var b = RuntimeInformation.ProcessArchitecture;
+    var c = RuntimeInformation.FrameworkDescription;
+    var d = RuntimeEnvironment.GetSystemVersion();
+    var f = RuntimeInformation.RuntimeIdentifier;
+    var h = RuntimeInformation.OSArchitecture;
+   <h3>i'm not wasm</h3>
+}
+
+
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        Update();
+    }
+
+    public ViewModel ViewModel { get; set; } = new();
+
+    public async void Update()
+    {
+        while (true)
+        {
+            ViewModel.RandomIncrement();
+            await Task.Delay(1000);
+        }
+    }
+}
+*@

@@ -1,0 +1,55 @@
+﻿@page "/auth/login"
+@namespace ATCer.UserCenter.Client.Pages.LoginView
+@layout ATCer.Client.Base.Shared.LoginLayout
+@attribute [AllowAnonymous]
+@attribute [ReuseTabsPage(Ignore =true)]
+
+<div class="main__b__0">
+    <div class="login">
+        <Form Model="@loginInput"
+              OnFinish="OnLogin"
+              Loading="loading"
+              LabelCol="new ColLayoutParam { Span = 4 }"
+              WrapperCol="new ColLayoutParam { Span = 20 }">
+            <Tabs ActiveKey="@(context.LoginType.ToString())">
+                <TabPane Key="1">
+                    <TabTemplate>
+                        账户密码登录
+                    </TabTemplate>
+                    <ChildContent>
+                        <FormItem Label="">
+                            <Input Placeholder="用户名" Size="large" @bind-Value="@context.UserName">
+                                <Prefix><Icon Type="user" /></Prefix>
+                             </Input>
+                        </FormItem>
+                        <FormItem Label="">
+                            <InputPassword Placeholder="密码" Size="large" @bind-Value="@context.Password" Type="password">
+                                <Prefix><Icon Type="lock" /></Prefix>
+                            </InputPassword>
+                        </FormItem>
+                        <FormItem Label="">
+                            <Row>
+                                <Col Span="18">
+                                    <Input Placeholder="验证码" Size="large" @bind-Value="@context.VerifyCode" />
+                                </Col>
+                                <Col Span="6">
+                                    <ImageVerifyCode @bind-VerifyCodeKey="@context.VerifyCodeKey" @ref="_imageVerifyCode"></ImageVerifyCode>
+                                </Col>
+                            </Row>
+                        </FormItem>
+                        <FormItem Style="display:none">
+                            <Input @bind-Value="@context.VerifyCodeKey" />
+                        </FormItem>
+                    </ChildContent>
+                </TabPane>
+            </Tabs>
+            <div>
+                <Checkbox @bind-Value="autoLogin">
+                    自动登录
+                </Checkbox>
+            </div>
+            <Button Type="@ButtonType.Primary" HtmlType="submit" Class="submit" Size="large" Block>登&nbsp;录</Button>
+        </Form>
+    </div>
+</div>
+<AntContainer />

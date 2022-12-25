@@ -1,0 +1,102 @@
+﻿// -----------------------------------------------------------------------------
+// ATCer 全平台综合性空中交通管理系统
+//  作者：彭磊
+//  CopyRight(C) 2022  版权所有 
+// -----------------------------------------------------------------------------
+
+using AntDesign;
+using ATCer.Email.Dtos;
+using ATCer.Email.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+
+namespace ATCer.Email.Client.Pages
+{
+    public partial class EmailServerConfigTest : FeedbackComponent<OperationDialogInput<Guid>, OperationDialogOutput<Guid>>
+    {
+        private bool _isLoading = false;
+        private SendEmailInputDto _sendEmailInput = new SendEmailInputDto();
+        private List<EmailTemplateDto> emailTemplates;
+        [Inject]
+        protected IClientLocalizer localizer { get; set; }
+        [Inject]
+        protected IEmailTemplateService emailTemplateService { get; set; }
+        [Inject]
+        protected IEmailService emailService { get; set; }
+        [Inject]
+        protected IEmailServerConfigService emailServerConfigService { get; set; }
+        [Inject]
+        protected MessageService messageService { get; set; }
+        private string _emailData 
+        {
+            get {
+                return _sendEmailInput.Data==null?"":System.Text.Json.JsonSerializer.Serialize(_sendEmailInput.Data);
+            }
+            set {
+                if (!string.IsNullOrEmpty(value)) 
+                {
+                    _sendEmailInput.Data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(value);
+                }
+            }
+        }
+        /// <summary>
+        /// 取消
+        /// </summary>
+        protected virtual async Task OnFormCancel()
+        {
+            await base.FeedbackRef.CloseAsync(OperationDialogOutput<Guid>.Cancel());
+        }
+
+        /// <summary>
+        /// 页面初始化
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnInitializedAsync()
+        {
+            _sendEmailInput.EmailServerConfigId = this.Options.Id;
+            emailTemplates = await emailTemplateService.GetAllUsable();
+            if (emailTemplates != null && emailTemplates.Any())
+            {
+                EmailTemplateDto templateDto = emailTemplates.First();
+
+                _sendEmailInput.TemplateId = templateDto.Id;
+
+                if (templateDto.Example != null)
+                {
+                    _emailData = templateDto.Example;
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="templateDto"></param>
+        /// <returns></returns>
+        private void OnEmailTemplateChanged(EmailTemplateDto templateDto)
+        {
+            if (templateDto.Example != null)
+            {
+                _sendEmailInput.Data = templateDto.Example;
+            }
+        }
+        /// <summary>
+        /// 表单完成时
+        /// </summary>
+        /// <param name="editContext"></param>
+        /// <returns></returns>
+        protected async Task OnFormFinish(EditContext editContext)
+        {
+            _isLoading = true;
+            bool result=await emailService.Send(_sendEmailInput);
+            if (result)
+            {
+                messageService.Success(localizer.Combination("发送", "成功"));
+            }
+            else 
+            {
+                messageService.Error(localizer.Combination("发送", "失败"));
+            }
+            _isLoading = false;
+        }
+    }
+}

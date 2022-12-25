@@ -1,0 +1,101 @@
+﻿@page "/atcer/hrcenter/import"
+@namespace ATCer.HRCenter.Client.Pages.ATCTime
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+<div>
+    <PageHeader Style="font-size:16px">
+        <PageHeaderTitle>@localizer["导入执勤数据"]</PageHeaderTitle>
+        <PageHeaderSubtitle>
+            <div style="color:crimson">
+                @localizer["*小时数据只支持.xlsx文件"]
+            </div>
+        </PageHeaderSubtitle>
+    </PageHeader>
+    <Divider />
+    <Table @ref="_table"
+           DataSource="@timeItems" 
+           OnChange="OnChange"
+           TItem="TimeItemDto" 
+           Loading="@isTableLoading"
+           Total="totalCount"
+           @bind-PageIndex=pageIndex
+           @bind-PageSize=pageSize>
+        <TitleTemplate>
+            <Row>
+                <Col Span="8">
+                    <p>@string.Format(localizer["总共有{0}条未导入项"],totalCount)</p>
+                    <p>
+                        <Button Icon="robot" OnClick="LoadLastImported">
+                            <span>@localizer["查看未导入项目"]</span>
+                        </Button>
+                    </p>
+                </Col>
+                <Col Span="16" Style="text-align:right">
+                    <Space>
+                        <SpaceItem>
+                            <Upload Action="@UploadUrl"
+                                Name="file"
+                                BeforeUpload="BeforeUpload"
+                                OnChange="HandleChange"
+                                Data="uploadAttachmentInput"
+                                ShowUploadList=false
+                                Headers="headers">
+                                <Button Icon="upload" Disabled=loading>
+                                    <span>@localizer["点击上传"]</span>
+                                </Button>
+                            </Upload>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="robot" OnClick="ImportNow" Disabled=importNowDisabled>
+                                <span>@localizer["立刻导入"]</span>
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="robot" OnClick="DeleteNow" Disabled=importNowDisabled>
+                                <span>@localizer["删除导入数据"]</span>
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="robot" OnClick="DeleteNow" Disabled=importNowDisabled>
+                                <span>@localizer["监控大屏"]</span>
+                            </Button>
+                        </SpaceItem>
+                    </Space>
+                </Col>
+            </Row>
+        </TitleTemplate>
+        <RowTemplate>
+            <Column TData="long"
+                @bind-Field="context.Id"
+                Sortable
+                Filterable />
+
+            <Column TData="string"
+                    Title=@localizer["姓名"]
+                    @bind-Field="context.UserName"
+                    Filterable />
+
+            <Column TData="string"
+                    @bind-Field="context.SectorName"
+                    Filterable />
+
+            <Column TData="DateTimeOffset"
+                    @bind-Field="context.BeginTime"
+                    Format="yyyy/MM/dd hh:mm:ss"
+                    Sortable
+                    Filterable />
+
+            <Column TData="DateTimeOffset"
+                    @bind-Field="context.EndTime"
+                    Format="yyyy/MM/dd hh:mm:ss"
+                    Sortable
+                    Filterable />
+
+            <Column TData="bool"
+                    @bind-Field="context.Confirmed"
+                    Sortable
+                    Filterable />
+        </RowTemplate> 
+    </Table>    
+</div>

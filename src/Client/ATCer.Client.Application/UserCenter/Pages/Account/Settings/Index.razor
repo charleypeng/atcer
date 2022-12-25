@@ -1,0 +1,30 @@
+﻿@page "/account/settings"
+@namespace ATCer.Client.UserCenter.Pages.Account.Settings
+<div>
+    <Tabs Type="@TabType.Line" OnTabClick=SelectTabKey TabPosition="TabPosition.Left" DefaultActiveKey="base">
+        @foreach (var tab in _menuMap)
+        {
+            <TabPane Key="@tab.Key" Tab="@tab.Value">
+                <Title Level="4">@tab.Value</Title>
+                @switch (_selectKey)
+                {
+                    case "base":
+                        <BaseView />
+                        break;
+                    case "security":
+                        <SecurityView />
+                        break;
+                    case "binding":
+                        <AppTokenView />
+                        break;
+                    case "notification":
+                        <NotificationView />
+                        break;
+                    case "theme":
+                        <ThemeView />
+                        break;
+                }
+            </TabPane>
+        }
+     </Tabs>
+</div>

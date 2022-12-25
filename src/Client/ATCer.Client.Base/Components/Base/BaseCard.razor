@@ -1,0 +1,31 @@
+﻿@namespace ATCer.Client.Components
+@inherits BaseCom
+<div>
+    <Card Size="small" Style=@string.Format("width:{0}px;",Width) Title="@Title">
+        <Body>
+            <Skeleton Loading=IsBusy Active=ShowSkeleton Avatar=ShowAvatar>
+                @ChildContent
+            </Skeleton>
+        </Body>
+    </Card>
+</div>
+
+@code{
+    /// <summary>
+    /// 显示骨架头像
+    /// </summary>
+    [Parameter]
+    public bool ShowAvatar { get; set; } = false;
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+    /// <summary>
+    /// 描述
+    /// </summary>
+    [Parameter]
+    public string Description { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent{ get; set; }
+}

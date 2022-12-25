@@ -1,0 +1,25 @@
+﻿@namespace ATCer.Audit.Client.Pages
+
+@if (AuditEntitys != null && AuditEntitys.Any())
+{
+    <Collapse DefaultActiveKey="@(new[] { AuditEntitys.Select(x=>x.Id.ToString()).FirstOrDefault()})" Accordion Style="max-height:85Vh;overflow-y:scroll;">
+        @foreach (AuditEntityDto item in AuditEntitys)
+        {
+             var title = $"[{item.OperaterName} 在 {item.CreatedTime.ToString("yyyy-MM-dd HH:mm:ss")} {EnumHelper.GetEnumDescription(item.OperationType)}了 {item.Name}（{item.DataId}）]";
+            <Panel Header="@title" Key="@item.Id.ToString()">
+                <AuditPropertieList OperationType="item.OperationType" AuditProperties="item.AuditProperties"></AuditPropertieList>
+            </Panel>
+        }
+    </Collapse>
+}
+else
+{
+    <Empty Simple />
+}
+@code {
+    /// <summary>
+    /// 数据审计
+    /// </summary>
+    [Parameter]
+    public ICollection<AuditEntityDto> AuditEntitys { get; set; }
+}

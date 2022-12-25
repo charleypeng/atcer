@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Description>🌈Powerful tools for air traffic controller</Description>
+		<PackageProjectUrl>https://dev.pengandfan.com/charleypeng/ATCer</PackageProjectUrl>
+		<RepositoryUrl>https://dev.pengandfan.com/charleypeng/ATCer</RepositoryUrl>
+		<PackageTags>ATC,PengLei</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>Private Lisence</PackageLicenseExpression>
+		<Copyright>彭磊</Copyright>
+		<Authors>彭磊</Authors>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>annotations</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AntDesign" Version="0.13.1" />
+		<PackageReference Include="AntDesign.Charts" Version="0.2.3" />
+		<PackageReference Include="AntDesign.ProLayout" Version="0.13.1" />
+		<PackageReference Include="Blazor.ContextMenu" Version="1.15.0" />
+		<PackageReference Include="OneOf" Version="3.0.223" />
+		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="blazor-dragdrop" Version="2.4.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Framework\ATCer\ATCer.csproj" />
+	</ItemGroup>
+
+</Project>

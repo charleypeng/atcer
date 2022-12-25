@@ -1,0 +1,14 @@
+﻿@inherits BaseChartCom
+@namespace ATCer.Client.Components
+
+<h3>@Title</h3>
+<div>
+    <ContextMenu Id="chartMenu">
+            <Item OnClick="@RefreshData">刷新数据</Item>
+    </ContextMenu>
+    <ATCer.Client.Components.BaseCard>
+        <ContextMenuTrigger MenuId="chartMenu">
+            <AntDesign.Charts.Line @ref=chart Data=Data Config=Config/>
+        </ContextMenuTrigger>
+    </ATCer.Client.Components.BaseCard>
+</div>

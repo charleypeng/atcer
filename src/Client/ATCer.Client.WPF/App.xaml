@@ -1,0 +1,8 @@
+﻿<Application x:Class="ATCer.Client.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ATCer.Client.WPF">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

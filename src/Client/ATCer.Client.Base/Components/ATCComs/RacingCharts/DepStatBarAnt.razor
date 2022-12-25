@@ -1,0 +1,41 @@
+﻿@inherits BaseChartCom
+@namespace ATCer.Client.Components
+
+<h3>@Title</h3>
+<div>
+    <ContextMenu Id="chartMenu">
+            <Item OnClick="@RefreshData">刷新数据</Item>
+    </ContextMenu>
+    <ATCer.Client.Components.BaseCard>
+        <ContextMenuTrigger MenuId="chartMenu">
+            <AntDesign.Charts.Bar @ref=chart Data=Data Config=Config/>
+        </ContextMenuTrigger>
+    </ATCer.Client.Components.BaseCard>
+</div>
+
+@code{
+
+
+    [Parameter]
+    public BarConfig Config { get; set; }
+
+    public DepStatBarAnt()
+
+    {
+        Config =  new BarConfig
+            {
+                Title = new AntDesign.Charts.Title
+                {
+                    Visible = true,
+                    Text = "基础条形图"
+                },
+                ForceFit = true,
+                XField = "sale",
+                YField = "name",
+                Label = new BarViewConfigLabel
+                {
+                    Visible = true
+                }
+            };
+    }
+}

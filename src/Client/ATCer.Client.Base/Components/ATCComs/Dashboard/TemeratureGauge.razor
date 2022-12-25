@@ -1,0 +1,69 @@
+﻿@namespace ATCer.Client.Components
+@inherits BaseChartCom
+@using AntDesign.Charts
+
+<h3>@Title</h3>
+<div>
+    <ContextMenu Id="gaugeMenu">
+            <Item OnClick="@RefreshData">刷新数据</Item>
+    </ContextMenu>
+    <BaseCard>
+        <ContextMenuTrigger MenuId="gaugeMenu">
+            <Gauge @ref=chart Data=Data Config=Config/>
+        </ContextMenuTrigger>
+    </BaseCard>
+</div>
+
+@code {
+    /// <summary>
+    /// 配置
+    /// </summary>
+    [Parameter]
+    public GaugeConfig Config { get; set; }
+    /// <summary>
+    /// 平滑
+    /// </summary>
+    [Parameter]
+    public bool Smooth { get; set; } = true;
+    /// <summary>
+    /// 自适应
+    /// </summary>
+    [Parameter]
+    public bool AutoFit { get; set; } = true;
+
+    public TemeratureGauge()
+    {
+        Config = new GaugeConfig
+        {
+            Title = new AntDesign.Charts.Title
+            {
+                Visible = true,
+                Text = "仪表盘"
+            },
+            Width = Width,
+            Height = Height,
+            Min = 0,
+            Max = 100,
+            Range = new double[] { 0, 25, 50, 75, 100 },
+            Color = new[] { "#39B8FF", "#52619B", "#43E089", "#C0EDF3" },
+            Statistic = new GaugeStatistic
+            {
+                Visible = true,
+                Text = "优",
+                Color = "#30bf78"
+            }
+        };
+    }
+
+    public TemeratureGauge(GaugeConfig config)
+    {
+        Config = config;
+    }
+
+    public override async Task RefreshData()
+    {
+        await base.RefreshData();
+        //await chart.Render();
+        //Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(Data));
+    }
+}

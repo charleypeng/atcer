@@ -1,0 +1,11 @@
+﻿@namespace ATCer.Client.Components
+
+<Tag Color="@(Yes?"blue":"red")">
+    @(Yes ? localizer["是"]: localizer["否"])
+</Tag>
+@code {
+    [Inject]
+    protected IClientLocalizer localizer { get; set; }
+    [Parameter]
+    public bool Yes { get; set; }
+}

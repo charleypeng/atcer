@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Description>🌈MH4029.3 Flight Data Exchange(FDE)</Description>
+		<PackageProjectUrl>https://dev.pengandfan.com/charleypeng/ATCer</PackageProjectUrl>
+		<RepositoryUrl>https://dev.pengandfan.com/charleypeng/ATCer</RepositoryUrl>
+		<PackageTags>ATC,PengLei</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>Private Lisence</PackageLicenseExpression>
+		<Copyright>彭磊</Copyright>
+		<Authors>彭磊</Authors>
+		<TargetFramework>net7.0</TargetFramework>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Models\PSEXM\" />
+  </ItemGroup>
+</Project>

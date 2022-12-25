@@ -1,0 +1,15 @@
+{
+  "SignalR": {
+    "SystemNotificationHub": {
+      "Origins": [
+        "https://localhost:44321",
+        "https://localhost:5001",
+        "https://api.pengandfan.com",
+        "http://192.168.2.61:1080",
+        "http://192.168.2.62:1080",
+        "https://192.168.2.61:1443",
+        "http://localhost:5000"
+      ]
+      }
+  }
+}

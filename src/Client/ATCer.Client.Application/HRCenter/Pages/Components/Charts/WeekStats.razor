@@ -1,0 +1,99 @@
+﻿@namespace ATCer.Client.Components
+@using System.ComponentModel
+
+<MECharts Height=100 Width="@("100%")" Class="mt-1" Option=_racingChart Dark=@userOptions.DarkMode></MECharts>
+<div style="background-color:@color">
+    <h3>@setString()</h3>
+    <div><span><Button OnClick="trust">Just click well tested</Button></span></div>
+</div>
+
+@code {
+    //  [Inject] IFileReader fileReader { get; set; }
+    [Inject] UserOptions userOptions{ get; set; }
+
+    private string color
+    {
+        get;set;
+    }
+    private string setString()
+    {
+        return userOptions.DarkMode == true ? "true" : "false";
+    }
+    bool isClicked = false;
+    async Task trust()
+    {
+        isClicked = !isClicked;
+        if(isClicked)
+        {
+            color = ColorSpace.SidColor.West;
+        }
+        else
+        {
+            color = ColorSpace.SidColor.North;
+        }
+
+        // StateHasChanged();
+
+    }
+    //private section
+    private object _racingChart;
+    public int[] GetEarningsChartData() => new[] { 53, 31, 16 };
+    public RenderFragment render { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        int[] _earningsChartData = GetEarningsChartData();
+        _racingChart = new
+        {
+            backgroundColor = "",
+            Tooltip = new
+            {
+                Trigger = "item",
+            },
+            Series = new[]
+            {
+               new
+               {
+                   Type= "pie",
+                   Radius= "90%",
+                   Label=new
+                   {
+                       Show=false
+                   },
+                   Data = new[]
+                   {
+                           new
+                           {
+                               value= _earningsChartData[0],
+                               Name= "Product",
+                               ItemStyle=new
+                               {
+                                    Color= ColorSpace.SidColor.North
+                               }
+                           },
+                           new
+                           {
+                               value= _earningsChartData[1],
+                               Name= "App",
+                               ItemStyle=new
+                               {
+                                    Color= ColorSpace.SidColor.West
+                               }
+                           },
+                           new
+                           {
+                               value= _earningsChartData[2],
+                               Name= "Service",
+                               ItemStyle = new
+                               {
+                                    Color= ColorSpace.SidColor.South
+                               }
+                           },
+                   }
+               }
+        }
+        };
+
+    }
+}

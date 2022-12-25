@@ -1,0 +1,21 @@
+﻿@namespace ATCer.Client.UserCenter.Pages.Account.Settings
+@inherits AntDomComponentBase
+
+<div class="baseView">
+    <div class="left" style="min-width: 310px;">
+        <Form 
+            Layout="vertical"
+            Model="@_userOptions">
+
+            <FormItem Label="系统主题">
+                <RadioGroup @bind-Value="@Theme" OnChange="@(async x=> await UpdateTheme(Theme))" TValue="string">
+                    <Radio RadioButton Value="@("dark")">默认</Radio>
+                    <Radio RadioButton Value="@("light")">白天模式</Radio>
+                    <Radio RadioButton Value="@("realDark")">夜晚模式</Radio>
+                </RadioGroup>
+            </FormItem>
+        </Form>
+        <link type="text/css" rel="stylesheet" id="theme-style" href="@_url" @ref="_linkRef">
+    </div>
+</div>
+

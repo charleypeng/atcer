@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+	<Description>🌈Powerful tools for air traffic controller</Description>
+    <PackageProjectUrl>https://dev.pengandfan.com/charleypeng/ATCer</PackageProjectUrl>
+    <RepositoryUrl>https://dev.pengandfan.com/charleypeng/ATCer</RepositoryUrl>
+    <PackageTags>ATC,PengLei</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>Private Lisence</PackageLicenseExpression>
+    <Copyright>彭磊</Copyright>
+    <Authors>彭磊</Authors>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Furion" Version="4.8.2.9" />
+		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="RabbitMQ.EventBus.AspNetCore" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Settings\wiseatcsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

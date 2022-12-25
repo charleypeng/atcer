@@ -1,0 +1,63 @@
+﻿@namespace ATCer.Client.UserCenter.Pages.Account.Settings
+<div class="baseView">
+    <div class="left" style="min-width: 310px;">
+        <Form 
+            Layout="vertical"
+            OnFinish="HandleFinish"
+            Model="@_currentUser">
+            <FormItem Label="邮箱">
+                <AntDesign.Input @bind-Value="@context.Email" />
+            </FormItem>
+            <FormItem Label="用户名">
+                <AntDesign.Input @bind-Value="@context.UserName" />
+            </FormItem>
+            <FormItem Label="昵称">
+                <AntDesign.TextArea @bind-Value="@context.NickName" />
+            </FormItem>
+            @*<FormItem Label="Country/Region">
+                <Select
+                    TItem="string"
+                    TItemValue="string"
+                    Style="max-width: 220px;"
+                    @bind-Value="@context.Country">
+                    <SelectOptions>
+                        <SelectOption TItem="string" TItemValue="string" Value="@("China")" Label="中国"/>
+                    </SelectOptions>
+                </Select>
+            </FormItem>*@
+            <FormItem Label="联系电话">
+                <AntDesign.Input @bind-Value="@context.PhoneNumber" />
+            </FormItem>
+            <FormItem>
+                <Button HtmlType="submit" Type="primary">
+                    更新个人信息
+                </Button>
+            </FormItem>
+        </Form>
+    </div>
+    <div class="right__b__1">
+        <Card Style="width: 300px; margin-top: 16px"
+              Actions="new[] { actionSetting}">
+            <Skeleton Loading="isLoading" Avatar Active>
+                <CardMeta Title="@_currentUser.UserName"
+                          Description="@_currentUser.NickName"
+                          Avatar="@_currentUser.Avatar"/>
+            </Skeleton>
+        </Card>
+        <Upload ShowUploadList="false">
+            <div class="button_view">
+                <Button Icon="upload">
+                    更改头像
+                </Button>
+            </div>
+        </Upload>
+    </div>
+</div>
+
+@code
+{
+    private RenderFragment actionSetting =@<Template>
+        <Icon Type="setting" />
+        </Template>
+    ;
+}

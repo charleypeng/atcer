@@ -1,0 +1,100 @@
+﻿@page "/charchar"
+@using AntDesign.Charts
+@using Title = AntDesign.Charts.Title
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@using  System.Text.Json
+<Tabs>
+    <TabPane Key="1">
+        <TabTemplate>示例1</TabTemplate>
+        <ChildContent>
+            <p><Button Type="@ButtonType.Primary" OnClick=OnBtnClick>添加</Button></p>
+            <p><AntDesign.Charts.Column @ref=chart1 Data="data1" Config="config1" /></p>
+        </ChildContent>
+    </TabPane>
+</Tabs>
+
+@code {
+    IChartComponent chart1;
+    object[] data1 =
+{
+        new
+        {
+            type = "家具家电",
+            sales = 38
+        },
+        new
+        {
+            type = "粮油副食",
+            sales = 52
+        },
+        new
+        {
+            type = "生鲜水果",
+            sales = 61
+        },
+        new
+        {
+            type = "美容洗护",
+            sales = 145
+        },
+        new
+        {
+            type = "母婴用品",
+            sales = 48
+        },
+        new
+        {
+            type = "进口食品",
+            sales = 38
+        },
+        new
+        {
+            type = "食品饮料",
+            sales = 38
+        },
+        new
+        {
+            type = "家庭清洁",
+            sales = 38
+        }
+    };
+    ColumnConfig config1 = new ColumnConfig
+        {
+            Title = new Title
+            {
+                Visible = true,
+                Text = "基础柱状图"
+            },
+            ForceFit = true,
+            Padding = "auto",
+            XField = "type",
+            YField = "sales",
+            SeriesField = "sales",
+           Meta = new
+          {
+            Type = new
+            {
+                Alias = "类别"
+            },
+            Sales = new
+            {
+                Alias = "销售额(万)"
+            }
+        }
+    };
+
+    double counter = 10;
+    private async Task OnBtnClick()
+    {
+        var dt = 38 + counter;
+        data1[0] = new
+        {
+            type = "家具家电",
+            sales = dt
+        };
+        await chart1.ChangeData(data1);
+        Console.WriteLine(JsonSerializer.Serialize(data1));
+        counter = counter * 1.15;
+    }
+}

@@ -1,0 +1,18 @@
+@namespace ATCer.Client.Components
+@using Microsoft.JSInterop
+@inherits AntDesign.AntDomComponentBase
+
+<div id="atcer_rank_list">
+    <span><button @onclick="@OnClick" @onmouseover="@OnMouseEnter" >@ChildContent</button></span>
+</div>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnMouseEnter{ get; set; }
+
+}

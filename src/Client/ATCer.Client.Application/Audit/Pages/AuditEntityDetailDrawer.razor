@@ -1,0 +1,20 @@
+﻿@namespace ATCer.Audit.Client.Pages
+@inherits FeedbackComponent<ICollection<AuditEntityDto>, bool>
+
+<AuditEntityDetail AuditEntitys="auditEntityDtos"></AuditEntityDetail>
+@code
+{
+    private ICollection<AuditEntityDto> auditEntityDtos;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    protected override Task OnInitializedAsync()
+    {
+        if (this.Options != null)
+        {
+            auditEntityDtos = this.Options;
+        }
+        return base.OnInitializedAsync();
+    }
+}

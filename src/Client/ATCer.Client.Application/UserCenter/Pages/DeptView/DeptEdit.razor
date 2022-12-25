@@ -1,0 +1,81 @@
+﻿@namespace ATCer.UserCenter.Client.Pages.DeptView
+@inherits EditOperationDialogBase<DeptDto, int>
+
+@if (_editModel != null)
+{
+    <Form Loading="@_isLoading"
+      Model="@_editModel"
+      LabelCol="new ColLayoutParam { Span = 4 }"
+      WrapperCol="new ColLayoutParam { Span = 20 }"
+      OnFinish="OnFormFinish"
+      Context="model">
+        @*<FormItem Label="编号">
+    <Input @bind-Value="@model.Id" Disabled />
+    </FormItem>*@
+        <FormItem Label="父级" Rules=@(new FormValidationRule[]{ new FormValidationRule{ Required = true } })>
+            <Input @bind-Value="@model.ParentId" Type="hidden" />
+            @if (deptDatas != null && deptDatas.Count > 0)
+            {
+                <TreeSelect TItem="DeptDto"
+                    Style="width:100%;"
+                    DataSource="deptDatas"
+                    @bind-Value="@ParentDeptId"
+                    Placeholder="@localizer["请选择"]"
+                    AllowClear="true"
+                    TitleExpression="node => node.DataItem.Name"
+                    KeyExpression="node =>node.DataItem.Id.ToString()"
+                    ChildrenExpression="node => node.DataItem.Children?.ToList()"
+                    IsLeafExpression="node => node.DataItem.Children==null || !node.DataItem.Children.Any()"
+                    TreeDefaultExpandAll
+                    DisabledExpression="node=>node.DataItem.Id.Equals(_editModel.Id)" 
+                    Disabled="this.Options.Id!=0 && !DrawerInputType.Edit.Equals(this.Options.Type)">
+            </TreeSelect>
+            }
+        </FormItem>
+        <FormItem Label="名称">
+            <Input @bind-Value="@model.Name" />
+        </FormItem>
+        <FormItem Label="联系人">
+            <Input @bind-Value="@model.Contacts" />
+        </FormItem>
+        <FormItem Label="电话	">
+            <Input @bind-Value="@model.Tel" />
+        </FormItem>
+        <FormItem Label="排序">
+            <AntDesign.InputNumber @bind-Value="@model.Order" />
+        </FormItem>
+        <FormItem Label="备注">
+            <TextArea AutoSize="true" MinRows="2" MaxRows="6" @bind-Value="@model.Remark"></TextArea>
+        </FormItem>
+        <FormItem Label="是否锁定">
+            <Switch @bind-Value="@model.IsLocked"></Switch>
+        </FormItem>
+
+        @if (this.Options.Type.Equals(DrawerInputType.Edit) || this.Options.Type.Equals(DrawerInputType.Select))
+        {
+            <FormItem Label="创建时间">
+                <span>@model.CreatedTime.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+            <FormItem Label="更新时间">
+                <span>@model.UpdatedTime?.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+        }
+        <FormItem WrapperColOffset="4" WrapperColSpan="24">
+            <Space>
+                @if (!DrawerInputType.Select.Equals(this.Options.Type))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Primary" HtmlType="submit">
+                            @localizer["保存"]
+                        </Button>
+                    </SpaceItem>
+                }
+                <SpaceItem>
+                    <Button OnClick="_=>OnFormCancel()">
+                        @localizer["取消"]
+                    </Button>
+                </SpaceItem>
+            </Space>
+        </FormItem>
+    </Form>
+}

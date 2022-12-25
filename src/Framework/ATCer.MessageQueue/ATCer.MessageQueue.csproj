@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Description>🌈Powerful tools for air traffic controller</Description>
+		<PackageProjectUrl>https://dev.pengandfan.com/charleypeng/ATCer</PackageProjectUrl>
+		<RepositoryUrl>https://dev.pengandfan.com/charleypeng/ATCer</RepositoryUrl>
+		<PackageTags>ATC,PengLei</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>Private Lisence</PackageLicenseExpression>
+		<Copyright>彭磊</Copyright>
+		<Authors>彭磊</Authors>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="NewFolder\**" />
+	  <EmbeddedResource Remove="NewFolder\**" />
+	  <None Remove="NewFolder\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.CAP" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.Extensions" Version="1.1.0" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.Kafka" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.MySql" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.PostgreSql" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.SqlServer" Version="7.0.0" />
+		<PackageReference Include="Furion" Version="4.8.2.9" />
+		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.0" />
+		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ATCer\ATCer.csproj" />
+	</ItemGroup>
+</Project>

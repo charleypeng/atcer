@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Audit\Core\**" />
+    <Compile Remove="System\**" />
+    <EmbeddedResource Remove="Audit\Core\**" />
+    <EmbeddedResource Remove="System\**" />
+    <None Remove="Audit\Core\**" />
+    <None Remove="System\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="HRCenter\Resources\ATCDepartmentRes.Designer.cs">
+      <DependentUpon>ATCDepartmentRes.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="HRCenter\Resources\ATCDepartmentRes.resx">
+      <LastGenOutput>ATCDepartmentRes.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

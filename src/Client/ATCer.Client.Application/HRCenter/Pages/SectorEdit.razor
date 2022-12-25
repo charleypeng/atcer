@@ -1,0 +1,103 @@
+﻿@namespace ATCer.HRCenter.Client.Pages
+@using System.ComponentModel.DataAnnotations
+@inherits EditOperationDialogBase<SectorDto, int>
+
+@if (_editModel != null)
+{
+    <Form  Loading="@_isLoading"
+           Model="@_editModel"
+           LabelCol="new ColLayoutParam { Span = 8 }"
+           WrapperCol="new ColLayoutParam { Span = 16 }"
+           OnFinish="OnFormFinish"
+           Context="model">
+        <FormItem>
+            <Input @bind-Value="@model.Name" />
+        </FormItem>
+        <FormItem>
+            <Input @bind-Value="@model.Code" />
+        </FormItem>
+        <FormItem Label="所属部门">
+            <SimpleSelect @bind-Value="_currentEditDepartmentType"
+                          DefaultValue="@(model.Department.ToString())"
+                          Style="width:120px;">
+                <SelectOptions>
+                    @foreach(var item in EnumHelper.EnumToDictionary<ATCDepartment>())
+                    {
+                        <SimpleSelectOption Value="@(item.Key.ToString())" Label="@(item.Value)"></SimpleSelectOption>
+                    }
+                </SelectOptions>
+            </SimpleSelect>
+        </FormItem>
+        <FormItem Label="席位角色">
+            <SimpleSelect @bind-Value="_currentEditModelPositionType"
+                          DefaultValue="@(model.Position.ToString())"
+                          Style="width:120px;">
+                <SelectOptions>
+                    @foreach(var item in EnumHelper.EnumToDictionary<PositionRole>())
+                    {
+                        <SimpleSelectOption Value="@(item.Key.ToString())" Label="@(item.Value)"></SimpleSelectOption>
+                    }
+                </SelectOptions>
+            </SimpleSelect>
+        </FormItem>
+        <FormItem>
+            <Input @bind-Value="@model.PhysicalPosition" />
+        </FormItem>
+        <FormItem>
+            <Input @bind-Value="@model.Multiplier" />
+        </FormItem>
+        @if (this.Options.Type.Equals(DrawerInputType.Edit) || this.Options.Type.Equals(DrawerInputType.Select))
+        {
+            <FormItem Label="创建时间">
+                <span>@model.CreatedTime.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+            <FormItem Label="更新时间">
+                <span>@model.UpdatedTime?.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+        }
+        <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <Space>
+                @if (!DrawerInputType.Select.Equals(this.Options.Type))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Primary" HtmlType="submit">
+                            @localizer["保存"]
+                        </Button>
+                    </SpaceItem>
+                }
+                <SpaceItem>
+                    <Button OnClick="_=>OnFormCancel()">
+                        @localizer["取消"]
+                    </Button>
+                </SpaceItem>
+            </Space>
+        </FormItem>
+    </Form>
+
+    @code{
+        [Required(ErrorMessage ="不能为空")]
+        private string _currentEditModelPositionType
+        {
+            get
+            {
+                return _editModel.Position.ToString();
+            }
+            set
+            {
+                _editModel.Position = (PositionRole)Enum.Parse(typeof(PositionRole), value);
+            }
+        }
+        [Required(ErrorMessage ="不能为空")]
+        private string _currentEditDepartmentType
+        {
+            get
+            {
+                return _editModel.Department.ToString();
+            }
+            set
+            {
+                _editModel.Department = (ATCDepartment)Enum.Parse(typeof(ATCDepartment), value);
+            }
+        }
+    }
+}

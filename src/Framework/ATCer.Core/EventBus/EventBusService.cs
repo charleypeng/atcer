@@ -1,0 +1,65 @@
+﻿// -----------------------------------------------------------------------------
+// ATCer 全平台综合性空中交通管理系统
+//  作者：彭磊
+//  CopyRight(C) 2022  版权所有 
+// -----------------------------------------------------------------------------
+
+using Furion.EventBus;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ATCer.EventBus
+{
+    /// <summary>
+    /// 事件发送服务
+    /// </summary>
+    public class EventBusService : IEventBus
+    {
+        private readonly IEventPublisher eventPublisher;
+
+        public EventBusService(IEventPublisher eventPublisher)
+        {
+            this.eventPublisher = eventPublisher;
+        }
+
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task Publish(EventBase e, CancellationToken? cancellationToken = null)
+        {
+            EventSource<EventBase> eventSource = new EventSource<EventBase>(e.EventType.ToString() + e.EventGroup);
+            eventSource.Body = e;
+            if (cancellationToken.HasValue)
+            {
+                eventSource.CancellationToken = cancellationToken.Value;
+            }
+            return eventPublisher.PublishAsync(eventSource);
+        }
+
+        /// <summary>
+        /// 订阅
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="callBack"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Subscriber Subscribe<TEvent>(Func<TEvent, Task> callBack) where TEvent : EventBase
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 解绑
+        /// </summary>
+        /// <param name="subscriber"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void UnSubscribe(Subscriber subscriber)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

@@ -1,0 +1,127 @@
+﻿@namespace ATCer.SysTimer.Client.Pages
+@inherits EditOperationDialogBase<SysTimerDto, int>
+
+@if (_editModel != null)
+{
+    <Form Loading="@_isLoading"
+      Model="@_editModel"
+      LabelCol="new ColLayoutParam { Span = 8 }"
+      WrapperCol="new ColLayoutParam { Span = 16 }"
+      OnFinish="OnFormFinish"
+      Context="model">
+        <FormItem>
+            <Input @bind-Value="@model.JobName" />
+        </FormItem>
+        <FormItem Label="执行类型">
+            <RadioGroup @bind-Value="@model.ExecuteType">
+                @foreach (var gitem in EnumHelper.EnumToDictionary<ExecuteType>())
+                {
+                    <Radio Value="@(gitem.Key)">@gitem.Value</Radio>
+                }
+            </RadioGroup>
+        </FormItem>
+        @if (ExecuteType.LOCAL.Equals(model.ExecuteType))
+        {
+            <FormItem>
+                <Select TItem="TaskMethodInfo"
+                @bind-Value="@model.LocalMethod"
+                DataSource="localJobs"
+                TItemValue="string"
+                ValueName="@nameof(TaskMethodInfo.LocalMethod)"
+                LabelName="@nameof(TaskMethodInfo.JobName)">
+                </Select>
+            </FormItem>
+        }
+        else if (ExecuteType.HTTP.Equals(model.ExecuteType))
+        {
+            <FormItem>
+                <Select @bind-Value="@model.HttpMethod"
+                TItem="MyHttpMethod"
+                TItemValue="MyHttpMethod">
+                    <SelectOptions>
+                        @foreach (var gitem in EnumHelper.EnumToDictionary<MyHttpMethod>())
+                        {
+                            <SelectOption TItemValue="MyHttpMethod" TItem="MyHttpMethod" Value="@(gitem.Key)" Label="@(gitem.Value)"></SelectOption>
+                        }
+                    </SelectOptions>
+                </Select>
+            </FormItem>
+            <FormItem>
+                <Input @bind-Value="@model.RequestUrl" />
+            </FormItem>
+            <FormItem>
+                <Input @bind-Value="@model.Headers" />
+            </FormItem>
+            <FormItem>
+                <Input @bind-Value="@model.RequestParameters" />
+            </FormItem>
+        }
+
+        <FormItem>
+            <RadioGroup @bind-Value="@model.TimerType" Name="@nameof(model.TimerType)">
+                @foreach (var gitem in EnumHelper.EnumToDictionary<TimerTypes>())
+                {
+                    <Radio Value="@(gitem.Key)">@gitem.Value</Radio>
+                }
+            </RadioGroup>
+        </FormItem>
+        @if (TimerTypes.Cron.Equals(model.TimerType))
+        {
+            <FormItem>
+                <Input @bind-Value="@model.Cron" />
+            </FormItem>
+
+        }
+        else if (TimerTypes.Interval.Equals(model.TimerType))
+        {
+            <FormItem>
+                <InputNumber @bind-Value="@model.Interval" Min="1"  DefaultValue="1"/>
+            </FormItem>
+
+        }
+
+        <FormItem>
+            <Switch @bind-Value="@model.StartNow"></Switch>
+        </FormItem>
+        <FormItem>
+            <Switch @bind-Value="@model.DoOnce"></Switch>
+        </FormItem>
+        <FormItem>
+            <RadioGroup @bind-Value="@model.ExecutMode" Name="@nameof(model.ExecutMode)">
+                @foreach (var gitem in EnumHelper.EnumToDictionary<ExecutMode>())
+                {
+                    <Radio Value="@(gitem.Key)">@gitem.Value</Radio>
+                }
+            </RadioGroup>
+        </FormItem>
+        <FormItem>
+            <TextArea AutoSize="true" MinRows="2" MaxRows="6" @bind-Value="@model.Remark"></TextArea>
+        </FormItem>
+        @if (this.Options.Type.Equals(DrawerInputType.Edit) || this.Options.Type.Equals(DrawerInputType.Select))
+        {
+            <FormItem Label="创建时间">
+                <span>@model.CreatedTime.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+            <FormItem Label="更新时间">
+                <span>@model.UpdatedTime?.ToString(ClientConstant.DateTimeFormat)</span>
+            </FormItem>
+        }
+        <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <Space>
+                @if (!DrawerInputType.Select.Equals(this.Options.Type))
+                {
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Primary" HtmlType="submit">
+                            @localizer["保存"]
+                        </Button>
+                    </SpaceItem>
+                }
+                <SpaceItem>
+                    <Button OnClick="_=>OnFormCancel()">
+                        @localizer["取消"]
+                    </Button>
+                </SpaceItem>
+            </Space>
+        </FormItem>
+    </Form>
+}

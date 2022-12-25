@@ -1,0 +1,58 @@
+﻿@inherits ATCer.Client.Components.BaseChartCom
+@namespace ATCer.Client.Components
+
+<h3>@Title</h3>
+<div>
+    <ContextMenu Id="chartMenu">
+            <Item OnClick="@RefreshData">刷新数据</Item>
+    </ContextMenu>
+    <Skeleton Active=true>
+        <Card Title=@Title>
+            <ContextMenuTrigger MenuId="chartMenu">
+                <AntDesign.Charts.TinyLine @ref=chart Data=Data Config=Config/>
+            </ContextMenuTrigger>
+        </Card>
+    </Skeleton>
+</div>
+
+@code{
+    /// <summary>
+    /// 配置
+    /// </summary>
+    [Parameter]
+    public TinyLineConfig Config { get; set; }
+    /// <summary>
+    /// 平滑
+    /// </summary>
+    [Parameter]
+    public bool Smooth { get; set; } = true;
+    /// <summary>
+    /// 自适应
+    /// </summary>
+    [Parameter]
+    public bool AutoFit { get; set; } = true;
+
+    public TinySidBar()
+    {
+        Config = new TinyLineConfig
+        {
+            Width = Width,
+            Height = Height,
+            Smooth = Smooth,
+            AutoFit = AutoFit,
+            Title = new AntDesign.Charts.Title{Visible = TitleVisible, Text = Title}
+        };
+    }
+
+    public TinySidBar(TinyLineConfig config)
+    {
+        Config = config;
+    }
+
+    public override async Task RefreshData()
+    {
+        await base.RefreshData();
+        //await chart.Render();
+        //Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(Data));
+    }
+}
