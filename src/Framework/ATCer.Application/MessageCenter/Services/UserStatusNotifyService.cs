@@ -44,10 +44,13 @@ namespace ATCer.MessageCenter.Services
         /// <returns></returns>
         public async Task ClearAllStatus()
         {
-            var quary = _repository.AsQueryable()
-                                   .Where(x => x.IsDeleted == false);
-            await quary.ForEachAsync(x=>x.IsDeleted = true);
-            var result = await _repository.SaveNowAsync();
+            //var quary = _repository.AsQueryable()
+            //                       .Where(x => x.IsDeleted == false);
+            //await quary.ForEachAsync(x=>x.IsDeleted = true);
+
+            var result = await _repository.Where(x => x.IsDeleted == false)
+                                          .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsDeleted, x => true));
+            //var result = await _repository.SaveNowAsync();
         }
 
         /// <summary>
@@ -61,13 +64,11 @@ namespace ATCer.MessageCenter.Services
         {
             if (dto == null)
                 return;
-            //get where the current client is logged
-            //and delete all the data
-            var result = await _repository.Context.BatchUpdate<UserStatusNotify>()
-                            .Where(x => x.ClientId == dto.ClientId &&
-                                      x.IsDeleted == false)
-                            .Set(x => x.IsDeleted, true)
-                            .ExecuteAsync();
+
+            //get where the current client is logged in
+            //and fake delete all the data
+            var result = await _repository.Where(x => x.ClientId == dto.ClientId && x.IsDeleted == false)
+                                          .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsDeleted, x => true));
 
             //insert new user status
             var insertResult = await base.Insert(dto);

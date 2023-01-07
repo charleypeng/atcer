@@ -212,10 +212,12 @@ namespace ATCer.HRCenter.Services
         [HttpGet]
         public async Task<bool> ImportNow()
         {
-            var result = await _repository.Context.BatchUpdate<TimeItem>()
+            //get where all confirmed is false and then set as true
+            //to import all the data
+            var result = await _repository
                             .Where(x => x.Confirmed == false)
-                            .Set(x => x.Confirmed, true)
-                            .ExecuteAsync();
+                            .ExecuteUpdateAsync(x => x.SetProperty(x => x.Confirmed, x => true));
+
             _logger.LogInformation($"{result}条小时数据已更新");
             return true;
         }
@@ -227,7 +229,9 @@ namespace ATCer.HRCenter.Services
         [HttpDelete]
         public async Task<bool> DeleteRecentImported()
         {
-            var result = await _repository.Context.DeleteRangeAsync<TimeItem>(x => x.Confirmed == false);
+            //batch fake delete all the items where import confirmed is false
+            var result = await _repository.Where(x => x.Confirmed == false)
+                                          .ExecuteDeleteAsync();
             
             _logger.LogInformation($"{result}条小时数据已删除");
             return true;

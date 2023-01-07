@@ -27,7 +27,13 @@ namespace ATCer
     [AppStartup(500)]
     public class Startup : AppStartup
     {
+        /// <summary>
+        /// 迁移程序集名称
+        /// </summary>
         private static readonly string migrationAssemblyName = App.Configuration["DefaultDbSettings:MigrationAssemblyName"];
+        /// <summary>
+        /// 数据库提供器
+        /// </summary>
         private static readonly string dbProvider = App.Configuration["DefaultDbSettings:DbProvider"];
         /// <summary>
         /// 初始化默认数据库
@@ -45,14 +51,8 @@ namespace ATCer
             services.AddDatabaseAccessor(options =>
             {
                 //注入数据库上下文
-                options.AddDbPool<ATCerDbContext>(dbProvider, optionBuilder: (services, opt) =>
-                {
-                    //opt.UseBatchEF_Npgsql();
-                });
-                options.AddDbPool<ATCerAuditDbContext, ATCerAuditDbContextLocator>(dbProvider, optionBuilder: (services, opt) =>
-                {
-                    //opt.UseBatchEF_Npgsql();
-                });
+                options.AddDbPool<ATCerDbContext>(dbProvider);
+                options.AddDbPool<ATCerAuditDbContext, ATCerAuditDbContextLocator>(dbProvider);
             }, migrationAssemblyName);
         }
 
