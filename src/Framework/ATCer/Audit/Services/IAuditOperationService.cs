@@ -6,9 +6,6 @@
 
 using ATCer.Audit.Dtos;
 using ATCer.Base;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ATCer.Audit.Services
 {
