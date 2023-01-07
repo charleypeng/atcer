@@ -44,13 +44,9 @@ namespace ATCer.MessageCenter.Services
         /// <returns></returns>
         public async Task ClearAllStatus()
         {
-            //var quary = _repository.AsQueryable()
-            //                       .Where(x => x.IsDeleted == false);
-            //await quary.ForEachAsync(x=>x.IsDeleted = true);
-
-            var result = await _repository.Where(x => x.IsDeleted == false)
-                                          .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsDeleted, x => true));
-            //var result = await _repository.SaveNowAsync();
+            //execute fake delete
+            await _repository.Where(x => x.IsDeleted == false)
+                             .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsDeleted, x => true));
         }
 
         /// <summary>
