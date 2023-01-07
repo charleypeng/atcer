@@ -1,7 +1,7 @@
 ﻿@namespace ATCer.Client.Components
 
-<Spin Spinning="isLoading">
-    <Tooltip Placement="@Placement.Top" Title="@("点击刷新")">
+<Spin Spinning="@isLoading">
+    <AntDesign.Tooltip Placement="@Placement.Top" Title="@("点击刷新")">
         <Image Style="@Style" Src="@verifyCodeImage" Preview="false" OnClick="ReLoadVerifyCode" />
-    </Tooltip>
+    </AntDesign.Tooltip>
 </Spin>
