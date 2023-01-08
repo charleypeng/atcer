@@ -37,4 +37,4 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggest
 csharp_preferred_modifier_order = public,static:suggestion
 
 # Add file header
-file_header_template = -----------------------------------------------------------------------------\nATCer 全平台综合性空中交通管理系统\n 作者：彭磊  \n CopyRight(C) 2022  版权所有 \n-----------------------------------------------------------------------------
+file_header_template = -----------------------------------------------------------------------------\nATCer 全平台综合性空中交通管理系统\n 作者：彭磊  \n CopyRight(C) 2023  版权所有 \n-----------------------------------------------------------------------------
