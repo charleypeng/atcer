@@ -15,18 +15,18 @@
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="34.0.2" />
-		<PackageReference Include="Magicodes.IE.Excel" Version="2.7.0" />
-		<PackageReference Include="DotNetCore.CAP" Version="7.0.0" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="7.0.0" />
+		<PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.2" />
+		<PackageReference Include="DotNetCore.CAP" Version="7.0.1" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="7.0.1" />
 		<PackageReference Include="DotNetCore.CAP.Extensions" Version="1.1.0" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="7.0.0" />
-		<PackageReference Include="DotNetCore.CAP.Kafka" Version="7.0.0" />
-		<PackageReference Include="DotNetCore.CAP.MySql" Version="7.0.0" />
-		<PackageReference Include="DotNetCore.CAP.PostgreSql" Version="7.0.0" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.0.0" />
-		<PackageReference Include="DotNetCore.CAP.SqlServer" Version="7.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="7.0.1" />
+		<PackageReference Include="DotNetCore.CAP.Kafka" Version="7.0.1" />
+		<PackageReference Include="DotNetCore.CAP.MySql" Version="7.0.1" />
+		<PackageReference Include="DotNetCore.CAP.PostgreSql" Version="7.0.1" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.0.1" />
+		<PackageReference Include="DotNetCore.CAP.SqlServer" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.1" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="7.0.0" />
 	</ItemGroup>
 </Project>
