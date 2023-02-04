@@ -16,7 +16,7 @@ namespace ATCer.UserCenter.Impl.Domains
     /// AppToken实体
     /// </summary>
     [Index(nameof(AppName), IsUnique = true)]
-    public class AppToken:GardenerEntityBase<string>
+    public class AppToken:ATCerEntityBase<string>
     {
         /// <summary>
         /// App名称

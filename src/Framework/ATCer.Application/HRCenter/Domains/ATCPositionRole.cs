@@ -18,7 +18,7 @@ namespace ATCer.HRCenter.Domains
     /// 岗位类型
     /// </summary>
     [Comment("岗位类型")]
-    public class ATCPositionRole : ATCer.Base.GardenerEntityBase
+    public class ATCPositionRole : ATCer.Base.ATCerEntityBase
     {
         /// <summary>
         /// 代号

@@ -30,7 +30,7 @@ namespace ATCer.Client.Base
             {
                 return;
             }
-            UriBuilder uriBuilder = new UriBuilder($"http://www.gardener.com{menu.Path}");
+            UriBuilder uriBuilder = new UriBuilder($"http://www.atcer.com{menu.Path}");
             if (!pathMap.ContainsKey(uriBuilder.Path))
             {
                 pathMap.Add(uriBuilder.Path, menu);

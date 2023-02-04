@@ -18,7 +18,7 @@ using ATCer.Base;
 
 namespace ATCer.MessageCenter.Domains
 {
-    public class HubClient : GardenerEntityBase<int>, IEntityTypeBuilder<HubClient>
+    public class HubClient : ATCerEntityBase<int>, IEntityTypeBuilder<HubClient>
     {
         public void Configure(EntityTypeBuilder<HubClient> entityBuilder, DbContext dbContext, Type dbContextLocator)
         {

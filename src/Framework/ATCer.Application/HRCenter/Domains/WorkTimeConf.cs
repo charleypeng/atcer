@@ -15,7 +15,7 @@ namespace ATCer.HRCenter.Domains
     /// IsDeleted = false为唯一项
     /// </summary>
     [Comment("工作时段配置")]
-    public class WorkTimeConf:GardenerEntityBase, IBaseEntity
+    public class WorkTimeConf:ATCerEntityBase, IBaseEntity
     {
         /// <summary>
         /// 白班

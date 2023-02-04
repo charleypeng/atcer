@@ -8,4 +8,4 @@ RUN fc-cache
 WORKDIR /app
 EXPOSE 80
 COPY . .
-ENTRYPOINT ["dotnet", "Gardener.Entry.dll"]
+ENTRYPOINT ["dotnet", "ATCer.Entry.dll"]

@@ -14,7 +14,7 @@ namespace ATCer.SysTimer.Domains
     /// 定时任务
     /// </summary>
     [Comment("定时任务表")][Table("SysTimer")]
-    public class SysTimerEntity : GardenerEntityBase, IEntityTypeConfiguration<SysTimerEntity>
+    public class SysTimerEntity : ATCerEntityBase, IEntityTypeConfiguration<SysTimerEntity>
     {
         /// <summary>
         /// 任务名称

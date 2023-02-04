@@ -3,10 +3,10 @@
     "Type": "Memory", //Memory,Redis,SqlServer
     "Redis": {
       "Configuration": "127.0.0.1:6379,password=",
-      "InstanceName": "gradener:"
+      "InstanceName": "atcer:"
     },
     "SqlServer": {
-      "ConnectionString": "ConnectionStrings:GardenerSqlServerDbConnectionString",
+      "ConnectionString": "ConnectionStrings:ATCerSqlServerDbConnectionString",
       "SchemaName": "dbo",
       "TableName": "TestCache"
     }

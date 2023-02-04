@@ -17,7 +17,7 @@ namespace ATCer.Base.Domains
     /// 资源表
     /// </summary>
     [Description("资源信息")]
-    public class Resource : GardenerEntityBase<Guid>
+    public class Resource : ATCerEntityBase<Guid>
     {
         /// <summary>
         /// 资源名称

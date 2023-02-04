@@ -15,7 +15,7 @@ namespace ATCer.HRCenter.Domains
     /// 管制员信息
     /// </summary>
     [Comment("管制员信息")]
-    public class UserATCInfo : GardenerEntityBase, IEntitySeedData<UserATCInfo>, IBaseEntity
+    public class UserATCInfo : ATCerEntityBase, IEntitySeedData<UserATCInfo>, IBaseEntity
     {
         /// <summary>
         /// 用户ID

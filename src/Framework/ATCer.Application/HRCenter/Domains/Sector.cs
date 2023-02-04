@@ -15,7 +15,7 @@ namespace ATCer.HRCenter.Domains
     /// 扇区表
     /// </summary>
     [Comment("扇区信息")]
-    public class Sector : GardenerEntityBase, IBaseEntity
+    public class Sector : ATCerEntityBase, IBaseEntity
     {
         /// <summary>
         /// 扇区代码

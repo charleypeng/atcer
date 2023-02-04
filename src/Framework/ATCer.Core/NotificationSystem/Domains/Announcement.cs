@@ -9,7 +9,7 @@ namespace ATCer.NotificationSystem.Domains
     /// 公告信息
     /// </summary>
     [Description("公告信息")]
-    public class Announcement : GardenerEntityBase
+    public class Announcement : ATCerEntityBase
     {
         /// <summary>
         /// 标题

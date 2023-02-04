@@ -86,7 +86,7 @@ namespace ATCer.CodeGeneration.Services
                      .SelectMany(a => a.GetTypes().Where(t => 
                      (  t.GetInterfaces().Contains(typeof(IEntity))  || t.GetInterfaces().Contains(typeof(IPrivateEntity))) 
                      && !t.FullName.StartsWith("Furion.DatabaseAccessor") 
-                     && !t.FullName.StartsWith("ATCer.Core.Entites.GardenerEntityBase")))
+                     && !t.FullName.StartsWith("ATCer.Core.Entites.ATCerEntityBase")))
                      .ToList();
             foreach (Type type in types)
             {

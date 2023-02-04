@@ -14,7 +14,7 @@ namespace ATCer.Base.Domains
     /// 功能信息
     /// </summary>
     [Description("功能信息")]
-    public class Function : GardenerEntityBase<Guid>
+    public class Function : ATCerEntityBase<Guid>
     {
         /// <summary>
         /// 分组

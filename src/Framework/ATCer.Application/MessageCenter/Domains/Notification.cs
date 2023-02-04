@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace ATCer.MessageCenter.Domains
 {
-    public class Notification : GardenerEntityBase<long>
+    public class Notification : ATCerEntityBase<long>
     {
-        public List<int> UserGroup { get; set; }
+        //public List<int> UserGroup { get; set; }
     }
 }

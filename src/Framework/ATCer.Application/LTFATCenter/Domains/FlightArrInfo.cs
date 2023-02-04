@@ -6,7 +6,7 @@
 
 namespace ATCer.LTFATCenter.Domains
 {
-    public class FlightArrInfo:GardenerEntityBase<long>
+    public class FlightArrInfo:ATCerEntityBase<long>
     {
         public int FlightPlanID { get; set; }
         public string Callsign { get; set; }

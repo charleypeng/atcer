@@ -13,7 +13,7 @@ namespace ATCer.Email.Domains
     /// 邮件服务器配置信息
     /// </summary>
     [Description("邮件服务器配置信息")]
-    public class EmailServerConfig: GardenerEntityBase<Guid>, IEntitySeedData<EmailServerConfig>
+    public class EmailServerConfig: ATCerEntityBase<Guid>, IEntitySeedData<EmailServerConfig>
     {
         /// <summary>
         /// 名称

@@ -15,7 +15,7 @@ namespace ATCer.HRCenter.Domains
     /// 执勤信息
     /// </summary>
     [Comment("执勤信息")]
-    public class TimeItem:GardenerEntityBase<long>, IBaseEntity
+    public class TimeItem:ATCerEntityBase<long>, IBaseEntity
     {
         /// <summary>
         /// 管制员Id

@@ -45,19 +45,19 @@ namespace ATCer.Base
     /// <summary>
     /// 基类
     /// </summary>
-    public abstract class GardenerEntityBase<TKey, TDbContextLocator1> :
+    public abstract class ATCerEntityBase<TKey, TDbContextLocator1> :
         ATCerEntityBase<TKey, TDbContextLocator1, MasterDbContextLocator> where TDbContextLocator1 : class, IDbContextLocator
     {}
     /// <summary>
     /// 基类
     /// </summary>
-    public abstract class GardenerEntityBase<TKey> :
-        GardenerEntityBase<TKey, MasterDbContextLocator>
+    public abstract class ATCerEntityBase<TKey> :
+        ATCerEntityBase<TKey, MasterDbContextLocator>
     {}
     /// <summary>
     /// 基类
     /// </summary>
-    public abstract class GardenerEntityBase :
-        GardenerEntityBase<int>
+    public abstract class ATCerEntityBase :
+        ATCerEntityBase<int>
     { }
 }

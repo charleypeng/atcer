@@ -16,7 +16,7 @@
 		<ApplicationTitle>ATCer.Client.MAUI</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.gardener.client.maui</ApplicationId>
+		<ApplicationId>com.hnatc.atcer.client.maui</ApplicationId>
 		<ApplicationIdGuid>D5C42357-AE62-426B-8563-BE18C40F3628</ApplicationIdGuid>
 
 		<!-- Versions -->

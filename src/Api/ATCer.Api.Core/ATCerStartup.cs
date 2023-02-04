@@ -24,7 +24,7 @@ namespace ATCer.Admin
     /// 启动类
     /// </summary>
     [AppStartup(800)]
-    public sealed class GardenerAdminStartup : AppStartup
+    public sealed class ATCerAdminStartup : AppStartup
     {
         /// <summary>
         /// 

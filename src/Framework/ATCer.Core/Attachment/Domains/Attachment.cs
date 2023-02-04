@@ -17,7 +17,7 @@ namespace ATCer.Attachment.Domains
     /// 附件
     /// </summary>
     [Description("附件信息")]
-    public class Attachment : GardenerEntityBase<Guid>
+    public class Attachment : ATCerEntityBase<Guid>
     {
         /// <summary>
         /// 业务ID

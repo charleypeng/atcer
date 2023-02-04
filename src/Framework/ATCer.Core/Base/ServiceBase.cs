@@ -75,14 +75,14 @@ namespace ATCer
         /// <returns></returns>
         public virtual async Task<TEntityDto> Insert(TEntityDto input)
         {
-            DateTimeOffset defaultValue = input.GetPropertyValue<TEntityDto, DateTimeOffset>(nameof(GardenerEntityBase.CreatedTime));
+            DateTimeOffset defaultValue = input.GetPropertyValue<TEntityDto, DateTimeOffset>(nameof(ATCerEntityBase.CreatedTime));
 
             if (defaultValue.Equals(default(DateTimeOffset)))
             {
-                input.SetPropertyValue(nameof(GardenerEntityBase.CreatedTime), DateTimeOffset.Now);
+                input.SetPropertyValue(nameof(ATCerEntityBase.CreatedTime), DateTimeOffset.Now);
             }
             TEntity entity = input.Adapt<TEntity>();
-            if (entity is GardenerEntityBase<TKey> ge1)
+            if (entity is ATCerEntityBase<TKey> ge1)
             {
                 ge1.CreatorId = IdentityUtil.GetIdentityId();
                 ge1.CreatorIdentityType = IdentityUtil.GetIdentityType();
@@ -103,8 +103,8 @@ namespace ATCer
         /// <returns></returns>
         public virtual async Task<bool> Update(TEntityDto input)
         {
-            input.SetPropertyValue(nameof(GardenerEntityBase.UpdatedTime), DateTimeOffset.Now);
-            EntityEntry<TEntity> entityEntry = await _repository.UpdateExcludeAsync(input.Adapt<TEntity>(), new[] { nameof(GardenerEntityBase.CreatedTime), nameof(GardenerEntityBase.CreatorId), nameof(GardenerEntityBase.CreatorIdentityType) });
+            input.SetPropertyValue(nameof(ATCerEntityBase.UpdatedTime), DateTimeOffset.Now);
+            EntityEntry<TEntity> entityEntry = await _repository.UpdateExcludeAsync(input.Adapt<TEntity>(), new[] { nameof(ATCerEntityBase.CreatedTime), nameof(ATCerEntityBase.CreatorId), nameof(ATCerEntityBase.CreatorIdentityType) });
             //发送通知
             await EntityEventNotityUtil.NotifyUpdateAsync(entityEntry.Entity);
             return true;
@@ -223,13 +223,13 @@ namespace ATCer
             System.Text.StringBuilder where = new StringBuilder();
             where.Append(" 1==1 ");
             //判断是否有IsDelete、IsLock
-            if (typeof(TEntity).ExistsProperty(nameof(GardenerEntityBase.IsDeleted)))
+            if (typeof(TEntity).ExistsProperty(nameof(ATCerEntityBase.IsDeleted)))
             {
-                where.Append($"and {nameof(GardenerEntityBase.IsDeleted)}==false ");
+                where.Append($"and {nameof(ATCerEntityBase.IsDeleted)}==false ");
             }
-            if (typeof(TEntity).ExistsProperty(nameof(GardenerEntityBase.IsLocked)))
+            if (typeof(TEntity).ExistsProperty(nameof(ATCerEntityBase.IsLocked)))
             {
-                where.Append($"and {nameof(GardenerEntityBase.IsLocked)}==false ");
+                where.Append($"and {nameof(ATCerEntityBase.IsLocked)}==false ");
             }
             var persons = GetReadableRepository().AsQueryable(false).Where(where.ToString()).ProjectToType<TEntityDto>();
             return await persons.ToListAsync();
@@ -266,10 +266,10 @@ namespace ATCer
         public virtual async Task<bool> Lock([ApiSeat(ApiSeats.ActionStart)] TKey id, bool isLocked = true)
         {
             var entity = await _repository.FindAsync(id);
-            if (entity != null && entity.SetPropertyValue(nameof(GardenerEntityBase.IsLocked), isLocked))
+            if (entity != null && entity.SetPropertyValue(nameof(ATCerEntityBase.IsLocked), isLocked))
             {
-                entity.SetPropertyValue(nameof(GardenerEntityBase.UpdatedTime), DateTimeOffset.Now);
-                await _repository.UpdateIncludeAsync(entity, new[] { nameof(GardenerEntityBase.IsLocked), nameof(GardenerEntityBase.UpdatedTime) });
+                entity.SetPropertyValue(nameof(ATCerEntityBase.UpdatedTime), DateTimeOffset.Now);
+                await _repository.UpdateIncludeAsync(entity, new[] { nameof(ATCerEntityBase.IsLocked), nameof(ATCerEntityBase.UpdatedTime) });
                 await EntityEventNotityUtil.NotifyLockAsync(entity);
                 return true;
             }
@@ -288,10 +288,10 @@ namespace ATCer
         public virtual async Task<Base.MyPagedList<TEntityDto>> Search(MyPageRequest request)
         {
             IDynamicFilterService filterService = App.GetService<IDynamicFilterService>();
-            if (typeof(TEntity).ExistsProperty(nameof(GardenerEntityBase.IsDeleted)))
+            if (typeof(TEntity).ExistsProperty(nameof(ATCerEntityBase.IsDeleted)))
             {
                 FilterGroup defaultFilterGroup = new FilterGroup();
-                defaultFilterGroup.AddRule(new FilterRule(nameof(GardenerEntityBase.IsDeleted), false, FilterOperate.Equal));
+                defaultFilterGroup.AddRule(new FilterRule(nameof(ATCerEntityBase.IsDeleted), false, FilterOperate.Equal));
                 request.FilterGroups.Add(defaultFilterGroup);
             }
             Expression<Func<TEntity, bool>> expression = filterService.GetExpression<TEntity>(request.FilterGroups);
@@ -314,10 +314,10 @@ namespace ATCer
         public virtual async Task<string> GenerateSeedData(MyPageRequest request)
         {
             IDynamicFilterService filterService = App.GetService<IDynamicFilterService>();
-            if (typeof(TEntity).ExistsProperty(nameof(GardenerEntityBase.IsDeleted)))
+            if (typeof(TEntity).ExistsProperty(nameof(ATCerEntityBase.IsDeleted)))
             {
                 FilterGroup defaultFilterGroup = new FilterGroup();
-                defaultFilterGroup.AddRule(new FilterRule(nameof(GardenerEntityBase.IsDeleted), false, FilterOperate.Equal));
+                defaultFilterGroup.AddRule(new FilterRule(nameof(ATCerEntityBase.IsDeleted), false, FilterOperate.Equal));
                 request.FilterGroups.Add(defaultFilterGroup);
             }
             Expression<Func<TEntity, bool>> expression = filterService.GetExpression<TEntity>(request.FilterGroups);
@@ -342,10 +342,10 @@ namespace ATCer
         public virtual async Task<string> Export(MyPageRequest request)
         {
             IDynamicFilterService filterService = App.GetService<IDynamicFilterService>();
-            if (typeof(TEntity).ExistsProperty(nameof(GardenerEntityBase.IsDeleted)))
+            if (typeof(TEntity).ExistsProperty(nameof(ATCerEntityBase.IsDeleted)))
             {
                 FilterGroup defaultFilterGroup = new FilterGroup();
-                defaultFilterGroup.AddRule(new FilterRule(nameof(GardenerEntityBase.IsDeleted), false, FilterOperate.Equal));
+                defaultFilterGroup.AddRule(new FilterRule(nameof(ATCerEntityBase.IsDeleted), false, FilterOperate.Equal));
                 request.FilterGroups.Add(defaultFilterGroup);
             }
             Expression<Func<TEntity, bool>> expression = filterService.GetExpression<TEntity>(request.FilterGroups);

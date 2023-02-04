@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ATCer.LTFATCenter.Domains
 {
-    public class FlightPlan : GardenerEntityBase<long>, IEntity<MasterDbContextLocator, ATCerSlaveDbContextLocator, SugarTestLocator>
+    public class FlightPlan : ATCerEntityBase<long>, IEntity<MasterDbContextLocator, ATCerSlaveDbContextLocator, SugarTestLocator>
     {
         [MaxLength(32)]
         public string GUFI { get; set; }
