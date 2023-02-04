@@ -13,7 +13,7 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Furion" Version="4.8.2.9" />
-		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="Mapster" Version="7.4.0-pre05" />
 		<PackageReference Include="RabbitMQ.EventBus.AspNetCore" Version="6.0.2" />
 	</ItemGroup>
 	<ItemGroup>

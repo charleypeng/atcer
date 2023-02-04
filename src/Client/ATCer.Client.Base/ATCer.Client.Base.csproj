@@ -25,10 +25,10 @@
 		<PackageReference Include="AntDesign.ProLayout" Version="0.13.1" />
 		<PackageReference Include="Blazor.ContextMenu" Version="1.15.0" />
 		<PackageReference Include="OneOf" Version="3.0.223" />
-		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="Mapster" Version="7.4.0-pre05" />
 		<PackageReference Include="blazor-dragdrop" Version="2.4.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 	</ItemGroup>
 
