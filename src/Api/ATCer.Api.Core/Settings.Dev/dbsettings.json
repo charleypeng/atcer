@@ -1,6 +1,6 @@
 ﻿{
   "ConnectionStrings": {
-    "Default": "Server=127.0.0.1;port=5432;User Id=postgres;Password=postgres;Database=atcer3;"
+    "Default": "Server=127.0.0.1;port=5432;User Id=postgres;Password=postgres;Database=atcer1;"
     //"Data Source=./atcer.db"
     //MySql示例
     //"Server=192.168.1.254;UserId=admin;Password=admin.123;Database=gardener;charset='utf8';Allow User Variables=True",

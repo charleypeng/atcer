@@ -222,16 +222,24 @@ namespace ATCer.SysTimer.Services
 
             // 先从调度器里取消
             var oldTimer = await _repository.FirstOrDefaultAsync(u => u.Id == input.Id, false);
-            SpareTime.Cancel(oldTimer.JobName);
-            //启动状态继承
-            input.Started = oldTimer.Started;
-            var result = await base.Update(input);
-            if (result)
+            if (oldTimer != null)
             {
-                // 再添加到任务调度里
-                AddTimerJob(input);
+                SpareTime.Cancel(oldTimer.JobName);
+
+                //启动状态继承
+                input.Started = oldTimer.Started;
+                var result = await base.Update(input);
+                if (result)
+                {
+                    // 再添加到任务调度里
+                    AddTimerJob(input);
+                }
+                return result;
             }
-            return result;
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
