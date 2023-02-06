@@ -1,15 +1,19 @@
 ﻿@namespace ATCer.Client.Entry
 
-<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="@moduleContext.ModeuleAssemblies">
+<Router AppAssembly="@typeof(Program).Assembly" 
+    AdditionalAssemblies="@moduleContext.ModeuleAssemblies"
+    PreferExactMatches="@true">
     <Found Context="routeData">
-        <AuthorizeReuseTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-            <Authorizing>
-                Authorizing...
-            </Authorizing>
-            <NotAuthorized>
-                <ATCer.Client.Base.Shared.RedirectToLogin />
-            </NotAuthorized>
-        </AuthorizeReuseTabsRouteView>
+        <CascadingValue Value="routeData">
+            <AuthorizeReuseTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    Authorizing...
+                </Authorizing>
+                <NotAuthorized>
+                    <ATCer.Client.Base.Shared.RedirectToLogin />
+                </NotAuthorized>
+            </AuthorizeReuseTabsRouteView>
+        </CascadingValue>
     </Found>
     <NotFound>
         <CascadingAuthenticationState>
