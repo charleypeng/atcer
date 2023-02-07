@@ -4,14 +4,9 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ATCer.MessageQueue.Enums;
-using Furion.DatabaseAccessor;
 using ATCer.EntityFramwork.DbContexts;
+using System.ComponentModel.DataAnnotations;
 
 namespace ATCer.MessageCenter.Domains
 {
@@ -23,27 +18,29 @@ namespace ATCer.MessageCenter.Domains
         /// <summary>
         /// Id
         /// </summary>
+        [Key]
         public long Id { get; set; }
         /// <summary>
         /// 用户Id
         /// </summary>
-        public string UserId { get; set; }
+        [Required]
+        public string? UserId { get; set; }
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         /// <summary>
         /// IP地址
         /// </summary>
-        public string IpAddress { get; set; }
+        public string? IpAddress { get; set; }
         /// <summary>
         /// 用户状态
         /// </summary>
-        public UserOnlineStatus OnlineStatus { get; set; }
+        public UserOnlineStatus OnlineStatus { get; set; } = UserOnlineStatus.Offline;
         /// <summary>
         /// 客户端ID
         /// </summary>
-        public string ClientId { get; set; }
+        public string? ClientId { get; set; }
         /// <summary>
         /// 发生时间
         /// </summary>
@@ -52,6 +49,6 @@ namespace ATCer.MessageCenter.Domains
         /// <summary>
         /// 假删除
         /// </summary>
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }
