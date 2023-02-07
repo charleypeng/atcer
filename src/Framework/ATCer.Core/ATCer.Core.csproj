@@ -6,7 +6,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Furion" Version="4.8.2.9" />
+		<PackageReference Include="Furion" Version="4.8.5.10" />
 		<PackageReference Include="Mapster" Version="7.4.0-pre05" />
 		<PackageReference Include="MiniExcel" Version="1.30.0" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
@@ -21,7 +21,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.2.9" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.5.10" />
 		<PackageReference Include="SkiaSharp" Version="2.88.3" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
@@ -31,5 +31,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\ATCer\ATCer.csproj" />
+	  <ProjectReference Include="..\Furion.TaskScheduler\Furion.TaskScheduler.csproj" />
 	</ItemGroup>
 </Project>

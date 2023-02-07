@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATCer.Client.MAUI", "Client
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATCer.Client.WPF", "Client\ATCer.Client.WPF\ATCer.Client.WPF.csproj", "{56784010-9580-46D4-9009-9976544031CF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.TaskScheduler", "Framework\Furion.TaskScheduler\Furion.TaskScheduler.csproj", "{3A628452-0905-480A-B6BC-DB5E82D8896E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{56784010-9580-46D4-9009-9976544031CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56784010-9580-46D4-9009-9976544031CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56784010-9580-46D4-9009-9976544031CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A628452-0905-480A-B6BC-DB5E82D8896E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A628452-0905-480A-B6BC-DB5E82D8896E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A628452-0905-480A-B6BC-DB5E82D8896E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A628452-0905-480A-B6BC-DB5E82D8896E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,6 +146,7 @@ Global
 		{1326ED00-EF84-4938-975C-4A678CF01B5B} = {2170BD93-2350-414A-BA0F-BE1E71ABFF68}
 		{4E12FF87-0FB8-4B46-9FCB-7258474056AE} = {4FBB8EA4-A1F9-48AA-A693-382664D2C1E3}
 		{56784010-9580-46D4-9009-9976544031CF} = {4FBB8EA4-A1F9-48AA-A693-382664D2C1E3}
+		{3A628452-0905-480A-B6BC-DB5E82D8896E} = {2170BD93-2350-414A-BA0F-BE1E71ABFF68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C032A5FB-7757-4E89-86BE-9C6CE6CAD014}
