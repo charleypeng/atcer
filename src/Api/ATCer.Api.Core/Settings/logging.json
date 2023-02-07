@@ -10,9 +10,9 @@
       "IncludeScopes": true,
       "LogLevel": {
         "Microsoft.AspNetCore.Mvc.Razor.Internal": "Warning",
-        "Microsoft.AspNetCore.Mvc.Razor.Razor": "Debug",
+        "Microsoft.AspNetCore.Mvc.Razor.Razor": "Warning",
         "Microsoft.AspNetCore.Mvc.Razor": "Error",
-        "Default": "Information"
+        "Default": "Warning"
       }
     },
     "File": {
@@ -26,7 +26,7 @@
   "MyLogger": { // 自定义配置节点  
     "FileName": "logs/application.log",
     "Append": true,
-    "MinimumLevel": "Information",
+    "MinimumLevel": "Warning",
     "FileSizeLimitBytes": 0,
     "MaxRollingFiles": 0
   }

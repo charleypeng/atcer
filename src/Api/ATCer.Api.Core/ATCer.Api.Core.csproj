@@ -12,102 +12,56 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <None Update="Settings.Dev\dbsettings.json">
+    <None Update="Settings.Dev\app.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-	  <None Update="Settings.Dev\exceptionmessagesettings.json" />
-	  <None Update="Settings.Dev\imageverifycodesettings.json">
+    <None Update="Settings.Dev\codemsg.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-     <None Update="Settings.Dev\jwtsettings.json">
+    <None Update="Settings.Dev\jwt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\localfilestoresettings.json">
+    <None Update="Settings.Dev\logging.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\logsettings.json">
+    <None Update="Settings.Dev\ltfat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\signalrsettings.json">
+    <None Update="Settings.Dev\swagger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\swaggersetting.json">
+    <None Update="Settings\codemsg.json" />
+    <None Update="Settings\jwt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings\dbsettings.json">
+    <None Update="Settings\logging.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings\exceptionmessagesettings.json" />
-    <None Update="Settings\imageverifycodesettings.json">
+    <None Update="Settings\swagger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings\jwtsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\localfilestoresettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\logsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\swaggersetting.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-	<None Update="Settings\signalrsettings.json">
-		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Fonts\CONSOLA.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\cachesettings.json">
+    <None Update="Settings\app.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\ltfatSettings.json">
+    <None Update="Settings\codemsg.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\messagequeuesettings.json">
+    <None Update="Settings\jwt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings.Dev\verifycodesettings.json">
+    <None Update="Settings\logging.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings\cachesettings.json">
+    <None Update="Settings\ltfat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Settings\dbsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\exceptionmessagesettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\imageverifycodesettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\jwtsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\localfilestoresettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\logsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\ltfatSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\messagequeuesettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\signalrsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\swaggersetting.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\verifycodesettings.json">
+    <None Update="Settings\swagger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -115,5 +69,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\ATCer.Application\ATCer.Application.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties settings_1dev_4app_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

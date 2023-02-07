@@ -1,0 +1,105 @@
+{
+  "Cache": {
+    "Type": "Memory", //Memory,Redis,SqlServer
+    "Redis": {
+      "Configuration": "127.0.0.1:6379,password=",
+      "InstanceName": "atcer:"
+    },
+    "SqlServer": {
+      "ConnectionString": "ConnectionStrings:ATCerSqlServerDbConnectionString",
+      "SchemaName": "dbo",
+      "TableName": "TestCache"
+    }
+  },
+  "ConnectionStrings": {
+    "Default": "Server=127.0.0.1;port=5432;User Id=postgres;Password=postgres;Database=atcer1;"
+    //"Data Source=./atcer.db"
+    //MySql示例
+    //"Server=192.168.1.254;UserId=admin;Password=admin.123;Database=atcer;charset='utf8';Allow User Variables=True",
+    //SqlServer示例
+    //"Server=192.168.1.234;Database=atcer;User=sa;Password=admin.123456;MultipleActiveResultSets=True;",
+  },
+  "DefaultDbSettings": {
+    "DbProvider": "Npgsql.EntityFrameworkCore.PostgreSQL",
+    //可提供使用的DbProvider,需在ATCer.Api.Core程序集添加引用
+    //"Microsoft.EntityFrameworkCore.Sqlite",
+    //"Microsoft.EntityFrameworkCore.SqlServer", 
+    //"Pomelo.EntityFrameworkCore.MySql",
+    //"Microsoft.EntityFrameworkCore.Cosmos",
+    //"Microsoft.EntityFrameworkCore.InMemory"
+    //"Npgsql.EntityFrameworkCore.PostgreSQL"
+    //"FirebirdSql.EntityFrameworkCore.Firebird"
+    "InitDb": false, //打开数据库自动初始化
+    "AutoMigration": false, //打开数据库自动迁移
+    "MigrationAssemblyName": "ATCer.Api.Core" //迁移主程序集
+  },
+  "ImageVerifyCodeSettings": {
+    "StoreMode": "Cache",
+    "CodeFontSize": 18,
+    "CodeCharacterCount": 4,
+    "CodeType": 3,
+    "IgnoreCase": true,
+    "UseOnce": true
+  },
+  "VerifyCodeStoreSetting": "Cache", //Cache，DB
+  "ImageVerifyCode": {
+    "CodeFontSize": 16,
+    "CodeCharacterCount": 4,
+    "CodeType": 1,
+    "IgnoreCase": true,
+    "UseOnce": true
+  },
+  "EmailVerifyCode": {
+    "EmailTemplateId": "90587db9-3c8d-4ec1-80cc-ff001166fd25",
+    "EmailServerTag": 0,
+    "CodeCharacterCount": 6,
+    "CodeType": 1,
+    "IgnoreCase": true,
+    "UseOnce": true
+  },
+  "LocalFileStoreSettings": {
+    "BaseDirectory": "upload"
+  },
+  "MessageQueue": {
+    "GroupId": "B63CAF65-45DA-4172-B005-F6FF87DC6D77",
+    "DbProvider": "InMemory",
+    "MQProvider": "RabitMQ",
+    "Origins": [
+      "https://localhost:44321",
+      "https://localhost:5001"
+    ],
+    "RabitMQ": {
+      "UserName": "admin",
+      "Password": "admin",
+      "HostName": "127.0.0.1",
+      "Port": 5672
+    },
+    "PostgreSql": {
+      "ConnectionString": "Server=192.168.2.161;port=5432;User Id=postgres;Password=cbt1234567;Database=atcer2;"
+    } //,
+    //"CAPNode": {
+    //  "DiscoveryServerHostName": "192.168.2.161",
+    //  "DiscoveryServerPort": 8500,
+    //  "CurrentNodeHostName": "localhost",
+    //  "CurrentNodePort": 44324,
+    //  "NodeId": "ATCerNode1",
+    //  "NodeName": "ATCer2",
+    //  "MatchPath": "/cap",
+    //  "Scheme": "http",
+    //  "CustomTags": []
+    //}
+  },
+  "SignalR": {
+    "SystemNotificationHub": {
+      "Origins": [
+        "https://localhost:44321",
+        "https://localhost:5001",
+        "https://api.pengandfan.com",
+        "http://192.168.2.61:1080",
+        "http://192.168.2.62:1080",
+        "https://192.168.2.61:1443",
+        "http://localhost:5000"
+      ]
+    }
+  }
+}
