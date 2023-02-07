@@ -4,20 +4,13 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
-using Furion.DatabaseAccessor;
 using ATCer.Cache;
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Furion;
 using System.Reflection;
 using Furion.TaskScheduler;
 using Furion.FriendlyException;
 using ATCer.SysTimer.Enums;
-using Microsoft.EntityFrameworkCore;
 using Furion.JsonSerialization;
 using Furion.RemoteRequest.Extensions;
 using Furion.DependencyInjection;
@@ -25,7 +18,6 @@ using ATCer.SysTimer.Dtos;
 using ATCer.SysTimer.Domains;
 using ATCer.Enums;
 using ExceptionCode = ATCer.SysTimer.Enums.ExceptionCode;
-using System.Diagnostics;
 
 namespace ATCer.SysTimer.Services
 {
@@ -56,7 +48,7 @@ namespace ATCer.SysTimer.Services
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override async Task<Base.MyPagedList<SysTimerDto>> GetPage(int pageIndex = 1, int pageSize = 10)
+        public override async Task<MyPagedList<SysTimerDto>> GetPage(int pageIndex = 1, int pageSize = 10)
         {
             var workers = SpareTime.GetWorkers().ToList();
 
@@ -74,7 +66,7 @@ namespace ATCer.SysTimer.Services
                 }
                 lst.Add(u);
             });
-            timers.Items = lst;
+            timers.Items = lst.OrderBy(x=>x.TimerStatus);
             return timers;
         }
 

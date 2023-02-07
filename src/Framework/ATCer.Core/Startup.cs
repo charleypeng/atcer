@@ -91,8 +91,6 @@ namespace ATCer
             //start up usercenter
             var service = App.GetService<IAppTokenServce>();
             await service.ImportToCache();
-            //开启自启动定时任务
-            App.GetService<ISysTimerService>().StartTimerJob();
         }
     }
 }

@@ -24,7 +24,8 @@ namespace ATCer.SysTimer.Impl
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+            //开启自启动定时任务
+            App.GetService<ISysTimerService>().StartTimerJob();
         }
     }
 }
