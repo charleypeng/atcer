@@ -24,14 +24,14 @@ namespace ATCer.ElasticSearch
         /// 唯一键
         /// </summary>
         [DisplayName("主键")]
-        public TKey Id { get; set; }
+        public virtual TKey Id { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(TKey other)
+        public bool Equals(TKey? other)
         {
             return EqualityComparer<TKey>.Default.Equals(this.Id, other);
         }
