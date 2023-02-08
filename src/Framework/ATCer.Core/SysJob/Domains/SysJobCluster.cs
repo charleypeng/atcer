@@ -3,8 +3,7 @@
 //  作者：彭磊  
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
-
-using ATCer.SysJob.Enums;
+using Furion.Schedule;
 using System.ComponentModel.DataAnnotations;
 
 namespace ATCer.SysJob.Domains;
@@ -12,6 +11,7 @@ namespace ATCer.SysJob.Domains;
 /// <summary>
 /// 系统作业集群表
 /// </summary>
+[Comment("系统作业集群表")]
 public class SysJobCluster : ATCerEntityBase
 {
     /// <summary>

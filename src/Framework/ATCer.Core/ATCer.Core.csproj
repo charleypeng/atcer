@@ -28,6 +28,7 @@
 		<PackageReference Include="EFCore.BulkExtensions" Version="7.0.1" />
 		<PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
 		<PackageReference Include="NEST" Version="7.17.5" />
+		<PackageReference Include="DotNetCore.Natasha.CSharp" Version="5.0.2" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\ATCer\ATCer.csproj" />

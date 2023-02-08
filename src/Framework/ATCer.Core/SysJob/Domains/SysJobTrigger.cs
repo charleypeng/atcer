@@ -14,6 +14,7 @@ namespace ATCer.SysJob.Domains;
 /// 系统作业触发器表
 /// </summary>
 #nullable disable
+[Comment("系统作业触发器表")]
 public class SysJobTrigger : IEntity, IEntityTypeBuilder<SysJobTrigger>
 {
     /// <summary>

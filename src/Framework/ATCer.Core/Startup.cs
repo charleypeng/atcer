@@ -4,19 +4,13 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using Furion;
-using Furion.DatabaseAccessor;
-using Furion.DependencyInjection;
 using ATCer.EntityFramwork.DbContexts;
-using ATCer.SysTimer.Services;
 using ATCer.UserCenter.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
+using ATCer.SysJob.Core;
 
 #nullable disable
 namespace ATCer
@@ -54,6 +48,12 @@ namespace ATCer
                 options.AddDbPool<ATCerDbContext>(dbProvider);
                 options.AddDbPool<ATCerAuditDbContext, ATCerAuditDbContextLocator>(dbProvider);
             }, migrationAssemblyName);
+
+            //分布式系统作业
+            services.AddSchedule(options =>
+            {
+                options.AddPersistence<DbJobPersistence>(); // 添加作业持久化器
+            });
         }
 
         /// <summary>

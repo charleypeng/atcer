@@ -13,6 +13,7 @@ namespace ATCer.SysJob.Domains;
 /// 系统作业信息
 /// </summary>
 #nullable disable
+[Comment("系统作业表")]
 public class SysJobDetail : ATCerEntityBase, IEntityTypeBuilder<SysJobDetail>
 {
     /// <summary>
