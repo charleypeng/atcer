@@ -19,19 +19,17 @@ public class SysJobService : ServiceBase<SysJobDetail, SysJobDetailDto,int>, ITr
     /// <summary>
     /// init
     /// </summary>
-    /// <param name="sysJobDetailRep"></param>
-    /// <param name="sysJobTriggerRep"></param>
-    /// <param name="sysJobClusterRep"></param>
-    /// <param name="schedulerFactory"></param>
     public SysJobService(IRepository<SysJobDetail> sysJobDetailRep,
         IRepository<SysJobTrigger> sysJobTriggerRep,
         IRepository<SysJobCluster> sysJobClusterRep,
-        ISchedulerFactory schedulerFactory):base(sysJobDetailRep)
+        ISchedulerFactory schedulerFactory,
+        IDynamicFilterService dynamicFilterService):base(sysJobDetailRep)
     {
         _sysJobDetailRep = sysJobDetailRep;
         _sysJobTriggerRep = sysJobTriggerRep;
         _sysJobClusterRep = sysJobClusterRep;
         _schedulerFactory = schedulerFactory;
+        _dynamicFilterService = dynamicFilterService;
     }
 
     /// <summary>
