@@ -4,20 +4,8 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using Furion;
-using Furion.DynamicApiController;
-using ATCer.Base;
 using ATCer.Cache;
-using Microsoft.Extensions.Configuration;
 using Nest;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mapster;
-using Microsoft.Extensions.Logging;
-using Furion.FriendlyException;
 
 namespace ATCer.ElasticSearch.Services
 {
@@ -47,7 +35,10 @@ namespace ATCer.ElasticSearch.Services
         /// 缓存前缀
         /// </summary>
         protected virtual string cacheScheme { get; init; }
-        private readonly ILogger _logger;
+        /// <summary>
+        /// Logging
+        /// </summary>
+        protected readonly ILogger _logger;
         /// <summary>
         /// Init
         /// </summary>
@@ -59,7 +50,7 @@ namespace ATCer.ElasticSearch.Services
         public BaseElasticService(IElasticClient elasticClient, 
                                   ICache cache,
                                   ILogger logger,
-                                  string indexName = null,
+                                  string indexName = "",
                                   string tatentId = "")
         {
             _elasticClient = elasticClient;
@@ -93,20 +84,20 @@ namespace ATCer.ElasticSearch.Services
         /// <param name="response"></param>
         protected virtual void LogError(IResponse response)
         {
-            //if (response == null)
-            //    return;
+            if (response == null)
+                return;
 
-            //_logger.LogError(response.ServerError.Error.Reason);
+            _logger.LogError(response.ServerError.Error.Reason);
 
-            //var type = response.GetType();
-            //if (type == typeof(BulkResponse))
-            //{
-            //    var bulkResponse = (BulkResponse)response;
-            //    foreach (var itemError in bulkResponse.ItemsWithErrors)
-            //    {
-            //        _logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
-            //    }
-            //}
+            var type = response.GetType();
+            if (type == typeof(BulkResponse))
+            {
+                var bulkResponse = (BulkResponse)response;
+                foreach (var itemError in bulkResponse.ItemsWithErrors)
+                {
+                    _logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
+                }
+            }
         }
         /// <summary>
         /// 
@@ -115,12 +106,12 @@ namespace ATCer.ElasticSearch.Services
         /// <returns></returns>
         public virtual async Task<bool> Delete(TKey id)
         {
-            var response = await _elasticClient.DeleteAsync<TEntity>(id.ToString());
+            var response = await _elasticClient.DeleteAsync<TEntity>(id?.ToString());
             LogError(response);
 
             if(response.IsValid)
             {
-                var exists = await _cache.ExistsAsync(cacheScheme + id.ToString());
+                var exists = await _cache.ExistsAsync(id.ToCacheId());
                 if(exists)
                 {
                     await _cache.RemoveAsync(id.ToCacheId(cacheScheme));
@@ -135,7 +126,7 @@ namespace ATCer.ElasticSearch.Services
 
         public async Task<bool> Deletes(TKey[] ids)
         {
-            var response = await _elasticClient.DeleteManyAsync<TEntity>(ids.Select(x => new TEntity { Id = x }));
+            var response = await _elasticClient.DeleteManyAsync(ids.Select(x => new TEntity { Id = x }));
             LogError(response);
             return response.IsValid;
         }
@@ -182,7 +173,7 @@ namespace ATCer.ElasticSearch.Services
             throw new NotImplementedException();
         }
 
-        public Task<ATCer.Base.MyPagedList<TEntityDto>> GetPage(int pageIndex = 1, int pageSize = 10)
+        public Task<MyPagedList<TEntityDto>> GetPage(int pageIndex = 1, int pageSize = 10)
         {
             throw new NotImplementedException();
         }
@@ -197,7 +188,7 @@ namespace ATCer.ElasticSearch.Services
             throw new NotImplementedException();
         }
 
-        public Task<ATCer.Base.MyPagedList<TEntityDto>> Search(MyPageRequest request)
+        public Task<MyPagedList<TEntityDto>> Search(MyPageRequest request)
         {
             throw new NotImplementedException();
         }

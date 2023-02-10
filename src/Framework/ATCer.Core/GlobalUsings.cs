@@ -17,5 +17,6 @@ global using ATCer.Enums;
 global using Furion;
 global using Furion.DependencyInjection;
 global using Furion.FriendlyException;
+global using Furion.DynamicApiController;
 global using Topic = ATCer.Common.MQTopics;
 global using Group = ATCer.Common.MQGroups;

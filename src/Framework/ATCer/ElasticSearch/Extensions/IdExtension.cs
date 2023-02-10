@@ -4,12 +4,6 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ATCer.ElasticSearch
 {
     /// <summary>
@@ -26,7 +20,7 @@ namespace ATCer.ElasticSearch
         /// <returns></returns>
         public static string ToCacheId<T>(this T id, string scheme = Common.CacheSchems.ESId)
         {
-            return scheme + id.ToString();
+            return scheme + "_" + id.ToString();
         }
     }
 }
