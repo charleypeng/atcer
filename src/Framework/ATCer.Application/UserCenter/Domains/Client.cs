@@ -91,12 +91,12 @@ namespace ATCer.UserCenter.Impl.Domains
                 new Client{
                 Id=Guid.Parse("96c0eec0-861f-4ed2-a183-5604b20bdff9"),
                 Name="测试client1",
-                Contacts="园丁",
+                Contacts="test1",
                 CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                 Email="qq@qq.com",
                 SecretKey="9f700cec-b787-4e23-a2da-9e45b3bd6cbb",
                 Remark="用于测试",
-                Tel="13838888888"
+                Tel="18838888888"
                 }
             };
         }

@@ -93,8 +93,8 @@ namespace ATCer.UserCenter.Impl.Domains
         public IEnumerable<Position> HasData(DbContext dbContext, Type dbContextLocator)
         {
             return new[]{
-            new Position(){ Id=1, Name="董事长",CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
-            new Position(){ Id=2, Name="总经理",CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) }
+            new Position(){ Id=1, Name="局长",CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+            new Position(){ Id=2, Name="管制员",CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) }
             };
         }
     }

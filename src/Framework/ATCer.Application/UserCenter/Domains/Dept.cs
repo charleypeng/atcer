@@ -101,11 +101,12 @@ namespace ATCer.UserCenter.Impl.Domains
         {
             return new Dept[]
             {
-                new Dept{ Id=1,Name="北京分部",Contacts="老A",Tel="400-8888888",Order=1,Remark="北京分部",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
-                new Dept{ Id=2,ParentId=1, Name="昌平办事处",Contacts="老B",Tel="400-8888888",Order=1,Remark="昌平办事处",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
-                new Dept{ Id=3,ParentId=1,Name="海淀办事处",Contacts="老C",Tel="400-8888888",Order=1,Remark="海淀办事处",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
-                new Dept{ Id=4,Name="河北分部",Contacts="老D",Tel="400-8888888",Order=1,Remark="河北分部",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
-                new Dept{ Id=5,ParentId=4,Name="石家庄办事处",Contacts="老E",Tel="400-8888888",Order=1,Remark="石家庄办事处",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+                new Dept{ Id=1,Name="湖南空管分局",Contacts="test1",Tel="400-8888888",Order=1,Remark="湖南空管分局",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+                new Dept{ Id=2,ParentId=1, Name="塔台",Contacts="test1",Tel="400-8888888",Order=1,Remark="湖南空管分局",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+                new Dept{ Id=3,ParentId=1,Name="进近",Contacts="test1",Tel="400-8888888",Order=1,Remark="湖南空管分局",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+                new Dept{ Id=4,ParentId=1,Name="区调",Contacts="test1",Tel="400-8888888",Order=1,Remark="湖南空管分局",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+                new Dept{ Id=5,Name="机场公司",Contacts="test1",Tel="400-8888888",Order=1,Remark="机场公司",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
+                new Dept{ Id=6,ParentId=5,Name="机坪",Contacts="test1",Tel="400-8888888",Order=1,Remark="机场公司",IsDeleted=false,IsLocked=false,CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311) },
             };
         }
     }

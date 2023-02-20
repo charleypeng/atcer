@@ -169,7 +169,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -181,7 +180,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员2",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -193,7 +191,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员3",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -204,7 +201,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员4",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -215,7 +211,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员5",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -226,7 +221,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员6",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -237,7 +231,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="管理员1",
                     PasswordEncryptKey=passwordEncryptKey ,
                     Password=MD5Encryption.Encrypt("admin"+passwordEncryptKey),
-                    Avatar="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=2,
                     PositionId=1
@@ -249,7 +242,6 @@ namespace ATCer.UserCenter.Impl.Domains
                     NickName="测试员",
                     PasswordEncryptKey=passwordEncryptKey,
                     Password=MD5Encryption.Encrypt("testuser"+passwordEncryptKey),
-                    Avatar="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
                     CreatedTime=DateTimeOffset.FromUnixTimeSeconds(1628689311),
                     DeptId=3,
                     PositionId=2
