@@ -7,6 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
+#install essential build tools
+RUN apt-get update 
+RUN apt-get install -y python3
+RUN dotnet workload install wasm-tools
+#copy files
 COPY ["Api/ATCer.Api.Entry/ATCer.Api.Entry.csproj", "Api/ATCer.Api.Entry/"]
 COPY ["Api/ATCer.Api.Core/ATCer.Api.Core.csproj", "Api/ATCer.Api.Core/"]
 COPY ["Framework/ATCer.Application/ATCer.Application.csproj", "Framework/ATCer.Application/"]
@@ -15,6 +20,7 @@ COPY ["Framework/ATCer/ATCer.csproj", "Framework/ATCer/"]
 COPY ["Framework/ATCer.DataRecorder/ATCer.DataRecorder.csproj", "Framework/ATCer.DataRecorder/"]
 COPY ["Framework/ATCer.FDE/ATCer.FDE.csproj", "Framework/ATCer.FDE/"]
 COPY ["Framework/ATCer.MessageQueue/ATCer.MessageQueue.csproj", "Framework/ATCer.MessageQueue/"]
+COPY ["Framework/Furion.TaskScheduler/Furion.TaskScheduler.csproj", "Framework/Furion.TaskScheduler/"]
 RUN dotnet restore "Api/ATCer.Api.Entry/ATCer.Api.Entry.csproj"
 COPY . .
 WORKDIR "/src/Api/ATCer.Api.Entry"
