@@ -4,18 +4,7 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
-		<PublishAot>true</PublishAot>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <None Remove="Microsoft.AspNetCore.Components.Web.rd.xml" />
-	  <None Remove="rd.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Microsoft.AspNetCore.Components.Web.rd.xml" />
-	  <Content Include="rd.xml" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Include="appsettings.json">
@@ -62,9 +51,7 @@
 	<Target Name="DebugRunGulp" BeforeTargets="DebugEnsureNodeEnv" Condition=" '$(Configuration)' == 'Debug' And Exists('$(SolutionDir)node_modules') ">
 		<!--<Exec WorkingDirectory="$(SolutionDir)" Command="npm run gulp:pro" />-->
 	</Target>
-	<ItemGroup>
-		<IlcArg Include="--nometadatablocking" />
-	</ItemGroup>
+
 	<ItemGroup>
 	  <ProjectReference Include="..\ATCer.Client.Application\ATCer.Client.Application.csproj" />
 	  <ProjectReference Include="..\ATCer.Client.Core\ATCer.Client.Core.csproj" />
