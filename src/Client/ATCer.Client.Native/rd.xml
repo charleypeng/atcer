@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Directives>
-  <Application>
-    <Assembly Name="ATCer.Client.Native" Dynamic="Required All">
-      <Type Name="ATCer.Client.Native.App" Dynamic="Required All" />
-    </Assembly>
-  </Application>
-</Directives>
