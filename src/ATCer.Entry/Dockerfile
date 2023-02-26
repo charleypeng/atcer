@@ -12,24 +12,28 @@ RUN apt-get update
 RUN apt-get install -y python3
 RUN dotnet workload install wasm-tools
 #copy files
-COPY ["Api/ATCer.Api.Entry/ATCer.Api.Entry.csproj", "Api/ATCer.Api.Entry/"]
+COPY ["ATCer.Entry/ATCer.Entry.csproj", "ATCer.Entry/"]
 COPY ["Api/ATCer.Api.Core/ATCer.Api.Core.csproj", "Api/ATCer.Api.Core/"]
 COPY ["Framework/ATCer.Application/ATCer.Application.csproj", "Framework/ATCer.Application/"]
 COPY ["Framework/ATCer.Core/ATCer.Core.csproj", "Framework/ATCer.Core/"]
 COPY ["Framework/ATCer/ATCer.csproj", "Framework/ATCer/"]
+COPY ["Framework/Furion.TaskScheduler/Furion.TaskScheduler.csproj", "Framework/Furion.TaskScheduler/"]
 COPY ["Framework/ATCer.DataRecorder/ATCer.DataRecorder.csproj", "Framework/ATCer.DataRecorder/"]
 COPY ["Framework/ATCer.FDE/ATCer.FDE.csproj", "Framework/ATCer.FDE/"]
 COPY ["Framework/ATCer.MessageQueue/ATCer.MessageQueue.csproj", "Framework/ATCer.MessageQueue/"]
-RUN dotnet restore "Api/ATCer.Api.Entry/ATCer.Api.Entry.csproj"
+COPY ["Client/ATCer.Client.Entry/ATCer.Client.Entry.csproj", "Client/ATCer.Client.Entry/"]
+COPY ["Client/ATCer.Client.Application/ATCer.Client.Application.csproj", "Client/ATCer.Client.Application/"]
+COPY ["Client/ATCer.Client.Base/ATCer.Client.Base.csproj", "Client/ATCer.Client.Base/"]
+COPY ["Client/ATCer.Client.Core/ATCer.Client.Core.csproj", "Client/ATCer.Client.Core/"]
+RUN dotnet restore "ATCer.Entry/ATCer.Entry.csproj"
 COPY . .
-WORKDIR "/src/Api/ATCer.Api.Entry"
-RUN dotnet build "ATCer.Api.Entry.csproj" -c Release -o /app/build
+WORKDIR "/src/ATCer.Entry"
+RUN dotnet build "ATCer.Entry.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ATCer.Api.Entry.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ATCer.Entry.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-ENV TZ=Asia/Shanghai
 WORKDIR /app
 VOLUME /app/Settings
 VOLUME /app/upload
@@ -40,4 +44,4 @@ RUN apt-get update -y && apt-get install -y fontconfig && apt-get clean
 RUN cp ./Fonts/*.* /usr/share/fonts
 RUN fc-cache
 RUN rm -rf ./Settings.Dev *.Development.json
-ENTRYPOINT ["dotnet", "ATCer.Api.Entry.dll"]
+ENTRYPOINT ["dotnet", "ATCer.Entry.dll"]
