@@ -10,6 +10,7 @@ using System.Net.Security;
 using ATCer.LTFATCenter.Services;
 using ATCer.Services;
 using ATCer.LTFATCenter.Domains.Elastic;
+using ATCer.Application.LTFATCenter.Domains;
 
 namespace ATCer.LTFATCenter.Extensions
 {
@@ -28,7 +29,7 @@ namespace ATCer.LTFATCenter.Extensions
         {
             var configuration = App.Configuration;
             var url = configuration["elasticsearch:url"];
-            var defaultIndex = "recorddata";//configuration["elasticsearch:index"];
+            var defaultIndex = "testdata1";//configuration["elasticsearch:index"];
             var userName = configuration["elasticsearch:username"];
             var passWord = configuration["elasticsearch:password"];
 
@@ -59,8 +60,12 @@ namespace ATCer.LTFATCenter.Extensions
             //    .IdProperty("Id")
             //        //.Ignore(p => p.OtherInfo)
             //    );
+            //settings
+            //    .DefaultMappingFor<Record>(m => m
+            //    .IdProperty("Id")
+            //    );
             settings
-                .DefaultMappingFor<Record>(m => m
+                .DefaultMappingFor<CATItem1>(m => m
                 .IdProperty("Id")
                 );
         }
@@ -75,7 +80,7 @@ namespace ATCer.LTFATCenter.Extensions
             //    Console.WriteLine("ElasticSearch index created");
 
             var createIndexResponse2 = client.Indices.Create(indexName,
-                index => index.Map<Record>(x => x.AutoMap())
+                index => index.Map<CATItem1>(x => x.AutoMap())
             );
 
             if (createIndexResponse2.Acknowledged)

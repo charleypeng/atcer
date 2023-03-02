@@ -65,7 +65,7 @@ namespace ATCer.LTFATCenter.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [CapSubscribe(name: "SendMQ")]
+        [CapSubscribe(name: "SendMQ",Group ="atc1")]
         public async Task SaveDataTest(MQRecord entity)
         {
             var content = entity?.Data;
@@ -74,13 +74,6 @@ namespace ATCer.LTFATCenter.Services
 
             var record = new Record() { Id = Guid.NewGuid().ToString(), Cat = "TESTDATA", Content = content};
             await base.SaveAsync(record);
-        }
-
-        [NonAction]
-        [CapSubscribe("cat048test", Group = Group.DefaultGroup)]
-        public async Task CAT048Insert(Record data)
-        {
-            await SaveAsync(data);
         }
     }
 }
