@@ -4,13 +4,9 @@
 //  CopyRight 2021  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nest;
+
 namespace ATCer.ElasticSearch
 {
     /// <summary>

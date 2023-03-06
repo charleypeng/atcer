@@ -5,6 +5,8 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Cache;
+using ATCer.Core.ElasticSearch.Extensions;
+using Furion.DatabaseAccessor;
 using Nest;
 
 namespace ATCer.ElasticSearch.Services
@@ -16,7 +18,7 @@ namespace ATCer.ElasticSearch.Services
     /// <typeparam name="TEntityDto"></typeparam>
     /// <typeparam name="TKey"></typeparam>
     public abstract class BaseElasticService<TEntity,TEntityDto,TKey> : IDynamicApiController, IServiceBase<TEntityDto, TKey> 
-        where TEntity : BaseElasticEntity<TKey>, new()
+        where TEntity : ATCElasticEntity<TKey>, new()
         where TEntityDto:class, new()
     {
         /// <summary>
@@ -50,8 +52,8 @@ namespace ATCer.ElasticSearch.Services
         public BaseElasticService(IElasticClient elasticClient, 
                                   ICache cache,
                                   ILogger logger,
-                                  string indexName = "",
-                                  string tatentId = "")
+                                  string indexName = null!,
+                                  string tatentId = "ILogger")
         {
             _elasticClient = elasticClient;
             _cache = cache;
@@ -82,25 +84,29 @@ namespace ATCer.ElasticSearch.Services
         /// 错误日志记录
         /// </summary>
         /// <param name="response"></param>
-        protected virtual void LogError(IResponse response)
+        protected virtual void LogError(IResponse? response)
         {
             if (response == null)
                 return;
 
-            _logger.LogError(response.ServerError.Error.Reason);
+            _logger.LogError(response?.ServerError?.Error?.Reason);
 
-            var type = response.GetType();
+            var type = response?.GetType();
             if (type == typeof(BulkResponse))
             {
-                var bulkResponse = (BulkResponse)response;
-                foreach (var itemError in bulkResponse.ItemsWithErrors)
+                var bulkResponse = response as BulkResponse;
+                if (bulkResponse != null)
                 {
-                    _logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
+                    foreach (var itemError in bulkResponse.ItemsWithErrors)
+                    {
+                        _logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
+                    }
+
                 }
             }
         }
         /// <summary>
-        /// 
+        /// 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -124,22 +130,60 @@ namespace ATCer.ElasticSearch.Services
             }
         }
 
+        /// <summary>
+        /// 删除多项
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public async Task<bool> Deletes(TKey[] ids)
         {
             var response = await _elasticClient.DeleteManyAsync(ids.Select(x => new TEntity { Id = x }));
-            LogError(response);
+
+            //log error
+            response.LogError(_logger);
+
             return response.IsValid;
         }
 
-        
-        public Task<bool> FakeDelete(TKey id)
+        /// <summary>
+        /// 假删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> FakeDelete(TKey id)
         {
-            throw new NotImplementedException();
+            var docPath = new DocumentPath<TEntity>(new TEntity { Id = id });
+            var response = await _elasticClient.UpdateAsync(docPath, u => u.Index(IndexName).Doc(new TEntity { IsDeleted = true }));
+
+            //log error
+            response.LogError(_logger);
+
+            return response.IsValid;
         }
 
+        /// <summary>
+        /// 假删除多项
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<bool> FakeDeletes(TKey[] ids)
         {
-            throw new NotImplementedException();
+            if (ids.IsNullOrEmpty())
+                throw Oops.Oh(ExceptionCode.VALUE_CANNOT_BE_NULL);
+
+            var lst = from a in ids
+                      select new
+                      {
+                          Id = a,
+                          IsDeleted = true
+                      };
+
+            var response = _elasticClient.Bulk(b => b.Index(IndexName).UpdateMany(lst, (bu, d) => bu.Doc(d)));
+
+            response.LogError(_logger);
+
+            return Task.FromResult(response.IsValid);
         }
 
         public Task<string> GenerateSeedData(MyPageRequest request)
@@ -147,19 +191,25 @@ namespace ATCer.ElasticSearch.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<TEntityDto> Get(TKey id)
         {
-            var docPath = new DocumentPath<TEntity>(nameof(id));
-            var result = await _elasticClient.GetAsync<TEntity>(docPath);
-            LogError(result);
+            var docPath = new DocumentPath<TEntity>(new TEntity { Id = id});
+            var response = await _elasticClient.GetAsync(docPath);
 
-            if (result != null)
+            response.LogError(_logger);
+
+            if (response != null)
             {
-                return (result.Source.Adapt<TEntityDto>());
+                return (response.Source.Adapt<TEntityDto>());
             }
             else
             {
-                return null;
+                return null!;
             }
         }
 
@@ -173,31 +223,83 @@ namespace ATCer.ElasticSearch.Services
             throw new NotImplementedException();
         }
 
-        public Task<MyPagedList<TEntityDto>> GetPage(int pageIndex = 1, int pageSize = 10)
+        /// <summary>
+        /// 获取分页
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<MyPagedList<TEntityDto>> GetPage(int pageIndex = 1, int pageSize = 10)
         {
-            throw new NotImplementedException();
+            var result = await _elasticClient.GetPagedList<TEntity>(pageIndex, pageSize);
+            return result.Adapt<MyPagedList<TEntityDto>>();
         }
 
-        public Task<TEntityDto> Insert(TEntityDto input)
+        /// <summary>
+        /// 插入
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<TEntityDto> Insert(TEntityDto input)
         {
-            throw new NotImplementedException();
+            var entity = input.Adapt<TEntity>();
+            var response = await _elasticClient.IndexDocumentAsync(entity);
+
+            response.LogError(_logger);
+            if(response.IsValid)
+            {
+                return input;
+            }
+            else
+            {
+                throw Oops.Oh("错误的存储");
+            }
         }
 
+        /// <summary>
+        /// 锁定
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="islocked"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<bool> Lock(TKey id, bool islocked = true)
         {
             throw new NotImplementedException();
         }
 
-        public Task<MyPagedList<TEntityDto>> Search(MyPageRequest request)
+        /// <summary>
+        /// 查询
+        /// <para>目前无</para>
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<MyPagedList<TEntityDto>> Search(MyPageRequest request)
         {
-            throw new NotImplementedException();
+            var result = await _elasticClient.GetPagedList<TEntity>(request.PageIndex, request.PageSize);
+            return result.Adapt<MyPagedList<TEntityDto>>();
         }
 
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<bool> Update(TEntityDto input)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 导出
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<string> Export(MyPageRequest request)
         {
             throw new NotImplementedException();

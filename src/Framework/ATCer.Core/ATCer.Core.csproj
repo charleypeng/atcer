@@ -34,4 +34,7 @@
 	  <ProjectReference Include="..\ATCer\ATCer.csproj" />
 	  <ProjectReference Include="..\Furion.TaskScheduler\Furion.TaskScheduler.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ElasticSearch\Models\" />
+	</ItemGroup>
 </Project>

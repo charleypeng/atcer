@@ -156,7 +156,7 @@ namespace ATCer.Application.LTFATCenter.Domains
         public MBdata MBdata { get; set; }
     }
 
-    public class CATItem1:BaseElasticEntity<string>
+    public class CATItem1:ATCElasticEntity<string>
     {
         [JsonProperty("1")]
         public Item Item { get; set; }

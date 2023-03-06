@@ -12,7 +12,7 @@
     }
   },
   "ConnectionStrings": {
-    "Default": "Server=127.0.0.1;port=5432;User Id=postgres;Password=postgres;Database=atcer1;"
+    "Default": "Server=189.161.20.114;port=5432;User Id=postgres;Password=1qaz@WSX3edc;Database=atcer1;"
     //"Data Source=./atcer.db"
     //MySql示例
     //"Server=192.168.1.254;UserId=admin;Password=admin.123;Database=atcer;charset='utf8';Allow User Variables=True",
@@ -71,11 +71,11 @@
     "RabitMQ": {
       "UserName": "admin",
       "Password": "1qaz@WSX3edc",
-      "HostName": "192.168.195.111",
+      "HostName": "189.161.20.111",
       "Port": 5672
     },
     "PostgreSql": {
-      "ConnectionString": "Server=127.0.0.1;port=5432;User Id=postgres;Password=postgres;Database=atcer1;"
+      "ConnectionString": "Server=189.161.20.114;port=5432;User Id=postgres;Password=1qaz@WSX3edc;Database=atcer1;"
     } //,
     //"CAPNode": {
     //  "DiscoveryServerHostName": "192.168.2.161",

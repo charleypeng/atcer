@@ -4,6 +4,7 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
+using ATCer.ElasticSearch;
 using System.Collections.Generic;
 
 namespace ATCer.Base
@@ -38,7 +39,7 @@ namespace ATCer.Base
         /// <summary>
         /// 当前页集合
         /// </summary>
-        public IEnumerable<TEntity> Items { get; set; }
+        public IEnumerable<TEntity> Items { get; set; } = null!;
 
         /// <summary>
         /// 是否有上一页
@@ -49,6 +50,10 @@ namespace ATCer.Base
         /// 是否有下一页
         /// </summary>
         public bool HasNextPages { get; set; }
+        /// <summary>
+        /// ElasticSearch向量
+        /// </summary>
+        public ESSearchAfter SearchAfter { get; set; } = null!;
     }
     /// <summary>
     /// 分页集合

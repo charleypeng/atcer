@@ -40,7 +40,7 @@ VOLUME /app/upload
 VOLUME /app/logs
 VOLUME /app/wwwroot/upload
 COPY --from=publish /app/publish .
-RUN apt-get update -y && apt-get install -y fontconfig && apt-get clean
+RUN apt update -y && apt install -y fontconfig && apt clean
 RUN cp ./Fonts/*.* /usr/share/fonts
 RUN fc-cache
 RUN rm -rf ./Settings.Dev *.Development.json

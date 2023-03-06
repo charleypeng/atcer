@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ATCer.LTFATCenter.DbContexts
 {
-    [AppDbContext("FipsHistorySqlServerConnectionString")]
+    [AppDbContext("FipsSqlServerConnectionString")]
     public class FipsHistoryDbContext:AppDbContext<FipsHistoryDbContext, FipsHistoryDbContextLocator>
     {
         /// <summary>

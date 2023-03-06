@@ -18,7 +18,7 @@ namespace ATCer
         /// <returns></returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> list)
         {
-            return list == null || list.Count() == 0;
+            return list == null || list?.Count() == 0;
         }
 
         /// <summary>

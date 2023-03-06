@@ -151,19 +151,19 @@ namespace ATCer.LTFATCenter.Services
         public async Task CAT048Insert(object data)
         {
             _logger.LogInformation($"收到消息：{DateTime.Now}");
-            //try
-            //{
-            //    var jsdata = JsonConvert.DeserializeObject<CATItem1>(data.ToString());
-            //    if (jsdata?.Item != null)
-            //    {
-            //        jsdata.Id = Guid.NewGuid().ToString("N");
-            //        await SaveAsync(jsdata);
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    throw Oops.Oh($"错误数据：{data}");
-            //}
+            try
+            {
+                var jsdata = JsonConvert.DeserializeObject<CATItem1>(data.ToString());
+                if (jsdata?.Item != null)
+                {
+                    jsdata.Id = Guid.NewGuid().ToString("N");
+                    await SaveAsync(jsdata);
+                }
+            }
+            catch (Exception)
+            {
+                throw Oops.Oh($"错误数据：{data}");
+            }
         }
 
         //[NonAction]

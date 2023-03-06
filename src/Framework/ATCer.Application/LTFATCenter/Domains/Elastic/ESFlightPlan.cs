@@ -11,10 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nest;
+using ATCer;
 
 namespace ATCer.LTFATCenter.Domains.Elastic
 {
-    public class ESFlightPlan:ElasticSearch.BaseElasticEntity<long>
+    public class ESFlightPlan:ATCElasticEntity<long>
     {
         [MaxLength(32)]
         public string GUFI { get; set; }

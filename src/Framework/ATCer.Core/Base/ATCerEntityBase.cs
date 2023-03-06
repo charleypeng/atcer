@@ -59,5 +59,5 @@ namespace ATCer.Base
     /// </summary>
     public abstract class ATCerEntityBase :
         ATCerEntityBase<int>
-    { }
+    {}
 }

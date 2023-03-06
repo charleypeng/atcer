@@ -4,15 +4,12 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.Application.DataCenter.Domains;
-using ATCer.Application.LTFATCenter.Domains;
-using ATCer.Cache;
-using ATCer.ElasticSearch.Services;
-using Microsoft.AspNetCore.Authorization;
-using Nest;
-using Newtonsoft.Json;
-
-namespace ATCer.Application.LTFATCenter.Services
+namespace ATCer.DataCenter.Models.MH4016_9
 {
-    
+    /// <summary>
+    /// 道面传感器
+    /// </summary>
+    public class ROSA
+    {
+    }
 }

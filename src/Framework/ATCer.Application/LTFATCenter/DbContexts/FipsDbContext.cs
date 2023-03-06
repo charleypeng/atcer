@@ -18,7 +18,7 @@ namespace ATCer.LTFATCenter.DbContexts
     /// FIPS前置数据库
     /// 只用于获取SQL Server的数据
     /// </summary>
-    [AppDbContext("ATCerPostgresDbConnectionString")]
+    [AppDbContext("FipsSqlServerConnectionString")]
     public class FipsDbContext: AppDbContext<FipsDbContext,FipsDbContextLocator>
     {
         /// <summary>

@@ -5,8 +5,6 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Attributes;
-using System;
-using System.ComponentModel;
 
 namespace ATCer.Base
 {

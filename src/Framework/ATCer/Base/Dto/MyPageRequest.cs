@@ -4,7 +4,7 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System.Collections.Generic;
+using ATCer.ElasticSearch;
 
 namespace ATCer.Base
 {
@@ -29,6 +29,9 @@ namespace ATCer.Base
         /// 查询条件组
         /// </summary>
         public List<FilterGroup> FilterGroups { get; set; } = new List<FilterGroup>() ;
-
+        /// <summary>
+        /// ES查询向量
+        /// </summary>
+        public ESSearchAfter? SearchAfter { get; set; }
     }
 }

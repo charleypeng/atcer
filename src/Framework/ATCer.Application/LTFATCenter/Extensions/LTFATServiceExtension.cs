@@ -11,6 +11,9 @@ using ATCer.LTFATCenter.Services;
 using ATCer.Services;
 using ATCer.LTFATCenter.Domains.Elastic;
 using ATCer.Application.LTFATCenter.Domains;
+using ATCer.DataCenter.Models.MH4016_9;
+using ATCer.DataCenter.Domains;
+using Confluent.Kafka;
 
 namespace ATCer.LTFATCenter.Extensions
 {
@@ -29,7 +32,7 @@ namespace ATCer.LTFATCenter.Extensions
         {
             var configuration = App.Configuration;
             var url = configuration["elasticsearch:url"];
-            var defaultIndex = "testdata1";//configuration["elasticsearch:index"];
+            var defaultIndex = "metdata";//configuration["elasticsearch:index"];
             var userName = configuration["elasticsearch:username"];
             var passWord = configuration["elasticsearch:password"];
 
@@ -65,7 +68,7 @@ namespace ATCer.LTFATCenter.Extensions
             //    .IdProperty("Id")
             //    );
             settings
-                .DefaultMappingFor<CATItem1>(m => m
+                .DefaultMappingFor<MetData>(m => m
                 .IdProperty("Id")
                 );
         }
@@ -80,7 +83,7 @@ namespace ATCer.LTFATCenter.Extensions
             //    Console.WriteLine("ElasticSearch index created");
 
             var createIndexResponse2 = client.Indices.Create(indexName,
-                index => index.Map<CATItem1>(x => x.AutoMap())
+                index => index.Map<Metadata>(x => x.AutoMap())
             );
 
             if (createIndexResponse2.Acknowledged)
