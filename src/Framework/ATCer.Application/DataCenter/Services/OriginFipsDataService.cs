@@ -67,6 +67,8 @@ namespace ATCer.Application.DataCenter.Services
         public async Task<GZFlightPlanDto> GetAsync(int id)
         {
             var data = await _fipsRepo.FindAsync(id);
+            if(data == null)
+                return null!;
             try
             {
                 var result = data.Adapt<GZFlightPlanDto>();
@@ -88,11 +90,11 @@ namespace ATCer.Application.DataCenter.Services
         [HttpGet]
         public async Task<IEnumerable<GZFlightPlanDto>> GetToday(string local = "")
         {
-            if (local.IsNullOrEmpty())
+            if (string.IsNullOrWhiteSpace(local))
                 local = "ZGHA";
             //get data from cache first
             var data = await _cache.GetAsync<IEnumerable<GZFlightPlanDto>>(CacheSchems.FlightsOfToday);
-            if (data != null)
+            if (!data.IsNullOrEmpty())
                 return data;
 
             //get new data from time config
