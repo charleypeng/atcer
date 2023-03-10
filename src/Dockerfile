@@ -8,8 +8,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 #install essential build tools
-RUN apt update 
-RUN apt install -y python3
+RUN apt-get update 
+RUN apt-get install -y python3
 RUN dotnet workload install wasm-tools
 #copy files
 COPY ["ATCer.Entry/ATCer.Entry.csproj", "ATCer.Entry/"]
@@ -40,8 +40,10 @@ VOLUME /app/upload
 VOLUME /app/logs
 VOLUME /app/wwwroot/upload
 COPY --from=publish /app/publish .
-RUN apt update -y && apt install -y fontconfig && apt clean
+RUN apt-get update -y && apt-get install -y fontconfig && apt-get clean
 RUN cp ./Fonts/*.* /usr/share/fonts
 RUN fc-cache
 RUN rm -rf ./Settings.Dev *.Development.json
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
 ENTRYPOINT ["dotnet", "ATCer.Entry.dll"]
