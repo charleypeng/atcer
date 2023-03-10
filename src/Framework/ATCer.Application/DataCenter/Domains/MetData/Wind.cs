@@ -9,16 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ATCer.DataCenter.Enums;
 
 namespace ATCer.Application.DataCenter.Domains.MetData
 {
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public class CW2A
+    public class CW2A_v1
     {
         public string D_TYPE { get; set; }
         public string STATUS { get; set; }
         public string VALUE { get; set; }
     }
+
 
     public class CW2AKTSTR
     {
@@ -34,8 +36,14 @@ namespace ATCer.Application.DataCenter.Domains.MetData
         public string VALUE { get; set; }
     }
 
+///
+//
     public class DATA
-    {
+    {   
+        ///<summary>
+        /// 气象一数据
+        ///</summary>
+        public Tuple<MetDataStatus, string?>? CW2A{get;set;}
         public WSINS WSINS { get; set; }
         public WDINS WDINS { get; set; }
         public WS2A WS2A { get; set; }
@@ -51,7 +59,7 @@ namespace ATCer.Application.DataCenter.Domains.MetData
         public WD10M WD10M { get; set; }
         public WD10X WD10X { get; set; }
         public HW2A HW2A { get; set; }
-        public CW2A CW2A { get; set; }
+        //public CW2A CW2A { get; set; }
         public CW2AKTSTR CW2A_KT_STR { get; set; }
         public CW2AMPSSTR CW2A_MPS_STR { get; set; }
     }

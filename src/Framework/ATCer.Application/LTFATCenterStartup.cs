@@ -22,12 +22,12 @@ namespace ATCer.Core
     [AppStartup(600)]
     public class LTFATCenterStartup : AppStartup
     {
-        private string migrationAssemblyName = App.Configuration["FipsDbSettings:MigrationAssemblyName"];
-        private string fipsDbProvider = App.Configuration["FipsDbSettings:DbProvider"];
-        private string masterDbProvider = App.Configuration["DefaultDbSettings:DbProvider"];
-        private ILTFATDataService dataService;
-        private ICapPublisher publisher;
-        IMQService mqService;
+        private string migrationAssemblyName = App.Configuration["FipsDbSettings:MigrationAssemblyName"]!;
+        private string fipsDbProvider = App.Configuration["FipsDbSettings:DbProvider"]!;
+        private string masterDbProvider = App.Configuration["DefaultDbSettings:DbProvider"]!;
+        private ILTFATDataService? dataService;
+        private ICapPublisher? publisher;
+        private IMQService? mqService;
         /// <summary>
         /// Config service
         /// </summary>
@@ -46,7 +46,7 @@ namespace ATCer.Core
             }, migrationAssemblyName);
 
             services.AddLTFATService();
-            //services.AddLTFATBackgroudService();
+            //services.AddLTFATBackgroundService();
             services.AddDataRecorder(opt =>
             {
                 opt.Recorders = new List<RecorderOptions>
@@ -83,12 +83,12 @@ namespace ATCer.Core
             var tr = App.GetService<ITestRecorder>();
             ITestRecorder2 tr2 = App.GetService<ITestRecorder2>();
             tr.StartWithRetry(5);
-            tr.DataReceived += tr_DataReceived;
+            tr.DataReceived += tr_DataReceived!;
 
             //tr2.StartWithRetry(5);
             Console.WriteLine(tr.RecordData.Ip + ":" + tr.RecordData.Port);
             //tr.Start();
-            tr2.DataReceived += tr2_DataReceived;
+            tr2.DataReceived += tr2_DataReceived!;
             publisher = App.GetService<ICapPublisher>();
             dataService = App.GetService<ILTFATDataService>();
             mqService = App.GetService<IMQService>();
@@ -102,7 +102,7 @@ namespace ATCer.Core
             var str = Encoding.ASCII.GetString(e.Data);
             MQRecord data = new MQRecord { Data = str, MQTopic = "TESTDATA" };
             MQData mq = new MQData { MQTopic = "TESTDATA", Data = str };
-            await mqService.SendToAllWithMQ<MQData>("SendMQ", mq);
+            await mqService?.SendToAllWithMQ<MQData>("SendMQ", mq)!;
             Console.WriteLine($"!#WARNING#:msg is send in {data.IssueTime}");
         }
 
@@ -111,7 +111,7 @@ namespace ATCer.Core
             var str = Encoding.ASCII.GetString(e.Data);
             var data = new Record { Cat = "4029.3", Content = str };
             Console.WriteLine(str);
-            await publisher.PublishAsync("cat048test", data);
+            await publisher?.PublishAsync("cat048test", data)!;
         }
     }
 }
