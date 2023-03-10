@@ -44,9 +44,8 @@ namespace ATCer.Application.DataCenter.Services
         public async Task<IEnumerable<GZFlightPlanDto>> GetAsync(DateTime begin, DateTime end, string local = "")
         {
             IEnumerable<GZFlightPlan> data;
-            if (local.IsNullOrEmpty())
-                local = "ZGHA";
-            data = string.IsNullOrEmpty(local) ?
+
+            data = string.IsNullOrWhiteSpace(local) ?
                    await _fipsRepo.Where(x => x.EOBT >= begin && x.EOBT <= end).ToListAsync() :
                    await _fipsRepo.Where(x => x.EOBT >= begin && x.EOBT <= end)
                                   .Where(x => x.ADES == local || x.ADEP == local)
