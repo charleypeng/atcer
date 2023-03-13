@@ -88,7 +88,7 @@ namespace ATCer.ElasticSearch.Services
         {
             if (response == null)
                 return;
-
+            
             _logger.LogError(response?.ServerError?.Error?.Reason);
 
             var type = response?.GetType();

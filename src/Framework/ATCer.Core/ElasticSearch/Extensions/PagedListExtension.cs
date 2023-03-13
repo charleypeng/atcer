@@ -143,7 +143,7 @@ namespace ATCer.Core.ElasticSearch.Extensions
             if (response == null)
                 return;
 
-            logger.LogError(response?.ServerError?.Error?.Reason);
+            //logger.LogError(response?.ServerError?.Error?.Reason);
 
             var type = response?.GetType();
             if (type != typeof(BulkResponse)) return;
@@ -151,7 +151,7 @@ namespace ATCer.Core.ElasticSearch.Extensions
             if (bulkResponse == null) return;
             foreach (var itemError in bulkResponse.ItemsWithErrors)
             {
-                logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
+                //logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
             }
         }
     }
