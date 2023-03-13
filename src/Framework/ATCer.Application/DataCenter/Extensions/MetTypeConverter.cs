@@ -45,6 +45,9 @@ public static class MetTypeConverterCore
             var properties = typeFromHandle.GetProperties();
             //set the time from unix time
             var timeProperty = properties.FirstOrDefault(x => x.Name == "CreatedTime");
+            //set location
+            var locProperty = properties.FirstOrDefault(x => x.Name == "Location");
+            locProperty?.SetValue(obj, rawData.LOC);
             if (timeProperty != null)
             {
                 try
