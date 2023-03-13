@@ -7,11 +7,9 @@
 using ATCer.Cache;
 using ATCer.DataCenter;
 using ATCer.DataCenter.Domains;
-using ATCer.DataCenter.Enums;
 using ATCer.ElasticSearch.Services;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
-using Newtonsoft.Json;
 
 namespace ATCer.Application.DataCenter.Services
 {
