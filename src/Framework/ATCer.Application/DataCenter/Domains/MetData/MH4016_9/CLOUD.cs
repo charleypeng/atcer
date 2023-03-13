@@ -4,12 +4,13 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
-    /// 道面传感器
+    /// 云
     /// </summary>
-    public class ROSA
+    public class CLOUD:BaseMetDomain
     {
+
     }
 }

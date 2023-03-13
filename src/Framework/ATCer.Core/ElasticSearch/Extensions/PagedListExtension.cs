@@ -78,7 +78,7 @@ namespace ATCer.Core.ElasticSearch.Extensions
         {
             if (client == null) throw new ArgumentNullException("es client is null");
 
-            var response = await client.CountAsync<TEntity>();
+            var response = await client.CountAsync<TEntity>(ct:cancellationToken);
             var totalPages = (int)Math.Ceiling(response.Count / (double)pageSize);
             var searchRequest = new SearchRequest
             {
@@ -124,17 +124,12 @@ namespace ATCer.Core.ElasticSearch.Extensions
             logger.LogError(response?.ServerError?.Error?.Reason);
 
             var type = response?.GetType();
-            if (type == typeof(BulkResponse))
+            if (type != typeof(BulkResponse)) return;
+            var bulkResponse = response as BulkResponse;
+            if (bulkResponse == null) return;
+            foreach (var itemError in bulkResponse.ItemsWithErrors)
             {
-                var bulkResponse = response as BulkResponse;
-                if (bulkResponse != null)
-                {
-                    foreach (var itemError in bulkResponse.ItemsWithErrors)
-                    {
-                        logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
-                    }
-
-                }
+                logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
             }
         }
 
@@ -151,17 +146,12 @@ namespace ATCer.Core.ElasticSearch.Extensions
             logger.LogError(response?.ServerError?.Error?.Reason);
 
             var type = response?.GetType();
-            if (type == typeof(BulkResponse))
+            if (type != typeof(BulkResponse)) return;
+            var bulkResponse = response as BulkResponse;
+            if (bulkResponse == null) return;
+            foreach (var itemError in bulkResponse.ItemsWithErrors)
             {
-                var bulkResponse = response as BulkResponse;
-                if (bulkResponse != null)
-                {
-                    foreach (var itemError in bulkResponse.ItemsWithErrors)
-                    {
-                        logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
-                    }
-
-                }
+                logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
             }
         }
     }

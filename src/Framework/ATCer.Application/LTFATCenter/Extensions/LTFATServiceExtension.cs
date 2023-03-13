@@ -6,16 +6,16 @@ using ATCer.LTFATCenter.Domains;
 using Furion;
 using Elasticsearch.Net;
 using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
-using ATCer.LTFATCenter.Services;
 using ATCer.Services;
 using ATCer.LTFATCenter.Domains.Elastic;
 using ATCer.Application.LTFATCenter.Domains;
 using ATCer.DataCenter.Models.MH4016_9;
 using ATCer.DataCenter.Domains;
+using ATCer.LTFATCenter.Impl.Services;
+using ATCer.LTFATCenter.Services;
 using Confluent.Kafka;
 
-namespace ATCer.LTFATCenter.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// ElasticSearch扩展类
@@ -51,7 +51,7 @@ namespace ATCer.LTFATCenter.Extensions
 
             services.AddScoped<IFipsService, FipsService>();
             services.AddScoped<IFlightPlanService, FlightPlanService>();
-            services.AddScoped<ISyncService, Impl.Services.FlightPlanSync>();
+            services.AddScoped<ISyncService, FlightPlanSync>();
             services.AddScoped<IDashboardService, DataCenterService>();
             return services;
         }

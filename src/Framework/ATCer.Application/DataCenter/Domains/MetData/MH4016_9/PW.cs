@@ -4,9 +4,7 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
     /// 天气现象

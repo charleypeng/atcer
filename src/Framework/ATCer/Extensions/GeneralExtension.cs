@@ -114,7 +114,17 @@ namespace ATCer
             }
             return true;
         }
-
+        
+        /// <summary>
+        /// assume float or int
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsFloatOrInt(this string value) {
+            int intValue;
+            float floatValue;
+            return Int32.TryParse(value, out intValue) || float.TryParse(value, out floatValue);
+        }
     }
     
 }

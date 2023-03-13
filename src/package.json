@@ -1,9 +1,9 @@
 {
-    "name": "Gardener",
+    "name": "ATCer",
     "version": "1.0.0",
-    "description": "An out-of-box UI solution for enterprise applications as a Blazor boilerplate.",
+    "description": "an air traffic controller helper",
     "scripts": {
-        "start": "dotnet watch -p ./Client/Gardener.Client.Entry run",
+        "start": "dotnet watch -p ./Client/ATCer.Client.Entry run",
         "build": "dotnet publish -o dist",
         "gulp:pro": "gulp --gulpfile gulpfile.js",
         "test": "echo \"Error: no test specified\" && exit 1"

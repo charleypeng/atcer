@@ -4,13 +4,12 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
-    /// 云
+    /// 跑道灯光
     /// </summary>
-    public class CLOUD:BaseModel
+    public class RWYLIGHTS
     {
-
     }
 }

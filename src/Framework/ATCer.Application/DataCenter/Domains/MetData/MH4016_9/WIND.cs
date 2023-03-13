@@ -4,12 +4,12 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
-    /// 大气压力
+    /// 风速和风向
     /// </summary>
-    public class PRESS
+    public class WIND
     {
     }
 }

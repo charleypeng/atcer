@@ -13,7 +13,6 @@ namespace ATCer.ElasticSearch
     /// Elastic Search Base Entity基类
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    [ElasticsearchType(IdProperty =nameof(TKey))]
     public abstract class BaseElasticEntity<TKey>:IBaseElasticEntity<TKey>,IEquatable<TKey>
     {
         /// <summary>
@@ -27,7 +26,7 @@ namespace ATCer.ElasticSearch
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(TKey? other)
+        public virtual bool Equals(TKey? other)
         {
             return EqualityComparer<TKey>.Default.Equals(this.Id, other);
         }

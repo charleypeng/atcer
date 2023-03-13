@@ -27,7 +27,7 @@ gulp.task('isolation', function () {
         }))
         .pipe(gulp.dest(function (file) {
             if (file.basename == 'site.css') {
-                return 'Client/Gardener.Client.Entry/wwwroot';
+                return 'Client/ATCer.Client.Entry/wwwroot';
             }
             return '.';
         }));

@@ -10,16 +10,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains
 {
-    public class BaseModel
+    /// <summary>
+    /// 
+    /// </summary>
+    public class BaseMetDomain:ATCElasticEntity<string>
     {
-        public DateTime TIME { get; set; }
-    }
-
-    public class DataItem
-    {
-        public string PorpertyName { get; set; }
-        public int MyProperty { get; set; }
+        /// <summary>
+        /// 数据原ID
+        /// </summary>
+        public string? SourceId { get; set; }
+        
+        /// <summary>
+        /// 传感器位置
+        /// </summary>
+        public string? Location { get; set; }
     }
 }

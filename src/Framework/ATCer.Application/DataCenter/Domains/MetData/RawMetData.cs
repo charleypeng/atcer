@@ -22,7 +22,7 @@ namespace ATCer.DataCenter.Domains
         /// <summary>
         /// 
         /// </summary>
-        public List<List<string>>? DATA { get; set; }
+        public List<List<string?>?>? DATA { get; set; }
         /// <summary>
         /// 
         /// </summary>

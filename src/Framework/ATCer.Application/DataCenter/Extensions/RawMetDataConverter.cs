@@ -53,13 +53,13 @@ namespace ATCer.Application.DataCenter.Extensions
                         {
                             switch(rdatas[1])
                             {
-                                case MetDataType.DString:
+                                case MetDataTypeString.DString:
                                     metData.StringTypeDatas?.Add(new StringTypeData { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = rdatas[3] });
                                     break;
-                                case MetDataType.DInteger:
-                                    metData.Int32TypeDatas?.Add(new Int32TypeData { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = int.Parse(rdatas[3]) });
+                                case MetDataTypeString.DInteger:
+                                    metData.FloatTypeDatas?.Add(new FloatTypeData() { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = float.Parse(rdatas[3]) });
                                     break;
-                                case MetDataType.DFloat:
+                                case MetDataTypeString.DFloat:
                                     metData.FloatTypeDatas?.Add(new FloatTypeData { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value =float.Parse(rdatas[3]) });
                                     break;
                                 default:
@@ -72,7 +72,6 @@ namespace ATCer.Application.DataCenter.Extensions
             }
             catch (Exception ex)
             {
-                return null!;
                 throw new Exception(ex.Message, ex); 
             }
         }

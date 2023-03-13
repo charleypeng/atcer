@@ -12,7 +12,22 @@ using System.Threading.Tasks;
 
 namespace ATCer.DataCenter.Enums
 {
-    public struct MetDataType
+    public enum MetDatType
+    {
+        /// <summary>
+        /// 长整型
+        /// </summary>
+        I = 0,
+        /// <summary>
+        /// 浮点型
+        /// </summary>
+        R = 1,
+        /// <summary>
+        /// 字符串型
+        /// </summary>
+        S = 2
+    }
+    public struct MetDataTypeString
     {
         public const string DInteger = "I";
         public const string DFloat = "R";

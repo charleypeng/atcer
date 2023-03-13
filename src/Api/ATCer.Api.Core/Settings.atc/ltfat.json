@@ -4,7 +4,7 @@
     //"ATCerMysqlDbConnectionString": "Server=127.0.0.1;port=3306;UserId=root;Password=cbt1234567;Database=atcertest;charset='utf8';Allow User Variables=True;AllowLoadLocalInfile=true",
     "ATCerPostgresDbConnectionString": "Server=192.168.2.161;port=5432;User Id=postgres;Password=cbt1234567;Database=atcertest;",
     //"FipsSqlServerConnectionString": "Server=192.168.31.161,1433;Database=ZGHAFIPS;uid=sa;pwd=cbt1234567;pooling=true",
-    "FipsSqlServerConnectionString": "Server=195.168.1.145,1433;Database=ZGHAFIPS;uid=pl;pwd=cbt1234567;pooling=true",
+    "FipsSqlServerConnectionString": "Server=195.168.1.140,1433;Database=ZGHAFIPS;uid=sa;pwd=acer77e;pooling=true;Encrypt=False",
     "FipsHistorySqlServerConnectionString": "Server=195.168.1.145,1433;Database=fipsh;uid=admin;pwd=admin;pooling=true",
     "FipsMysqlDbConnectionString": "Server=192.168.2.161;port=3366;UserId=root;Password=admin;Database=ZGHAFIPS;charset='utf8';Allow User Variables=True;AllowLoadLocalInfile=true",
     "ATCerPostresqlSlaveDbConnectionString": "Server=192.168.2.161;port=5432;User Id=postgres;Password=admin;Database=wuuha;",

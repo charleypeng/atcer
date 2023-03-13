@@ -4,12 +4,12 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
-    /// 能见度和跑道视程
+    /// 主导能见度
     /// </summary>
-    public class VIS
+    public class PV
     {
     }
 }

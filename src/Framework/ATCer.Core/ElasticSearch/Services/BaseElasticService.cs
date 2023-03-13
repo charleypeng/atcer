@@ -76,7 +76,7 @@ namespace ATCer.ElasticSearch.Services
         /// 
         /// </summary>
         /// <param name="buildOption"></param>
-        protected virtual void Builder(Action buildOption = null)
+        protected virtual void Builder(Action buildOption = null!)
         {
             
         }
@@ -198,19 +198,12 @@ namespace ATCer.ElasticSearch.Services
         /// <returns></returns>
         public async Task<TEntityDto> Get(TKey id)
         {
-            var docPath = new DocumentPath<TEntity>(new TEntity { Id = id});
+            var docPath = new DocumentPath<object>(new {Id = id, IsDeleted = false});
             var response = await _elasticClient.GetAsync(docPath);
 
             response.LogError(_logger);
 
-            if (response != null)
-            {
-                return (response.Source.Adapt<TEntityDto>());
-            }
-            else
-            {
-                return null!;
-            }
+            return response?.Source.Adapt<TEntityDto>()!;
         }
 
         public Task<List<TEntityDto>> GetAll()

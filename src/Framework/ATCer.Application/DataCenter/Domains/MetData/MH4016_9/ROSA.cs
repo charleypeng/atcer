@@ -4,12 +4,12 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-namespace ATCer.DataCenter.Models.MH4016_9
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
-    /// 跑道灯光
+    /// 道面传感器
     /// </summary>
-    public class RWYLIGHTS
+    public class ROSA
     {
     }
 }
