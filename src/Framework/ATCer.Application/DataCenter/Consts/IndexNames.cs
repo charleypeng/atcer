@@ -13,6 +13,10 @@ public class IndexNames
 {
     public static string[] Names = new[] {"metdata.press","metdata.pv","metdata.vis"};
 
+    public const string MetData_PRESS = "metdata.press";
+    public const string MetData_CLOUD = "metdata.cloud";
+    public const string MetData_PV = "metdata.pv";
+    public const string MetData_VIS = "metdata.vis";
     public static Dictionary<string, Type> IndexDict
     {
         get => new Dictionary<string, Type>

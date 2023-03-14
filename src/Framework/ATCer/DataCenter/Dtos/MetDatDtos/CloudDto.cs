@@ -4,14 +4,18 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ATCer.DataCenter.Domains.MH4016_9
+namespace ATCer.DataCenter.Dtos.MetDatDtos
 {
     /// <summary>
     /// 云
     /// </summary>
-    public class CLOUD: BaseMetDomain
+    public class CloudDto : BaseMetDto
     {
         /// <summary>
         /// 是否晴空

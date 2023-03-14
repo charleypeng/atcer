@@ -14,7 +14,7 @@ namespace ATCer.Application.DataCenter.Builders.MetData;
 public class PRESSBuilder:IndexCreator<PRESS, string>
 {
     public PRESSBuilder(ILogger<PRESSBuilder> logger,
-        IConfiguration configuration) : base(logger, configuration, IndexNames.Names[0])
+        IConfiguration configuration) : base(logger, configuration, IndexNames.MetData_PRESS)
     {
         
     }

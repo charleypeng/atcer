@@ -6,6 +6,7 @@
 
 using ATCer.Cache;
 using ATCer.DataCenter.Domains;
+using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.ElasticSearch.Interfaces;
 using ATCer.ElasticSearch.Services;
 using Furion.DependencyInjection;
@@ -18,15 +19,15 @@ namespace ATCer.DataCenter.Services.MetData;
 /// <summary>
 /// 
 /// </summary>
-public class PRESSService: BaseElasticService<PRESS,PRESS,string>,IESIndex,ICapSubscribe,ITransient
+public class PressService: BaseElasticService<PRESS,PressDto,string>,IESIndex,ICapSubscribe,ITransient, IPressService
 {
     /// <summary>
     /// 
     /// </summary>
-    public PRESSService(ILogger<PRESSService> logger,
+    public PressService(ILogger<PressService> logger,
                         IElasticClient client,
                         ICache cache
-                        ):base(client,cache,logger,"metdata.press")
+                        ):base(client,cache,logger, IndexNames.MetData_PRESS)
     {
 
     }
@@ -38,7 +39,7 @@ public class PRESSService: BaseElasticService<PRESS,PRESS,string>,IESIndex,ICapS
     [NonAction]
     public async Task PressWorker(RawMetData data)
     {
-         var mdata = data.ToMetType<PRESS>();
+         var mdata = data.ToMetType<PressDto>();
          if (mdata == null)
          {
              _logger.LogError(message: $"{DateTimeOffset.FromUnixTimeSeconds(data.TIME.Value)} 收到的原始数据有误");
@@ -48,7 +49,7 @@ public class PRESSService: BaseElasticService<PRESS,PRESS,string>,IESIndex,ICapS
          
          var result = await this.Insert(mdata);
          if(result != null)
-             _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
+             _logger.LogInformation($"press已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
     }
     /// <summary>
     /// 

@@ -30,7 +30,12 @@ public static class MetTypeConverterCore
         var metDict = new MetDataStatusDict();
         if (rawData == null)
             return default(T);
-        if (rawData.TYPE?.ToUpper() != typeof(T).Name)
+        var typeName = typeof(T).Name.ToUpper();
+        var rawDataTypeName = rawData.TYPE?.ToUpper();
+        if (typeName.Contains("DTO"))
+            rawDataTypeName = rawDataTypeName + "DTO";
+
+        if (!typeName.Equals(rawDataTypeName))
         {
             throw new Exception("the given met raw data type is not the expected type");
         }
@@ -45,9 +50,7 @@ public static class MetTypeConverterCore
             var properties = typeFromHandle.GetProperties();
             //set the time from unix time
             var timeProperty = properties.FirstOrDefault(x => x.Name == "CreatedTime");
-            //set location
-            var locProperty = properties.FirstOrDefault(x => x.Name == "Location");
-            locProperty?.SetValue(obj, rawData.LOC);
+            
             if (timeProperty != null)
             {
                 try
@@ -66,82 +69,96 @@ public static class MetTypeConverterCore
                     timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(DateTimeOffset.Now.ToUnixTimeSeconds()));
                 }
             }
+            //set location
+            var locProperty = properties.FirstOrDefault(x => x.Name == "Location");
+
+            locProperty?.SetValue(obj, rawData.LOC);
+
             //set properties value
-            foreach (var data in rawData.DATA)
+            try
             {
-                if (data?.Count != 4)
-                    throw new Exception("not valid met raw data");
-                
-                var property = properties.FirstOrDefault(x => x.Name == data?[0]?.ToUpper());
-                if (property != null)
+                foreach (var data in rawData.DATA)
                 {
-                    switch (data?[1])
+                    if (data?.Count != 4)
+                        throw new Exception("not valid met raw data");
+
+                    var property = properties.FirstOrDefault(x => x.Name == data?[0]?.ToUpper());
+                    if (property != null)
                     {
-                        case MetDataTypeString.DFloat:
-                            if (string.IsNullOrWhiteSpace(data[3]))
-                            {
-                                var strData = new MetTuple
+                        switch (data?[1])
+                        {
+                            case MetDataTypeString.DFloat:
+                                if (string.IsNullOrWhiteSpace(data[3]))
                                 {
-                                    Status = metDict.Dict[data[2]!],
-                                    Value = null
-                                };
-                                property.SetValue(obj, strData);
-                            }
-                            else
-                            {
-                                var strData = new MetTuple
+                                    var strData = new MetTuple
+                                    {
+                                        Status = metDict.Dict[data[2]!],
+                                        Value = null
+                                    };
+                                    property.SetValue(obj, strData);
+                                }
+                                else
                                 {
-                                    Status = metDict.Dict[data[2]!],
-                                    Value = float.Parse(data[3]!) 
-                                };
-                                property.SetValue(obj, strData);
-                            }
-                            break;
-                        case MetDataTypeString.DInteger:
-                            if (string.IsNullOrWhiteSpace(data[3]))
-                            {
-                                var strData = new MetTuple
+                                    var strData = new MetTuple
+                                    {
+                                        Status = metDict.Dict[data[2]!],
+                                        Value = float.Parse(data[3]!)
+                                    };
+                                    property.SetValue(obj, strData);
+                                }
+                                break;
+                            case MetDataTypeString.DInteger:
+                                if (string.IsNullOrWhiteSpace(data[3]))
                                 {
-                                    Status = metDict.Dict[data[2]!],
-                                    Value = null
-                                };
-                                property.SetValue(obj, strData);
-                            }
-                            else
-                            {
-                                var strData = new MetTuple
+                                    var strData = new MetTuple
+                                    {
+                                        Status = metDict.Dict[data[2]!],
+                                        Value = null
+                                    };
+                                    property.SetValue(obj, strData);
+                                }
+                                else
                                 {
-                                    Status = metDict.Dict[data[2]!],
-                                    Value = float.Parse(data[3]!) 
-                                };
-                                property.SetValue(obj, strData);
-                            }
-                            break;
-                        
-                        default:
-                            if (string.IsNullOrWhiteSpace(data[3]))
-                            {
-                                var strData = new MetTuple
+                                    var strData = new MetTuple
+                                    {
+                                        Status = metDict.Dict[data[2]!],
+                                        Value = float.Parse(data[3]!)
+                                    };
+                                    property.SetValue(obj, strData);
+                                }
+                                break;
+
+                            default:
+                                if (string.IsNullOrWhiteSpace(data[3]))
                                 {
-                                    Status = metDict.Dict[data[2]],
-                                    Value = null
-                                };
-                                property.SetValue(obj, strData);
-                            }
-                            else
-                            {
-                                var strData = new MetTuple<string>
+                                    var strData = new MetTuple<string>
+                                    {
+                                        Status = metDict.Dict[data[2]],
+                                        Value = null
+                                    };
+                                    property.SetValue(obj, strData);
+                                }
+                                else
                                 {
-                                    Status = metDict.Dict[data[2]],
-                                    Value = data[3]
-                                };
-                                property.SetValue(obj, strData);
-                            }
-                            break;
+                                    var strData = new MetTuple<string>
+                                    {
+                                        Status = metDict.Dict[data[2]],
+                                        Value = data[3]
+                                    };
+                                    property.SetValue(obj, strData);
+                                }
+                                break;
                         }
+                    }
                 }
+                return obj as T;
             }
-            return obj as T;
+            catch(Exception ex)
+            {
+                throw new Exception("无法倒装成类", ex);
+            }
+
+            
         }
     }
 

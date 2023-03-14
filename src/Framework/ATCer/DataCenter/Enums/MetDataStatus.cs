@@ -17,6 +17,7 @@ namespace ATCer.DataCenter.Enums
         /// <remarks>
         /// (N)数据来自于传感器并且是有效的
         /// </remarks>
+        [Description("正常")]
         Normal = 0,
         /// <summary>
         /// 人工
@@ -24,41 +25,47 @@ namespace ATCer.DataCenter.Enums
         /// <remarks>
         /// 数据是有效的，但是由观测员输入系统。
         /// </remarks>
+        [Description("人工")]
         Manual = 1,
         /// <summary>
-        /// 正常
+        /// 备份
         /// </summary>
         /// <remarks>
-        /// (N)数据来自于传感器并且是有效的
+        /// (C)数据来自于备份传感器
         /// </remarks>
+        [Description("备份")]
         Copied = 2,
         /// <summary>
-        /// 正常
+        /// 旧值
         /// </summary>
         /// <remarks>
-        /// (N)数据来自于传感器并且是有效的
+        ///(O)数据到了某个超时阶段还未被更新，但仍然认为其是有效数据
         /// </remarks>
+        [Description("旧值")]
         Old = 3,
         /// <summary>
-        /// 正常
+        /// 丢失
         /// </summary>
         /// <remarks>
-        /// (N)数据来自于传感器并且是有效的
+        /// (M)数据还没更新且已被认为丢失
         /// </remarks>
+        [Description("丢失")]
         Missing = 4,
         /// <summary>
-        /// 正常
+        /// 不可用
         /// </summary>
         /// <remarks>
-        /// (N)数据来自于传感器并且是有效的
+        /// (I)数据传感器故障或超出范围，已经不能被使用
         /// </remarks>
+        [Description("不可用")]
         Invalid = 5,
         /// <summary>
-        /// 正常
+        /// 未知
         /// </summary>
         /// <remarks>
-        /// (N)数据来自于传感器并且是有效的
+        /// (U)数据的值可能是有效的，但是不能被使用
         /// </remarks>
+        [Description("未知")]
         Undefined = 6,
     }
 

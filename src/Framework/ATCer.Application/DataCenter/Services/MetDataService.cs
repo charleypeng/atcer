@@ -16,16 +16,15 @@ namespace ATCer.Application.DataCenter.Services
     /// <summary>
     /// 数据接收接口
     /// </summary>
-    public class MetDataService : BaseElasticService<MetData, MetData, string>, IScoped, ICapSubscribe
+    public class MetDataService :  IScoped, ICapSubscribe
     {
         private readonly ICapPublisher _publisher;
         /// <summary>
         /// 初始化
         /// </summary>
         public MetDataService(ILogger<MetDataService> logger,
-                                IElasticClient elasticClient,
-                                ICapPublisher publisher,
-                                ICache cache) : base(elasticClient, cache, logger, "metdata")
+                              ICapPublisher publisher,
+                              ICache cache)
         {
             _publisher = publisher;
         }

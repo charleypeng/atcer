@@ -19,6 +19,17 @@ namespace ATCer.Client
             public const string Debug = $"{Base}_debug";
         }
 
+        public struct DataCenter
+        {
+            public const string Base = "data_center";
+            public const string Admin = $"{Base}_admin";
+            /// <summary>
+            /// 只有查看权限
+            /// </summary>
+            public const string View = $"{Base}_view";
+            public const string Debug = $"{Base}_debug";
+        }
+
         public struct LTFATCenter
         {
             public const string Base = "ltfat_center";
