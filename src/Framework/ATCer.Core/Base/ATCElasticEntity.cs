@@ -15,7 +15,7 @@ namespace ATCer
     /// Elastic Search Base Entity基类
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    [ElasticsearchType(IdProperty = nameof(TKey))]
+    [ElasticsearchType(IdProperty = nameof(Id))]
     public abstract class ATCElasticEntity<TKey> : BaseElasticEntity<TKey>, IBaseElasticEntity<TKey>, IEquatable<TKey>
     {
 

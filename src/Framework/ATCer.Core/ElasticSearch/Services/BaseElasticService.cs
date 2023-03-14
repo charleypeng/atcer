@@ -17,7 +17,7 @@ namespace ATCer.ElasticSearch.Services
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TEntityDto"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class BaseElasticService<TEntity,TEntityDto,TKey> : IDynamicApiController, IServiceBase<TEntityDto, TKey> 
+    public abstract class BaseElasticService<TEntity,TEntityDto,TKey> : IDynamicApiController, IServiceBase<TEntityDto, TKey>
         where TEntity : ATCElasticEntity<TKey>, new()
         where TEntityDto:class, new()
     {
@@ -32,7 +32,7 @@ namespace ATCer.ElasticSearch.Services
         /// <summary>
         /// es客户端
         /// </summary>
-        protected virtual IElasticClient _elasticClient { get; init; }
+        protected virtual IElasticClient _elasticClient { get; set; }
         /// <summary>
         /// 缓存前缀
         /// </summary>
@@ -69,6 +69,7 @@ namespace ATCer.ElasticSearch.Services
             }
             //add cache prefix
             cacheScheme = Common.CacheSchems.ESId + "_" + nameof(TEntity) + "_" + tatentId;
+            
             Builder();
         }
 
@@ -78,7 +79,15 @@ namespace ATCer.ElasticSearch.Services
         /// <param name="buildOption"></param>
         protected virtual void Builder(Action buildOption = null!)
         {
-            
+            var configuration = App.Configuration;
+            var url = configuration["elasticsearch:url"];
+            var userName = configuration["elasticsearch:username"];
+            var passWord = configuration["elasticsearch:password"];
+            var settings = new ConnectionSettings(new Uri(url))
+                .ServerCertificateValidationCallback((obj, cert, chain, sslPolicyErrors) => true)
+                .BasicAuthentication(userName, passWord)
+                .DefaultIndex(IndexName);
+            _elasticClient = new ElasticClient(settings);
         }
         /// <summary>
         /// 错误日志记录

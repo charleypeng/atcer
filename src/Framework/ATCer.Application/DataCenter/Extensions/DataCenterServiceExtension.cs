@@ -21,6 +21,7 @@ public static class DataCenterServiceExtension
     public static void AddDataCenterService(this IServiceCollection services)
     {
         var pressBuilder = App.GetService<PRESSBuilder>();
+
         pressBuilder.InitIndex();
     }
 }

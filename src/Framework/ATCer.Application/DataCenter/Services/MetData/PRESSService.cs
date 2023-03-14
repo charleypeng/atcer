@@ -8,6 +8,7 @@ using ATCer.Cache;
 using ATCer.DataCenter.Domains;
 using ATCer.ElasticSearch.Interfaces;
 using ATCer.ElasticSearch.Services;
+using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ namespace ATCer.DataCenter.Services.MetData;
 /// <summary>
 /// 
 /// </summary>
-public class PRESSService: BaseElasticService<PRESS,PRESS,string>,IESIndex,ICapSubscribe,IScoped
+public class PRESSService: BaseElasticService<PRESS,PRESS,string>,IESIndex,ICapSubscribe,ITransient
 {
     /// <summary>
     /// 

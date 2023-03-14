@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var configuration = App.Configuration;
             var url = configuration["elasticsearch:url"];
-            var defaultIndex = "metdata";//configuration["elasticsearch:index"];
+            var defaultIndex = configuration["elasticsearch:index"];
             var userName = configuration["elasticsearch:username"];
             var passWord = configuration["elasticsearch:password"];
 

@@ -6,17 +6,20 @@
 
 using ATCer.ElasticSearch.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nest;
 
 namespace ATCer.ElasticSearch.Core;
 
-public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder,IScoped where T:BaseElasticEntity<TKey>,new()
+public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder, ISingleton 
+    where T: BaseElasticEntity<TKey>, new()
 {
     private readonly  ILogger<IndexCreator<T, TKey>> _logger;
     private readonly IConfiguration _configuration;
     private ConnectionSettings settings;
-    private IElasticClient _client;
-    
+    public ElasticClient _client;
+    private IServiceCollection _services;
     /// <summary>
     /// 
     /// </summary>
@@ -42,15 +45,17 @@ public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder,IScoped where T:Base
             .DefaultIndex(indexName);
 
         _client = new ElasticClient(settings);
+
     }
     
     /// <summary>
     /// 
     /// </summary>
-    public virtual void InitIndex()
+    public virtual ElasticClient InitIndex()
     {
         AddDefaultMappings(settings);
         CreateIndex(_client, IndexName);
+        return _client!;
     }
     
     /// <summary>
@@ -61,7 +66,7 @@ public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder,IScoped where T:Base
     {
         settings?
             .DefaultMappingFor<T>(m => m
-                .IdProperty("Id")
+                .IdProperty(x=>x.Id)
             );
     }
     
@@ -72,6 +77,14 @@ public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder,IScoped where T:Base
     /// <param name="indexName"></param>
     protected virtual void CreateIndex(IElasticClient client, string indexName)
     {
+
+        var isExist = client.Indices.Exists(indexName).Exists;
+        if (isExist)
+        {
+            _logger.LogInformation($"{indexName} 已经存在");
+            return;
+        }
+            
         var createIndexResponse = client.Indices.Create(indexName,
             index => index.Map<T>(x => x.AutoMap())
         );
