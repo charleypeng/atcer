@@ -15,7 +15,7 @@ namespace ATCer.DataCenter.Domains
     /// <summary>
     /// 
     /// </summary>
-    public class BaseMetDomain:ATCElasticEntity<string>
+    public class BaseMetDomain<TKeky>:ATCElasticEntity<TKeky>
     {
         /// <summary>
         /// 数据原ID
@@ -27,4 +27,12 @@ namespace ATCer.DataCenter.Domains
         /// </summary>
         public string? Location { get; set; }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class BaseMetDomain : BaseMetDomain<string>
+    {
+    }
+
 }
