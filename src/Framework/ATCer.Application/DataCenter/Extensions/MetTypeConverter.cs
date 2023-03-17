@@ -5,10 +5,6 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.DataCenter.Domains;
-using System.Reflection;
-using ATCer.Application.DataCenter.Domains.MetData;
-using ATCer.Common;
-using ATCer.DataCenter;
 using ATCer.DataCenter.Enums;
 
 namespace ATCer.DataCenter;
@@ -28,11 +24,15 @@ public static class MetTypeConverterCore
     public static T? MetTypeConverter<T>(RawMetData rawData) where T : class ,new()
     {
         var metDict = new MetDataStatusDict();
+
         if (rawData == null)
             return default(T);
+
         var typeName = typeof(T).Name.ToUpper();
         var rawDataTypeName = rawData.TYPE?.ToUpper();
-        if (typeName.Contains("DTO"))
+
+        //to make sure this class is dto or domain
+        if (typeName.EndsWith("DTO"))
             rawDataTypeName = rawDataTypeName + "DTO";
 
         if (!typeName.Equals(rawDataTypeName))
@@ -46,7 +46,6 @@ public static class MetTypeConverterCore
 
             var typeFromHandle = typeof(T);
             var obj = Activator.CreateInstance(typeFromHandle);
-
             var properties = typeFromHandle.GetProperties();
             //set the time from unix time
             var timeProperty = properties.FirstOrDefault(x => x.Name == "CreatedTime");
@@ -69,6 +68,7 @@ public static class MetTypeConverterCore
                     timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(DateTimeOffset.Now.ToUnixTimeSeconds()));
                 }
             }
+
             //set location
             var locProperty = properties.FirstOrDefault(x => x.Name == "Location");
 
@@ -129,7 +129,7 @@ public static class MetTypeConverterCore
                                 break;
 
                             default:
-                                if (string.IsNullOrWhiteSpace(data[3]))
+                                if (string.IsNullOrWhiteSpace(data?[3]))
                                 {
                                     var strData = new MetTuple<string>
                                     {
@@ -155,7 +155,7 @@ public static class MetTypeConverterCore
             }
             catch(Exception ex)
             {
-                throw new Exception("无法倒装成类", ex);
+                throw new Exception("无法倒装成气象类数据", ex);
             }
 
             
