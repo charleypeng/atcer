@@ -6,10 +6,8 @@
 
 using ATCer.Cache;
 using ATCer.DataCenter.Domains;
-using ATCer.ElasticSearch;
 using ATCer.ElasticSearch.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace ATCer.Application.DataCenter.Services
 {
@@ -54,9 +52,9 @@ namespace ATCer.Application.DataCenter.Services
             mdata.Id = Guid.NewGuid().ToString("N");
             
 
-            var result = await this.Insert(data);
-            if (result != null)
-                _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
+            var result = await this.Insert(mdata);
+            //if (result != null)
+            //    _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
         }
     }
 }
