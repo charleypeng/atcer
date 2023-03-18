@@ -12,7 +12,7 @@ namespace ATCer.DataCenter.Domains
     /// <summary>
     /// 
     /// </summary>
-    public class MetData:ATCElasticEntity<string>
+    public class MyMetData:ATCElasticEntity<string>
     {
         /// <summary>
         /// 
@@ -43,7 +43,7 @@ namespace ATCer.DataCenter.Domains
         /// </summary>
         /// <param name="v"></param>
 
-        public static implicit operator MetData(RawMetData v)
+        public static implicit operator MyMetData(RawMetData v)
         {
             return v.ConvertToMetData();
         }
@@ -52,7 +52,7 @@ namespace ATCer.DataCenter.Domains
     /// <summary>
     /// 
     /// </summary>
-    public class Int32TypeData:BaseMetData<int>
+    public class Int32TypeData:BaseMetData<int?>
     {
 
     }
@@ -60,7 +60,7 @@ namespace ATCer.DataCenter.Domains
     /// <summary>
     /// 
     /// </summary>
-    public class FloatTypeData:BaseMetData<float>
+    public class FloatTypeData:BaseMetData<float?>
     {
 
     }
@@ -68,7 +68,7 @@ namespace ATCer.DataCenter.Domains
     /// <summary>
     /// 
     /// </summary>
-    public class StringTypeData:BaseMetData<string>
+    public class StringTypeData:BaseMetData<string?>
     {
 
     }

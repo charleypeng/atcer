@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataCenter\Core\**" />
+    <EmbeddedResource Remove="DataCenter\Core\**" />
+    <None Remove="DataCenter\Core\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ATCer.Core\ATCer.Core.csproj" />
     <ProjectReference Include="..\ATCer.DataRecorder\ATCer.DataRecorder.csproj" />
     <ProjectReference Include="..\ATCer.FDE\ATCer.FDE.csproj" />
@@ -28,8 +34,5 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.2" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="7.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="DataCenter\Core" />
 	</ItemGroup>
 </Project>

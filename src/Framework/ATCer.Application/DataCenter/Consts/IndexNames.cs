@@ -17,6 +17,8 @@ public class IndexNames
     public const string MetData_CLOUD = "metdata.cloud";
     public const string MetData_PV = "metdata.pv";
     public const string MetData_VIS = "metdata.vis";
+    public const string MetData_Raw = "metdata.raw";
+    public const string MetData_RwyLights = "metdata.rwylights";
     public static Dictionary<string, Type> IndexDict
     {
         get => new Dictionary<string, Type>

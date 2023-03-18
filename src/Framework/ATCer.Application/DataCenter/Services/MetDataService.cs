@@ -5,18 +5,18 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Cache;
-using ATCer.DataCenter;
 using ATCer.DataCenter.Domains;
+using ATCer.ElasticSearch;
 using ATCer.ElasticSearch.Services;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
+using Newtonsoft.Json;
 
 namespace ATCer.Application.DataCenter.Services
 {
     /// <summary>
     /// 数据接收接口
     /// </summary>
-    public class MetDataService :  IScoped, ICapSubscribe
+    public class MetDataService : BaseElasticService<MyMetData, MyMetData, string> ,ITransient, ICapSubscribe
     {
         private readonly ICapPublisher _publisher;
         /// <summary>
@@ -24,7 +24,8 @@ namespace ATCer.Application.DataCenter.Services
         /// </summary>
         public MetDataService(ILogger<MetDataService> logger,
                               ICapPublisher publisher,
-                              ICache cache)
+                              IATCerEsClient esClient,
+                              ICache cache):base(esClient,cache,logger, IndexNames.MetData_Raw)
         {
             _publisher = publisher;
         }
@@ -45,17 +46,17 @@ namespace ATCer.Application.DataCenter.Services
             var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
             await _publisher.PublishAsync(pushmsg, data);
 
-            // var mdata = (MetData)data!;
-            //
-            // if (mdata == null)
-            //     return;
-            //
-            // mdata.Id = Guid.NewGuid().ToString("N");
-            // mdata.CreatedTime= DateTimeOffset.Now;
-            //
-            // var result = await this.Insert(data);
-            // if(result != null)
-            //     _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
+            var mdata = (MyMetData)data!;
+
+            if (mdata == null)
+                return;
+
+            mdata.Id = Guid.NewGuid().ToString("N");
+            
+
+            var result = await this.Insert(data);
+            if (result != null)
+                _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
         }
     }
 }

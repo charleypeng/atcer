@@ -4,6 +4,7 @@
 //  CopyRight(C) 2023  版权所有
 // -----------------------------------------------------------------------------
 
+using ATCer.Core.ElasticSearch;
 using ATCer.ElasticSearch.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +13,18 @@ using Nest;
 
 namespace ATCer.ElasticSearch.Core;
 
+/// <summary>
+/// 设置Index
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <typeparam name="TKey"></typeparam>
 public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder, ISingleton 
     where T: BaseElasticEntity<TKey>, new()
 {
     private readonly  ILogger<IndexCreator<T, TKey>> _logger;
     private readonly IConfiguration _configuration;
     private ConnectionSettings settings;
-    public ElasticClient _client;
+    public ATCerEsClient _client;
     private IServiceCollection _services;
     /// <summary>
     /// 
@@ -44,7 +50,7 @@ public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder, ISingleton
             .BasicAuthentication(userName, passWord)
             .DefaultIndex(indexName);
 
-        _client = new ElasticClient(settings);
+        _client = new ATCerEsClient(settings);
 
     }
     

@@ -4,15 +4,19 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.Base;
-using ATCer.DataCenter.Dtos.MetDatDtos;
+using Nest;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ATCer.DataCenter.Services.MetData
+namespace ATCer.ElasticSearch
 {
     /// <summary>
-    /// 大气压力数据服务
+    /// ElasticSearch Client
     /// </summary>
-    public interface IPressService : IServiceBase<PressDto, string>
+    public interface IATCerEsClient:IElasticClient
     {
     }
 }

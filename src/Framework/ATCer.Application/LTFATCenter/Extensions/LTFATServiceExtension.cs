@@ -14,6 +14,7 @@ using ATCer.DataCenter.Domains;
 using ATCer.LTFATCenter.Impl.Services;
 using ATCer.LTFATCenter.Services;
 using Confluent.Kafka;
+using ATCer.ElasticSearch;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -41,13 +42,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 .BasicAuthentication(userName, passWord)
                 .DefaultIndex(defaultIndex);
 
-            AddDefaultMappings(settings);
+            var client = new ATCerEsClient(settings);
 
-            var client = new ElasticClient(settings);
+            services.AddSingleton<IATCerEsClient>(client);
 
-            services.AddSingleton<IElasticClient>(client);
 
-            CreateIndex(client, defaultIndex);
 
             services.AddScoped<IFipsService, FipsService>();
             services.AddScoped<IFlightPlanService, FlightPlanService>();
@@ -68,7 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
             //    .IdProperty("Id")
             //    );
             settings
-                .DefaultMappingFor<MetData>(m => m
+                .DefaultMappingFor<MyMetData>(m => m
                 .IdProperty("Id")
                 );
         }

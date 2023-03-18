@@ -4,15 +4,4 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.Base;
-using ATCer.DataCenter.Dtos.MetDatDtos;
-
-namespace ATCer.DataCenter.Services.MetData
-{
-    /// <summary>
-    /// 大气压力数据服务
-    /// </summary>
-    public interface IPressService : IServiceBase<PressDto, string>
-    {
-    }
-}
+global using ATCer.DataCenter;

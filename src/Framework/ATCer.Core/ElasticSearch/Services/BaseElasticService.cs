@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Cache;
+using ATCer.Core.ElasticSearch;
 using ATCer.Core.ElasticSearch.Extensions;
 using Furion.DatabaseAccessor;
 using Nest;
@@ -32,7 +33,7 @@ namespace ATCer.ElasticSearch.Services
         /// <summary>
         /// es客户端
         /// </summary>
-        protected virtual IElasticClient _elasticClient { get; set; }
+        protected virtual IATCerEsClient _elasticClient { get; set; }
         /// <summary>
         /// 缓存前缀
         /// </summary>
@@ -49,7 +50,7 @@ namespace ATCer.ElasticSearch.Services
         /// <param name="logger"></param>
         /// <param name="indexName">索引名称(默认为Type小写名)</param>
         /// <param name="tatentId">多租户Id</param>
-        public BaseElasticService(IElasticClient elasticClient, 
+        public BaseElasticService(IATCerEsClient elasticClient, 
                                   ICache cache,
                                   ILogger logger,
                                   string indexName = null!,
@@ -87,7 +88,7 @@ namespace ATCer.ElasticSearch.Services
                 .ServerCertificateValidationCallback((obj, cert, chain, sslPolicyErrors) => true)
                 .BasicAuthentication(userName, passWord)
                 .DefaultIndex(IndexName);
-            _elasticClient = new ElasticClient(settings);
+            _elasticClient = new ATCerEsClient(settings);
         }
         /// <summary>
         /// 错误日志记录

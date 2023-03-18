@@ -27,7 +27,7 @@ namespace ATCer.Application.LTFATCenter.Services
         /// 初始化
         /// </summary>
         public DataMe(ILogger<DataMe> logger,
-                                IElasticClient elasticClient,
+                                IATCerEsClient elasticClient,
                                 ICapPublisher publisher,
                                 ICache cache) : base(elasticClient, cache, logger, "testdata2")
         {

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Timers;
+using System.Text.Json;
 
 namespace ATCer.DataRecorder
 {
@@ -141,6 +142,13 @@ namespace ATCer.DataRecorder
             client.Dispose();
             retrier.Dispose();
             GC.SuppressFinalize(this);
+        }
+
+        public async void SendData(object data)
+        {
+            var str =JsonSerializer.Serialize(value:data);
+            await client.SendAsync(Ip,Port, Encoding.UTF8.GetBytes(str));
+
         }
     }
 }

@@ -4,15 +4,15 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.ElasticSearch;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ATCer.DataCenter.Domains.MH4016_9
+namespace ATCer.DataCenter.Dtos.MetDatDtos
 {
-    /// <summary>
-    /// 跑道灯光
-    /// </summary>
-    public class RWYLIGHTS: BaseMetDomain
+    public class RwyLightsDto: BaseMetDto
     {
         public MetTuple? LIGHTS { get; set; }
         public MetTuple? ISMANUAL { get; set; }

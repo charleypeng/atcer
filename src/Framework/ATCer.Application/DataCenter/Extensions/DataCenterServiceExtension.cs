@@ -22,7 +22,11 @@ public static class DataCenterServiceExtension
     {
         var pressBuilder = App.GetService<PRESSBuilder>();
         var cloudBuilder = App.GetService<CLOUDBuilder>();
+        var rawBuilder = App.GetService<RawMetDataBuilder>();
+        var rwyLightsBuilder = App.GetService<RWYLIGHTSBuilder>();
         pressBuilder.InitIndex();
         cloudBuilder.InitIndex();
+        rawBuilder.InitIndex();
+        rwyLightsBuilder.InitIndex();
     }
 }

@@ -4,16 +4,15 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ATCer.Base;
+using ATCer.DataCenter.Dtos.MetDatDtos;
 
-namespace ATCer.DataCenter.Attributes
+namespace ATCer.DataCenter.Services.MetData
 {
-   
-    public class RwInUse:Attribute
+    /// <summary>
+    /// Cloud Service
+    /// </summary>
+    public interface ICloudService:IServiceBase<CloudDto, string>
     {
     }
 }

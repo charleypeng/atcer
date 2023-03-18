@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Furion.FriendlyException;
 using ATCer.Base;
 using Microsoft.AspNetCore.Authorization;
+using ATCer.ElasticSearch;
 
 namespace ATCer.LTFATCenter.Services
 {
@@ -32,7 +33,7 @@ namespace ATCer.LTFATCenter.Services
         /// <param name="elasticClient"></param>
         /// <param name="cache"></param>
         /// <param name="logger"></param>
-        public ESFlightPlanService(IElasticClient elasticClient,
+        public ESFlightPlanService(IATCerEsClient elasticClient,
                                    ICache cache,
                                    ILogger<ESFlightPlanService> logger) :base(elasticClient, cache, logger)
         {

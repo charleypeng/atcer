@@ -14,7 +14,7 @@ namespace ATCer.Application.DataCenter.Extensions
     /// </summary>
     public static class RawMetDataConverterExtension
     {
-        public static MetData ConvertToMetData(this RawMetData rawMetData) 
+        public static MyMetData ConvertToMetData(this RawMetData rawMetData) 
         {
             return Convert(rawMetData);
         }
@@ -23,24 +23,24 @@ namespace ATCer.Application.DataCenter.Extensions
         /// </summary>
         /// <param name="rawMetData"></param>
         /// <returns></returns>
-        public static MetData Convert(RawMetData rawMetData)
+        public static MyMetData Convert(RawMetData rawMetData)
         {
             if (rawMetData == null)
                 return null!;
 
             try
             {
-                var metData = new MetData();
+                var metData = new MyMetData();
                 
                 metData.TYPE = rawMetData.TYPE;
                 metData.LOC = rawMetData.LOC;
                 if(rawMetData.TIME == null)
                 {
-                    metData.ReceiveTime = DateTimeOffset.Now;
+                    metData.CreatedTime =DateTimeOffset.FromUnixTimeSeconds(DateTimeOffset.Now.ToUnixTimeSeconds());
                 }
                 else
                 {
-                    metData.ReceiveTime = DateTimeOffset.FromUnixTimeSeconds(rawMetData.TIME.Value);
+                    metData.CreatedTime = DateTimeOffset.FromUnixTimeSeconds(rawMetData.TIME.Value);
                 }
                 
                 if(rawMetData.DATA != null)
@@ -57,10 +57,10 @@ namespace ATCer.Application.DataCenter.Extensions
                                     metData.StringTypeDatas?.Add(new StringTypeData { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = rdatas[3] });
                                     break;
                                 case MetDataTypeString.DInteger:
-                                    metData.FloatTypeDatas?.Add(new FloatTypeData() { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = float.Parse(rdatas[3]) });
+                                    metData.FloatTypeDatas?.Add(new FloatTypeData() { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = rdatas[3].SafeSetValue() });
                                     break;
                                 case MetDataTypeString.DFloat:
-                                    metData.FloatTypeDatas?.Add(new FloatTypeData { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value =float.Parse(rdatas[3]) });
+                                    metData.FloatTypeDatas?.Add(new FloatTypeData { DataTypeName = rdatas[0], Status = dict.Dict[rdatas[2]], Value = rdatas[3].SafeSetValue() });
                                     break;
                                 default:
                                     break;
@@ -74,6 +74,14 @@ namespace ATCer.Application.DataCenter.Extensions
             {
                 throw new Exception(ex.Message, ex); 
             }
+        }
+
+        public static float? SafeSetValue(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return null;
+            else
+                return float.Parse(str);
         }
     }
 }
