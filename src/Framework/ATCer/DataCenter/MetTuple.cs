@@ -22,10 +22,6 @@ public class MetTuple<T>
     /// 数据值
     /// </summary>
     public T? Value { get; set; }
-    /// <summary>
-    /// 数据显示名称
-    /// </summary>
-    public string? DisplayName { get; set; }
 }
 
 /// <summary>

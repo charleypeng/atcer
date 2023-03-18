@@ -5,3 +5,7 @@
 // -----------------------------------------------------------------------------
 
 global using ATCer.DataCenter;
+global using ATCer.DataCenter.Workers;
+global using ATCer.DataCenter.Domains.MH4016_9;
+global using ATCer.ElasticSearch;
+global using Microsoft.Extensions.Configuration;

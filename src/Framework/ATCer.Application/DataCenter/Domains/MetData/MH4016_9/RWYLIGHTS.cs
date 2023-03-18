@@ -4,9 +4,6 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.ElasticSearch;
-using Newtonsoft.Json;
-
 namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>

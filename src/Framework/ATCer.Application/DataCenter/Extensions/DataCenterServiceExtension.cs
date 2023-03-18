@@ -20,13 +20,30 @@ public static class DataCenterServiceExtension
     /// <returns></returns>
     public static void AddDataCenterService(this IServiceCollection services)
     {
-        var pressBuilder = App.GetService<PRESSBuilder>();
-        var cloudBuilder = App.GetService<CLOUDBuilder>();
+        var cloudBuilder = App.GetService<CloudBuilder>();
+        var humitempBuilder = App.GetService<HumiTempBuilder>();
+        var pressBuilder = App.GetService<VisBuilder>();
+        var pvBuilder = App.GetService<PvBuilder>();
+        var pwBuilder = App.GetService<PwBuilder>();
+        var rainBuilder = App.GetService<RainBuilder>();
+        var rosaBuilder = App.GetService<RosaBuilder>();
+        var rwyLightsBuilder = App.GetService<RwyLightsBuilder>();
+        var visBuilder = App.GetService<VisBuilder>();
+        var windBuilder = App.GetService<WindBuilder>();
+
         var rawBuilder = App.GetService<RawMetDataBuilder>();
-        var rwyLightsBuilder = App.GetService<RWYLIGHTSBuilder>();
-        pressBuilder.InitIndex();
+
         cloudBuilder.InitIndex();
-        rawBuilder.InitIndex();
+        humitempBuilder.InitIndex();
+        pressBuilder.InitIndex();
+        pvBuilder.InitIndex();
+        //pwBuilder.InitIndex();
+        rainBuilder.InitIndex();
+        rosaBuilder.InitIndex();
         rwyLightsBuilder.InitIndex();
+        visBuilder.InitIndex();
+        windBuilder.InitIndex();
+
+        rawBuilder.InitIndex();
     }
 }

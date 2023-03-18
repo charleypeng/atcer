@@ -9,7 +9,18 @@ namespace ATCer.DataCenter.Domains.MH4016_9
     /// <summary>
     /// 主导能见度
     /// </summary>
-    public class PV
+    public class PV:BaseMetDomain
     {
+        public MetTuple? RawVIS { get; set; }
+        public MetTuple? VIS { get; set; }
+        public MetTuple? VIS1A { get; set; }
+        public MetTuple? VIS2A { get; set; }
+        public MetTuple? VIS10A { get; set; }
+        public MetTuple? VIS10M { get; set; }
+        public MetTuple? VIS10X { get; set; }
+        public MetTuple? SENSOR_VIS10M { get; set; }
+        public MetTuple<string>? SENSOR_VIS10M_DIR { get; set; }
+        public MetTuple? SENSOR_VIS10X { get; set; }
+        public MetTuple<string>? SENSOR_VIS10X_DIR { get; set; }
     }
 }

@@ -5,8 +5,6 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.DataCenter.Domains;
-using ATCer.ElasticSearch.Core;
-using Microsoft.Extensions.Configuration;
 
 namespace ATCer.Application.DataCenter.Builders.MetData
 {

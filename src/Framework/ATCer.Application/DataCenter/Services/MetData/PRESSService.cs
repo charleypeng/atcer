@@ -9,12 +9,14 @@ using ATCer.DataCenter.Domains;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.ElasticSearch;
 using ATCer.ElasticSearch.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ATCer.DataCenter.Services.MetData;
 
 /// <summary>
-/// 
+/// 气压数据服务
 /// </summary>
+[ApiDescriptionSettings(Module = "datacenter/met", Groups = new string[] { "DataCenter" })]
 public class PressService: BaseElasticService<PRESS,PressDto,string>,ICapSubscribe,ITransient, IPressService
 {
     /// <summary>

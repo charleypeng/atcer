@@ -4,16 +4,11 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter.Domains;
-using ATCer.DataCenter;
-using ATCer.ElasticSearch.Core;
-using Microsoft.Extensions.Configuration;
-
 namespace ATCer.Application.DataCenter.Builders.MetData
 {
-    public class CLOUDBuilder : IndexCreator<PRESS, string>
+    public class CloudBuilder : IndexCreator<CLOUD, string>
     {
-        public CLOUDBuilder(ILogger<PRESSBuilder> logger,
+        public CloudBuilder(ILogger<CloudBuilder> logger,
             IConfiguration configuration) : base(logger, configuration, IndexNames.MetData_CLOUD)
         {
             

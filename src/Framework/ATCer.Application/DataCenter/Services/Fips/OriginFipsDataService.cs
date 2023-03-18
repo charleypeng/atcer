@@ -12,11 +12,12 @@ using ATCer.LTFATCenter.Services;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ATCer.Application.DataCenter.Services
+namespace ATCer.Application.DataCenter.Services.Fips
 {
     /// <summary>
-    /// FIPS原始数据
+    /// FIPS原始数据服务
     /// </summary>
+    [ApiDescriptionSettings(Module = "datacenter/met")]
     public class OriginFipsDataService : IDynamicApiController, IFipsService, IScoped
     {
         private readonly IRepository<GZFlightPlan, FipsDbContextLocator> _fipsRepo;
@@ -32,8 +33,6 @@ namespace ATCer.Application.DataCenter.Services
         }
 
         /// <summary>
-        /// 按日期获取航班信息
-        /// </summary>
         /// <remarks>
         /// 按日期获取航班信息
         /// </remarks>
@@ -66,7 +65,7 @@ namespace ATCer.Application.DataCenter.Services
         public async Task<GZFlightPlanDto> GetAsync(int id)
         {
             var data = await _fipsRepo.FindAsync(id);
-            if(data == null)
+            if (data == null)
                 return null!;
             try
             {
@@ -98,7 +97,7 @@ namespace ATCer.Application.DataCenter.Services
 
             //get new data from time config
             var tcf = new TimeConfig();
-            var result = await this.GetAsync(tcf.BeginTimeOfToday, tcf.EndTimeOfToday, local);
+            var result = await GetAsync(tcf.BeginTimeOfToday, tcf.EndTimeOfToday, local);
 
             return result;
         }

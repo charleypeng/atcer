@@ -16,22 +16,7 @@ namespace ATCer.DataCenter.Dtos.MetDatDtos
     public abstract class BaseMetDto<TKey>:BaseDto<TKey>
     {
         /// <summary>
-        /// 唯一键
-        /// </summary>
-        [DisplayName("主键")]
-        public virtual TKey Id { get; set; }
-        /// <summary>
-        /// 假删除
-        /// </summary>
-        [DisplayName("假删除")]
-        public virtual bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public virtual DateTimeOffset CreatedTime { get; set; }
-        /// <summary>
-        /// 数据原ID
+        /// 数据源ID
         /// </summary>
         public string? SourceId { get; set; }
 

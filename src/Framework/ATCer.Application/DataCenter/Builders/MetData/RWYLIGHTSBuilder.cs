@@ -4,15 +4,11 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter.Domains.MH4016_9;
-using ATCer.ElasticSearch.Core;
-using Microsoft.Extensions.Configuration;
-
 namespace ATCer.Application.DataCenter.Builders.MetData
 {
-    public class RWYLIGHTSBuilder:IndexCreator<RWYLIGHTS, string>
+    public class RwyLightsBuilder:IndexCreator<RWYLIGHTS, string>
     {
-        public RWYLIGHTSBuilder(ILogger<RWYLIGHTSBuilder> logger,
+        public RwyLightsBuilder(ILogger<RwyLightsBuilder> logger,
         IConfiguration configuration) : base(logger, configuration, IndexNames.MetData_RwyLights)
         { }
     }

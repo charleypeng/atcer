@@ -15,38 +15,26 @@ namespace ATCer.Application.DataCenter.Workers.MetData;
 /// <summary>
 /// 
 /// </summary>
-public class CloudWorker : ICapSubscribe
+public class CloudWorker : BaseWorker<CloudDto, string>
 {
-    private readonly ICloudService _cloudService;
-    private readonly ILogger<CloudWorker> _logger;
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="cloudService"></param>
+    /// <param name="client"></param>
     /// <param name="logger"></param>
-    public CloudWorker(ICloudService cloudService, ILogger<CloudWorker> logger)
+    public CloudWorker(ICloudService client, ILogger<CloudWorker> logger) : base(client, logger)
     {
-        _cloudService = cloudService;
-        _logger = logger;   
+
     }
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     [CapSubscribe("datacenter.met.raw.cloud", Group = "metdata")]
-    [NonAction]
-    public async Task AddCloud(RawMetData data)
+    public override Task AddDataAsync(RawMetData data)
     {
-        var mdata = data.ToMetType<CloudDto>();
-        if (mdata == null)
-        {
-            _logger.LogError(message: $"{DateTimeOffset.FromUnixTimeSeconds(data.TIME.Value)} 收到的原始数据有误");
-        }
-
-        mdata.Id = Guid.NewGuid().ToString("N");
-
-        var result = await _cloudService.Insert(mdata);
-        if (result != null)
-            _logger.LogInformation($"cloud已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
+        return base.AddDataAsync(data);
     }
 }

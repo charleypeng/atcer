@@ -7,43 +7,32 @@
 using ATCer.DataCenter.Domains;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace ATCer.Application.DataCenter.Workers.MetData;
 
-public class RwyLightsWorker : ICapSubscribe
+/// <summary>
+/// 
+/// </summary>
+public class RwyLightsWorker : BaseWorker<RwyLightsDto, string>
 {
-    private readonly IRwyLightsService _clientService;
-    private readonly ILogger<RwyLightsWorker> _logger;
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="_pressService"></param>
+    /// <param name="client"></param>
     /// <param name="logger"></param>
-    public RwyLightsWorker(IRwyLightsService _clientSerice, ILogger<RwyLightsWorker> logger)
+    public RwyLightsWorker(IRwyLightsService client, ILogger<RwyLightsWorker> logger) : base(client, logger)
     {
-        _clientService = _clientSerice;
-        _logger = logger;
+
     }
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
     [CapSubscribe("datacenter.met.raw.rwylights", Group = "metdata")]
-    [NonAction]
-    public async Task AddPress(RawMetData data)
+    public override Task AddDataAsync(RawMetData data)
     {
-        var mdata = data.ToMetType<RwyLightsDto>();
-        if (mdata == null)
-        {
-            _logger.LogError(message: $"{DateTimeOffset.FromUnixTimeSeconds(data.TIME.Value)} 收到的原始数据有误");
-        }
-
-        mdata.Id = Guid.NewGuid().ToString("N");
-
-        var result = await _clientService.Insert(mdata);
-        if (result != null)
-            _logger.LogInformation($"press已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
+        return base.AddDataAsync(data);
     }
 }

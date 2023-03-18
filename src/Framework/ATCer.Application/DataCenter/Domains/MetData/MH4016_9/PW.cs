@@ -9,79 +9,29 @@ namespace ATCer.DataCenter.Domains.MH4016_9
     /// <summary>
     /// 天气现象
     /// </summary>
-    public class PW
+    public class PW:BaseMetDomain
     {
-        public RW RW { get; set; }
-        public WXNWS WXNWS { get; set; }
-        public WMOINS WMOINS { get; set; }
-        public WMO15A WMO15A { get; set; }
-        public WMO60A WMO60A { get; set; }
-        public PRW1A PRW1A { get; set; }
-        public PRWS PRWS { get; set; }
-        public PRSS PRSS { get; set; }
-        public TBINS TBINS { get; set; }
-    }
-
-    public class PRSS
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class PRW1A
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class PRWS
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class RW
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class TBINS
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class WMO15A
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class WMO60A
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class WMOINS
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
-    }
-
-    public class WXNWS
-    {
-        public string D_TYPE { get; set; }
-        public string STATUS { get; set; }
-        public string VALUE { get; set; }
+        /// <summary>
+        /// 天气代码
+        /// </summary>
+        /// <remarks>
+        /// 电码格式的机场例行天气报告
+        /// <para>原名称为PW</para>
+        /// </remarks>
+        [DataName("PW")]
+        public MetTuple<string>? PW_Instant { get; set; }
+        /// <summary>
+        /// 近时天气代码
+        /// </summary>
+        /// <remarks>资料中显示为 S 但数据为 I</remarks>
+        public MetTuple? RW { get; set; }
+        public MetTuple<string>? WXNWS { get; set; }
+        public MetTuple? WMOINS { get; set; }
+        public MetTuple? WMO15A { get; set; }
+        public MetTuple? WMO60A { get; set; }
+        public MetTuple? PRW1A { get; set; }
+        public MetTuple? PRWS { get; set; }
+        public MetTuple? PRSS { get; set; }
+        public MetTuple? TBINS { get; set; }
     }
 }

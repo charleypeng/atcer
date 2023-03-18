@@ -4,8 +4,6 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
 namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>

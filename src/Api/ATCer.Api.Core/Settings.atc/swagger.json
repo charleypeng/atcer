@@ -55,6 +55,24 @@
         }
       },
       {
+        "Order": 110,
+        "Group": "DataCenter",
+        "Title": "数据中心",
+        "Description": "提供数据服务的集合",
+        "Version": "1.0.0",
+        "Module": "datacenter/met",
+        "TermsOfService": "https://dev.pengandfan.com/charleypeng/atcer.git",
+        "Contact": {
+          "Name": "PengLei",
+          "Url": "https://dev.pengandfan.com/charleypeng/atcer.git",
+          "Email": "charleypeng@hotmail.com"
+        },
+        "License": {
+          "Name": "Private",
+          "Url": "https://dev.pengandfan.com/charleypeng/atcer.git"
+        }
+      },
+      {
         "Order": 0,
         "Group": "Demos",
         "Title": "示例服务",

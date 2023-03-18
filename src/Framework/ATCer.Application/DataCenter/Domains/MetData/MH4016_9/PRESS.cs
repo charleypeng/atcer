@@ -4,10 +4,7 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter.Enums;
-using ATCer.ElasticSearch.Interfaces;
-
-namespace ATCer.DataCenter.Domains
+namespace ATCer.DataCenter.Domains.MH4016_9
 {
     /// <summary>
     /// 大气压力

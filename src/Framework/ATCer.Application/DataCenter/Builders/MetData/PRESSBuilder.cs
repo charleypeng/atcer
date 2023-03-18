@@ -4,16 +4,11 @@
 //  CopyRight(C) 2023  版权所有
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter;
-using ATCer.DataCenter.Domains;
-using ATCer.ElasticSearch.Core;
-using Microsoft.Extensions.Configuration;
-
 namespace ATCer.Application.DataCenter.Builders.MetData;
 
-public class PRESSBuilder:IndexCreator<PRESS, string>
+public class PressBuilder : IndexCreator<PRESS, string>
 {
-    public PRESSBuilder(ILogger<PRESSBuilder> logger,
+    public PressBuilder(ILogger<PressBuilder> logger,
         IConfiguration configuration) : base(logger, configuration, IndexNames.MetData_PRESS)
     {
         

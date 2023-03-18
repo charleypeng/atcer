@@ -4,14 +4,12 @@
 //  CopyRight(C) 2023  版权所有
 // -----------------------------------------------------------------------------
 
-using ATCer.Core.ElasticSearch;
 using ATCer.ElasticSearch.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Nest;
 
-namespace ATCer.ElasticSearch.Core;
+namespace ATCer.ElasticSearch;
 
 /// <summary>
 /// 设置Index
@@ -25,7 +23,6 @@ public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder, ISingleton
     private readonly IConfiguration _configuration;
     private ConnectionSettings settings;
     public ATCerEsClient _client;
-    private IServiceCollection _services;
     /// <summary>
     /// 
     /// </summary>
