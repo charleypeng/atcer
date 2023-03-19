@@ -13,7 +13,7 @@ namespace ATCer.Application.DataCenter.Workers.MetData;
 /// <summary>
 /// 
 /// </summary>
-public class PvWorker : BaseWorker<PwDto,string>
+public class PvWorker : BaseWorker<PvDto,string>
 {
     /// <summary>
     /// 
