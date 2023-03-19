@@ -20,7 +20,7 @@ public class PvWorker : BaseWorker<PvDto,string>
     /// </summary>
     /// <param name="client"></param>
     /// <param name="logger"></param>
-    public PvWorker(IPwService client, ILogger<PvWorker> logger):base(client, logger)
+    public PvWorker(IPvService client, ILogger<PvWorker> logger):base(client, logger)
     {
  
     }
