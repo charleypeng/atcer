@@ -54,11 +54,10 @@ public class IndexCreator<T,TKey>:IESIndex, IESModelBuilder, ISingleton
     /// <summary>
     /// 
     /// </summary>
-    public virtual ElasticClient InitIndex()
+    public virtual void InitIndex()
     {
         AddDefaultMappings(settings);
         CreateIndex(_client, IndexName);
-        return _client!;
     }
     
     /// <summary>

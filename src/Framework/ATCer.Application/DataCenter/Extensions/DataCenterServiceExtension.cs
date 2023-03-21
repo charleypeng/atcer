@@ -37,7 +37,7 @@ public static class DataCenterServiceExtension
         humitempBuilder.InitIndex();
         pressBuilder.InitIndex();
         pvBuilder.InitIndex();
-        //pwBuilder.InitIndex();
+        pwBuilder.InitIndex();
         rainBuilder.InitIndex();
         rosaBuilder.InitIndex();
         rwyLightsBuilder.InitIndex();

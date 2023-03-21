@@ -43,7 +43,7 @@ namespace ATCer.Core.ElasticSearch.Extensions
                 From = (pageIndex - 1) * pageSize,
                 Size = pageSize,
             };
-            var response2 = await client.SearchAsync<TEntity>(searchRequest,cancellationToken);
+            var response2 = await client.SearchAsync<TEntity>(searchRequest);
 
             var pageList = new MyPagedList<TEntity>()
             {

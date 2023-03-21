@@ -11,5 +11,8 @@ namespace ATCer.ElasticSearch.Interfaces;
 /// </summary>
 public interface IESModelBuilder
 {
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    void InitIndex();
 }

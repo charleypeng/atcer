@@ -31,9 +31,9 @@ public class PwWorker : BaseWorker<PwDto,string>
     /// <param name="data"></param>
     /// <returns></returns>
     [CapSubscribe("datacenter.met.raw.pw", Group = "metdata")]
-    public override async Task AddDataAsync(RawMetData data)
+    public override Task AddDataAsync(RawMetData data)
     {
         //todo:必须把类型重新转换过来
-        //return base.AddDataAsync(data);
+        return base.AddDataAsync(data);
     }
 }
