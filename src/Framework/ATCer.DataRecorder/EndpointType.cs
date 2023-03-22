@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SimpleUdp
+﻿namespace SimpleUdp
 {
     public enum EndpointType
     {

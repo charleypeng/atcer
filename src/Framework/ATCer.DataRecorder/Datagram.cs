@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ATCer.DataRecorder
+﻿namespace ATCer.DataRecorder
 {
     /// <summary>
     /// Datagram received by this endpoint.
