@@ -6,7 +6,6 @@
 
 using Nest;
 using ATCer.ElasticSearch;
-using ATCer.Base;
 
 namespace ATCer.Core.ElasticSearch.Extensions
 {
@@ -22,12 +21,14 @@ namespace ATCer.Core.ElasticSearch.Extensions
         /// <param name="client"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="indexName"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">必须指定客户端</exception>
         public static async Task<MyPagedList<TEntity>> GetPagedList<TEntity>(this IElasticClient client, 
             int pageIndex = 1, 
             int pageSize = 10, 
+            string indexName = "",
             CancellationToken cancellationToken = default) 
             where TEntity : class, new()
         {
@@ -43,7 +44,7 @@ namespace ATCer.Core.ElasticSearch.Extensions
                 From = (pageIndex - 1) * pageSize,
                 Size = pageSize,
             };
-            var response2 = await client.SearchAsync<TEntity>(searchRequest);
+            var response2 = await client.SearchAsync<TEntity>(x=>x.Index(indexName).From((pageIndex-1)*pageSize).Size(pageSize));
 
             var pageList = new MyPagedList<TEntity>()
             {

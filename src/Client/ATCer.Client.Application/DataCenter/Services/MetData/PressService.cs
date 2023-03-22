@@ -6,19 +6,13 @@
 
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
-using ATCer.HRCenter.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ATCer.Client.Application.DataCenter.Services.MetData
 {
     [ScopedService]
     public class PressService : ClientServiceBase<PressDto, string>, IPressService
     {
-        public PressService(IApiCaller apiCaller) :base(apiCaller, "press")
+        public PressService(IApiCaller apiCaller) :base(apiCaller, "datacenter/met/press")
         {
 
         }

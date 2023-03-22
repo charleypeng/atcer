@@ -235,7 +235,7 @@ namespace ATCer.ElasticSearch.Services
         /// <exception cref="NotImplementedException"></exception>
         public async Task<MyPagedList<TEntityDto>> GetPage(int pageIndex = 1, int pageSize = 10)
         {
-            var result = await _elasticClient.GetPagedList<TEntity>(pageIndex, pageSize);
+            var result = await _elasticClient.GetPagedList<TEntity>(pageIndex, pageSize, IndexName);
             return result.Adapt<MyPagedList<TEntityDto>>();
         }
 
@@ -282,7 +282,7 @@ namespace ATCer.ElasticSearch.Services
         /// <exception cref="NotImplementedException"></exception>
         public async Task<MyPagedList<TEntityDto>> Search(MyPageRequest request)
         {
-            var result = await _elasticClient.GetPagedList<TEntity>(request.PageIndex, request.PageSize);
+            var result = await _elasticClient.GetPagedList<TEntity>(request.PageIndex, request.PageSize,IndexName);
             return result.Adapt<MyPagedList<TEntityDto>>();
         }
 
