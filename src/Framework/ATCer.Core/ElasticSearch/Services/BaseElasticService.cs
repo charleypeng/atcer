@@ -203,13 +203,20 @@ namespace ATCer.ElasticSearch.Services
             return Task.FromResult(response.IsValid);
         }
 
+        /// <summary>
+        /// 生成种子数据
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [NonAction]
         public Task<string> GenerateSeedData(MyPageRequest request)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// 
+        /// 根据Id获取数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -223,11 +230,23 @@ namespace ATCer.ElasticSearch.Services
             return response?.Source.Adapt<TEntityDto>()!;
         }
 
+        /// <summary>
+        /// Elastic search中不提供使用
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [NonAction]
         public Task<List<TEntityDto>> GetAll()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Elastic search中不提供使用
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [NonAction]
         public Task<List<TEntityDto>> GetAllUsable()
         {
             throw new NotImplementedException();

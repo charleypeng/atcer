@@ -6,6 +6,7 @@
 
 using Nest;
 using ATCer.ElasticSearch;
+using Microsoft.CodeAnalysis;
 
 namespace ATCer.Core.ElasticSearch.Extensions
 {
@@ -38,14 +39,19 @@ namespace ATCer.Core.ElasticSearch.Extensions
             if (client == null) throw new ArgumentNullException("es client is null");
 
             var response = await client.CountAsync<TEntity>();
-            var totalPages = (int)Math.Ceiling(response.Count / (double)pageSize);        
-            var searchRequest = new SearchRequest
+            var totalPages = (int)Math.Ceiling(response.Count / (double)pageSize);
+
+            var searchRequest = new SearchRequest<TEntity>
             {
                 From = (pageIndex - 1) * pageSize,
                 Size = pageSize,
+                Query = new TermQuery { Field = new Field("isDeleted"), Value = false}
             };
-            var response2 = await client.SearchAsync<TEntity>(x=>x.Index(indexName).From((pageIndex-1)*pageSize).Size(pageSize));
 
+
+            //var response2 = await client.SearchAsync<TEntity>(x=>x.Index(indexName).From((pageIndex-1)*pageSize).Size(pageSize)) ;
+
+            var response2 = await client.SearchAsync<TEntity>(searchRequest, cancellationToken);
             var pageList = new MyPagedList<TEntity>()
             {
                 PageIndex = pageIndex,
