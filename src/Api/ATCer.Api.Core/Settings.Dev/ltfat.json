@@ -26,7 +26,7 @@
   },
   "elasticsearch": {
     "index": "recorddata",
-    "url": "https://127.0.0.1:9200/",
+    "url": "http://189.161.20.111:9201/",
     "username": "elastic",
     "password": "changeme"
   }

@@ -36,44 +36,44 @@ namespace ATCer.LTFATCenter.Services
         Task SaveAsync(Record entity);
     }
 
-    public class DataRecord: BaseElasticService2<Record, string>, IDataRecord, ISingleton, ICapSubscribe, IDynamicApiController
-    {
-        public DataRecord(IElasticClient elasticClient,
-                                ICache cache):base(elasticClient, cache)
-        {
+    //public class DataRecord: BaseElasticService2<Record, string>, IDataRecord, ISingleton, ICapSubscribe, IDynamicApiController
+    //{
+    //    public DataRecord(IElasticClient elasticClient,
+    //                            ICache cache):base(elasticClient, cache)
+    //    {
 
-        }
+    //    }
 
-        public async Task<object> GetMH40293(string id)
-        {
-            var data = await GetAsync(id);
-            if(data.Cat == "4029.3")
-            {
-                var model = FDEConverter.Deserialize<IFPL>(data.Content);  //MessageConvert.DeserializeObject<IFPL>(data.Content);
-                return model;
-            }
-            return null;
-        }
-        public override Task SaveAsync(Record entity)
-        {
-            entity.Id = Guid.NewGuid().ToString();
-            return base.SaveAsync(entity);
-        }
+    //    public async Task<object> GetMH40293(string id)
+    //    {
+    //        var data = await GetAsync(id);
+    //        if(data.Cat == "4029.3")
+    //        {
+    //            var model = FDEConverter.Deserialize<IFPL>(data.Content);  //MessageConvert.DeserializeObject<IFPL>(data.Content);
+    //            return model;
+    //        }
+    //        return null;
+    //    }
+    //    public override Task SaveAsync(Record entity)
+    //    {
+    //        entity.Id = Guid.NewGuid().ToString();
+    //        return base.SaveAsync(entity);
+    //    }
 
-        /// <summary>
-        /// 测试数据
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        [CapSubscribe(name: "SendMQ",Group ="atc1")]
-        public async Task SaveDataTest(MQRecord entity)
-        {
-            var content = entity?.Data;
-            if (content == null)
-                return;
+    //    /// <summary>
+    //    /// 测试数据
+    //    /// </summary>
+    //    /// <param name="entity"></param>
+    //    /// <returns></returns>
+    //    [CapSubscribe(name: "SendMQ",Group ="atc1")]
+    //    public async Task SaveDataTest(MQRecord entity)
+    //    {
+    //        var content = entity?.Data;
+    //        if (content == null)
+    //            return;
 
-            var record = new Record() { Id = Guid.NewGuid().ToString(), Cat = "TESTDATA", Content = content};
-            await base.SaveAsync(record);
-        }
-    }
+    //        var record = new Record() { Id = Guid.NewGuid().ToString(), Cat = "TESTDATA", Content = content};
+    //        await base.SaveAsync(record);
+    //    }
+    //}
 }

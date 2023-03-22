@@ -49,11 +49,8 @@
             <ResourceAuthorize ResourceKey=@View>
                 <Selection Key="@(model.Id)" />
             </ResourceAuthorize>
-            <Column @bind-Field="@model.Location" />
-            <Column @bind-Field="@model.QNHINS.Value"/>
-            <Column @bind-Field="@model.QNHINS.Status">
-                <TagPro Text="@model.QNHINS.Status"></TagPro>
-            </Column>
+            <Column @bind-Field="@model.Id" Filterable Width="200px"/>
+            <Column @bind-Field="@model.Location" Filterable />
             <Column @bind-Field="@model.CreatedTime" Format="@ClientConstant.DateTimeFormat" Sortable DefaultSortOrder="@SortDirection.Descending" />
             <ActionColumn>
                 <Space>

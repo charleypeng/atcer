@@ -50,9 +50,11 @@ namespace ATCer.Client.Base
             return apiCaller.PostAsync<Tkey[], bool>($"{controller}/deletes", ids);
         }
 
-        public virtual Task<bool> FakeDelete(Tkey id)
+        public virtual async Task<bool> FakeDelete(Tkey id)
         {
-            return apiCaller.DeleteAsync<bool>($"{controller}/fake-delete/{id}");
+            
+            var data = await apiCaller.DeleteAsync<bool>($"{controller}/fake-delete/{id}");
+            return data;
         }
 
         public virtual Task<bool> FakeDeletes(Tkey[] ids)
@@ -94,9 +96,10 @@ namespace ATCer.Client.Base
             return apiCaller.GetAsync<List<T>>($"{controller}/all-usable");
         }
 
-        public virtual Task<MyPagedList<T>> Search(MyPageRequest request)
+        public virtual async Task<MyPagedList<T>> Search(MyPageRequest request)
         {
-            return apiCaller.PostAsync<MyPageRequest, MyPagedList<T>>($"{controller}/search",request);
+            var data = await apiCaller.PostAsync<MyPageRequest, MyPagedList<T>>($"{controller}/search",request);
+            return data;
         }
 
         public virtual Task<string> GenerateSeedData(MyPageRequest request)

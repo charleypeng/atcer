@@ -5,24 +5,15 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ATCer.DataCenter.Dtos.MetDatDtos
 {
     public abstract class BaseMetDto<TKey>:BaseDto<TKey>
     {
         /// <summary>
-        /// 数据源ID
-        /// </summary>
-        public string? SourceId { get; set; }
-
-        /// <summary>
         /// 传感器位置
         /// </summary>
+        [DisplayName("位置")]
         public string? Location { get; set; }
     }
 

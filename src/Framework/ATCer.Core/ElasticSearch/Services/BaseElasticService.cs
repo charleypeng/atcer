@@ -8,7 +8,9 @@ using ATCer.Cache;
 using ATCer.Core.ElasticSearch;
 using ATCer.Core.ElasticSearch.Extensions;
 using Furion.DatabaseAccessor;
+using Microsoft.AspNetCore.Mvc;
 using Nest;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ATCer.ElasticSearch.Services
 {
@@ -145,6 +147,8 @@ namespace ATCer.ElasticSearch.Services
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [HttpPost]
+        [SwaggerOperation(Summary = "批量删除", Description = "根据多个主键批量删除")]
         public async Task<bool> Deletes(TKey[] ids)
         {
             var response = await _elasticClient.DeleteManyAsync(ids.Select(x => new TEntity { Id = x }));
@@ -160,6 +164,7 @@ namespace ATCer.ElasticSearch.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpDelete]
         public async Task<bool> FakeDelete(TKey id)
         {
             var docPath = new DocumentPath<TEntity>(new TEntity { Id = id });
@@ -177,6 +182,8 @@ namespace ATCer.ElasticSearch.Services
         /// <param name="ids"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
+        [HttpPost]
+        [SwaggerOperation(Summary = "批量逻辑删除", Description = "根据多个主键批量逻辑删除")]
         public Task<bool> FakeDeletes(TKey[] ids)
         {
             if (ids.IsNullOrEmpty())
@@ -268,6 +275,7 @@ namespace ATCer.ElasticSearch.Services
         /// <param name="islocked"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
+        [HttpPut]
         public Task<bool> Lock(TKey id, bool islocked = true)
         {
             throw new NotImplementedException();
@@ -280,6 +288,7 @@ namespace ATCer.ElasticSearch.Services
         /// <param name="request"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
+        [HttpPost]
         public async Task<MyPagedList<TEntityDto>> Search(MyPageRequest request)
         {
             var result = await _elasticClient.GetPagedList<TEntity>(request.PageIndex, request.PageSize,IndexName);
