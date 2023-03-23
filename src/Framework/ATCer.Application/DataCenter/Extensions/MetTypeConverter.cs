@@ -119,6 +119,11 @@ public static class MetTypeConverterCore
 
                     if (property != null)
                     {
+                        //fix PW integer error
+                        if (PWHighLights.Contains(data?[0]))
+                        {
+                            data![1] = MetDataTypeString.DString;
+                        }
                         #region set property
                         switch (data?[1])
                         {
@@ -238,5 +243,10 @@ public static class MetTypeConverterCore
     public static string[] RunwayStrs => new string[] 
     {
         "18R_InUse","18L_InUse","36R_InUse","36L_InUse"
+    };
+
+    public static string[] PWHighLights => new string[]
+    {
+        "PW","RW","WXNWS"
     };
 }
