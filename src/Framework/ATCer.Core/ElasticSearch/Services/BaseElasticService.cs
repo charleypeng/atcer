@@ -167,8 +167,10 @@ namespace ATCer.ElasticSearch.Services
         [HttpDelete]
         public async Task<bool> FakeDelete(TKey id)
         {
+
             var docPath = new DocumentPath<TEntity>(new TEntity { Id = id });
-            var response = await _elasticClient.UpdateAsync(docPath, u => u.Index(IndexName).Doc(new TEntity { IsDeleted = true }));
+            var response = await _elasticClient
+                .UpdateAsync<TEntity,object>(docPath, u => u.Index(IndexName).Doc(new {isDeleted = true }));
 
             //log error
             response.LogError(_logger);
