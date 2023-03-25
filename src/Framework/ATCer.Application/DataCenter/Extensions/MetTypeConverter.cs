@@ -84,7 +84,7 @@ public static class MetTypeConverterCore
 
                 foreach (var data in rawData.DATA)
                 {
-                    if (data?.Count != 4)
+                    if (data == null || data?.Count != 4)
                         throw new Exception("not valid met raw data");
 
                     //define use dataname as property or use property's own name
@@ -132,7 +132,7 @@ public static class MetTypeConverterCore
                                 {
                                     var strData = new MetTuple
                                     {
-                                        Status = metDict.Dict[data[2]!],
+                                        Status = metDict.Dict[data[2]],
                                         Value = null
                                     };
                                     property.SetValue(obj, strData);
