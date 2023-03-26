@@ -174,8 +174,6 @@ namespace ATCer.DataRecorder
                         _IPAddress = IPAddress.Parse(_Ip);
                         _UdpClient = new UdpClient(port);
                         _UdpClient.JoinMulticastGroup(_IPAddress);
-                        _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-                        _UdpClient.ExclusiveAddressUse = false;
                     }
                     break;
                 case EndpointType.Broadcast:
