@@ -38,14 +38,13 @@ namespace ATCer.Application.DataCenter.Services
         /// <returns></returns>
         [CapSubscribe("data.raw.mh4029_3")]
         [NonAction]
-        public async Task MHT4016_9Receiver(byte[] data1)
+        public async Task MHT4016_9Receiver(RawMetData data)
         {
-            if (data1 == null)
+            if (data == null)
                 return;
 
             try
             {
-                var data = JsonSerializer.Deserialize<RawMetData>(data1);
                 var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
                 await _publisher.PublishAsync(pushmsg, data);
 
@@ -58,7 +57,7 @@ namespace ATCer.Application.DataCenter.Services
             }
             catch (Exception)
             {
-                throw Oops.Oh($"转换自观原始数据出错:{Encoding.UTF8.GetString(data1)}");
+                throw Oops.Oh($"转换自观原始数据出错:{JsonSerializer.Serialize(data)}");
             }
            
             //var result = await this.Insert(mdata);
