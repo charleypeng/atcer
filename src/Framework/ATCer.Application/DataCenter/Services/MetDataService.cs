@@ -61,8 +61,6 @@ namespace ATCer.Application.DataCenter.Services
                 throw Oops.Oh($"转换自观原始数据出错:{Encoding.UTF8.GetString(data1)}");
             }
            
-            
-
             //var result = await this.Insert(mdata);
             //if (result != null)
             //    _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");

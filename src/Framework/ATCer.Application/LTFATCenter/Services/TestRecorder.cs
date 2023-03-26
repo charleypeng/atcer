@@ -32,6 +32,7 @@ namespace ATCer.LTFATCenter.Services
             this.Action = async(a) =>
             {
                 await _publisher.PublishAsync("data.raw.mh4029_3", a.Data);
+                logger.LogError("im working");
             };
         }
     }

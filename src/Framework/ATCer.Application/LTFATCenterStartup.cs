@@ -13,6 +13,8 @@ using ATCer.LTFATCenter.Services;
 using ATCer.MessageQueue.Core;
 using ATCer.MessageQueue.Dtos;
 using SimpleUdp;
+using System.Text.Json;
+using ATCer.DataCenter.Domains;
 
 namespace ATCer.Core
 {
@@ -116,10 +118,8 @@ namespace ATCer.Core
 
         private async void tr2_DataReceived(object sender, Datagram e)
         {
-            var str = Encoding.UTF8.GetString(e.Data);
-            var data = new Record { Cat = "4029.3", Content = str };
-            Console.WriteLine(str);
-            //await publisher?.PublishAsync("cat048test", data)!;
+            var data = JsonSerializer.Deserialize<RawMetData>(e.Data);
+            await publisher?.PublishAsync("data.raw.mh4029_3", data)!;
         }
     }
 }
