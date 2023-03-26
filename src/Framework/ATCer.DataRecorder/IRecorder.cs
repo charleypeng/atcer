@@ -11,7 +11,7 @@ namespace ATCer.DataRecorder
         event EventHandler<Datagram> DataReceived;
         Datagram RecordData { get; }
         bool IsConnected { get;}
-        void Start(Action action = null);
+        void Start();
         void Stop();
         void StartWithRetry(int interval);
     }

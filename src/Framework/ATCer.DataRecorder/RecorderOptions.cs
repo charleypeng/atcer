@@ -30,6 +30,7 @@ namespace ATCer.DataRecorder
         /// Set type of udp endpoint
         /// </summary>
         public EndpointType EndpointType { get; set; } = EndpointType.Unicast;
+        public Action<Datagram>? JobAction { get; set; }
         public RecorderOptions()
         {
             Ip = "127.0.0.1";

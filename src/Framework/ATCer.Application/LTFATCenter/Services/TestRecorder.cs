@@ -21,13 +21,13 @@ namespace ATCer.LTFATCenter.Services
         }
     }
 
-    public class TestRecorder2 : SimpleUdpRecorder, ITestRecorder2
+    public class TestRecorder2 : MUdpRecorder, ITestRecorder2
     {
 
-        private readonly ILogger<TestRecorder> _logger;
+        private readonly ILogger<TestRecorder2> _logger;
 
         public TestRecorder2(IOptions<DataRecorderOptions> options,
-                            ILogger<TestRecorder> logger) : base(options, logger)
+                            ILogger<TestRecorder2> logger) : base(options, logger)
         {
 
         }

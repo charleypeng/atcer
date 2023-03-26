@@ -96,7 +96,7 @@ namespace ATCer.DataRecorder
             retrier.Enabled = false;
         }
 
-        public virtual void Start(Action action=null)
+        public virtual void Start()
         {
             try
             {
