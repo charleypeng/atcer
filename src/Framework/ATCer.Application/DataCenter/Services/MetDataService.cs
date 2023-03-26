@@ -8,6 +8,8 @@ using ATCer.Cache;
 using ATCer.DataCenter.Domains;
 using ATCer.ElasticSearch.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Text.Json;
 
 namespace ATCer.Application.DataCenter.Services
 {
@@ -32,29 +34,45 @@ namespace ATCer.Application.DataCenter.Services
         /// <summary>
         /// MHT4016.9原始数据解码器
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data1"></param>
         /// <returns></returns>
         [CapSubscribe("data.raw.mh4029_3")]
         [NonAction]
-        public async Task MHT4016_9Receiver(RawMetData data)
+        public async Task MHT4016_9Receiver(byte[] data1)
         {
-            if (data == null)
+            if (data1 == null)
                 return;
 
-            var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
-            await _publisher.PublishAsync(pushmsg, data);
+            try
+            {
+                var data = JsonSerializer.Deserialize<RawMetData>(data1);
+                var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
+                await _publisher.PublishAsync(pushmsg, data);
 
-            var mdata = (MyMetData)data!;
+                var mdata = (MyMetData)data!;
 
-            if (mdata == null)
-                return;
+                if (mdata == null)
+                    return;
 
-            mdata.Id = Guid.NewGuid().ToString("N");
+                mdata.Id = Guid.NewGuid().ToString("N");
+            }
+            catch (Exception)
+            {
+                throw Oops.Oh($"转换自观原始数据出错:{Encoding.UTF8.GetString(data1)}");
+            }
+           
             
 
             //var result = await this.Insert(mdata);
             //if (result != null)
             //    _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
+        }
+
+
+        public async Task TestMet()
+        {
+            var jj = new RawMetData();
+            await _publisher.PublishAsync("data.raw.mh4029_3", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(jj)));
         }
     }
 }

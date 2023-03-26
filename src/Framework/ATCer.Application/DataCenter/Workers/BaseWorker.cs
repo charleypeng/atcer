@@ -60,6 +60,6 @@ public abstract class BaseWorker<TDto,TKey>:ICapSubscribe where TDto: BaseMetDto
         var result = await _client.Insert(mdata);
         //insert
         if (result != null)
-            _logger.LogInformation($"press已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
+            _logger.LogInformation($"{typeof(BaseWorker<TDto, TKey>).Name}已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
     }
 }

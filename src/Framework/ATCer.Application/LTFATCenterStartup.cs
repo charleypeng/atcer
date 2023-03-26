@@ -5,7 +5,6 @@
 // -----------------------------------------------------------------------------
 
 using Microsoft.Extensions.DependencyInjection;
-using ATCer.LTFATCenter.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using ATCer.DataRecorder;
@@ -120,7 +119,7 @@ namespace ATCer.Core
             var str = Encoding.UTF8.GetString(e.Data);
             var data = new Record { Cat = "4029.3", Content = str };
             Console.WriteLine(str);
-            await publisher?.PublishAsync("cat048test", data)!;
+            //await publisher?.PublishAsync("cat048test", data)!;
         }
     }
 }
