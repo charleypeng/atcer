@@ -24,6 +24,7 @@ namespace ATCer.DataRecorder
         public event EventHandler<Datagram> DatagramReceived;
         Thread task;
         bool flag = true;
+        public Action<Datagram> Action { get; set; }
         public ATCUdpEndpoint(string ipAddress, int port, string senderName = null, CancellationToken cancellationToken = default)
         {
             udpClient = new UdpClient(port);
@@ -39,8 +40,9 @@ namespace ATCer.DataRecorder
                         if (udpClient.Client == null) return;
 
                         var data = await udpClient.ReceiveAsync(cancellationToken);
-
-                        DatagramReceived?.Invoke(this, new Datagram(ipAddress, port, data.Buffer));
+                        var dg = new Datagram(ipAddress, port, data.Buffer);
+                        DatagramReceived?.Invoke(this, dg);
+                        Action?.Invoke(dg);
                     }
                     catch (Exception ex)
                     {

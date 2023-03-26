@@ -4,16 +4,15 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
+using ATCer.DataCenter.Domains;
 using ATCer.DataRecorder;
 using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace ATCer.LTFATCenter.Services
 {
     public class TestRecorder :  SimpleUdpRecorder,ITestRecorder
     {
-       
-        private readonly ILogger<TestRecorder> _logger;
-
         public TestRecorder(IOptions<DataRecorderOptions> options,
                             ILogger<TestRecorder> logger):base(options, logger)
         {
@@ -23,13 +22,17 @@ namespace ATCer.LTFATCenter.Services
 
     public class TestRecorder2 : MUdpRecorder, ITestRecorder2
     {
-
-        private readonly ILogger<TestRecorder2> _logger;
-
+        private readonly ICapPublisher _publisher;
         public TestRecorder2(IOptions<DataRecorderOptions> options,
+                            ICapPublisher publisher,
                             ILogger<TestRecorder2> logger) : base(options, logger)
         {
+           _publisher = publisher;
 
+            this.Action = async(a) =>
+            {
+                await _publisher.PublishAsync("data.raw.mh4029_3", a.Data);
+            };
         }
     }
 }

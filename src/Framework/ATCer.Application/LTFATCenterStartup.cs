@@ -120,7 +120,7 @@ namespace ATCer.Core
             var str = Encoding.UTF8.GetString(e.Data);
             var data = new Record { Cat = "4029.3", Content = str };
             Console.WriteLine(str);
-            //await publisher?.PublishAsync("cat048test", data)!;
+            await publisher?.PublishAsync("cat048test", data)!;
         }
     }
 }

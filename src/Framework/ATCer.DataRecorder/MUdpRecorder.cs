@@ -35,7 +35,7 @@ public class MUdpRecorder : IRecorder
     private readonly RecorderOptions recorderOptions = new RecorderOptions();
     private string name;
     private System.Timers.Timer retrier;
-
+    protected virtual Action<Datagram> Action { get; set; }
     /// <summary>
     /// Init
     /// </summary>
@@ -59,6 +59,8 @@ public class MUdpRecorder : IRecorder
         recorderOptions = _options.Value.Recorders.FirstOrDefault(x => x.RecorderName == typeName);
         if (recorderOptions == null)
             throw new ArgumentNullException(nameof(RecorderOptions));
+        //set action
+        this.Action = recorderOptions.JobAction;
         //init timer
         OnInitialize();
     }

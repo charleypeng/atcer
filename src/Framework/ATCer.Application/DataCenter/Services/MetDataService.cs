@@ -34,7 +34,7 @@ namespace ATCer.Application.DataCenter.Services
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        [CapSubscribe("MHT4016_9")]
+        [CapSubscribe("data.raw.mh4029_3")]
         [NonAction]
         public async Task MHT4016_9Receiver(RawMetData data)
         {
@@ -52,7 +52,7 @@ namespace ATCer.Application.DataCenter.Services
             mdata.Id = Guid.NewGuid().ToString("N");
             
 
-            var result = await this.Insert(mdata);
+            //var result = await this.Insert(mdata);
             //if (result != null)
             //    _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
         }
