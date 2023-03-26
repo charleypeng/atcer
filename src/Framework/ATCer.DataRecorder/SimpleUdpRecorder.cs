@@ -104,10 +104,13 @@ namespace ATCer.DataRecorder
                 IsConnected = true;
                 _logger.LogInformation($"{name} started");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 IsConnected = false;
                 _logger.LogError($"{name} failed to connect to {Ip}:{Port}");
+#if DEBUG
+                _logger.LogError(ex.ToString());
+#endif 
             }
         }
 
