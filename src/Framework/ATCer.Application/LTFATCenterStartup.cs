@@ -13,6 +13,7 @@ using System.Text;
 using ATCer.LTFATCenter.Services;
 using ATCer.MessageQueue.Core;
 using ATCer.MessageQueue.Dtos;
+using SimpleUdp;
 
 namespace ATCer.Core
 {
@@ -51,8 +52,8 @@ namespace ATCer.Core
             {
                 opt.Recorders = new List<RecorderOptions>
                 {
-                    new RecorderOptions { Encoding = DataEncodings.UTF8, Ip=null,Port=1234, RecorderName=nameof(TestRecorder)},
-                    new RecorderOptions { Encoding = DataEncodings.UTF8, Ip="239.119.119.119",Port=33001, RecorderName = nameof(TestRecorder2) }
+                    new RecorderOptions { Encoding = DataEncodings.UTF8, Ip=null,Port=1234, RecorderName=nameof(TestRecorder),EndpointType= EndpointType.Broadcast},
+                    new RecorderOptions { Encoding = DataEncodings.UTF8, Ip="239.119.119.119",Port=33001, RecorderName = nameof(TestRecorder2), EndpointType = EndpointType.Multicast }
                 };
             });
             //.AddRecorder<Services.TestRecorder2>(opt =>
