@@ -86,7 +86,7 @@ namespace ATCer.DataRecorder
             Ip = recorderOptions.Ip;
             Port = recorderOptions.Port;
             //init udp client
-            client = new UdpEndpoint(Ip, Port);
+            client = new UdpEndpoint(Port, Ip, recorderOptions.EndpointType);
             client.DatagramReceived += Client_DatagramReceived;
             client.EndpointDetected += Client_EndpointDetected;
 

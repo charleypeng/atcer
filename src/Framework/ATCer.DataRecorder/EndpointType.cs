@@ -2,5 +2,8 @@
 {
     public enum EndpointType
     {
+        Unicast,
+        Broadcast,
+        Multicast
     }
 }

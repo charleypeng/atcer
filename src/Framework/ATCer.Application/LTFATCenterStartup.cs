@@ -52,7 +52,7 @@ namespace ATCer.Core
                 opt.Recorders = new List<RecorderOptions>
                 {
                     new RecorderOptions { Encoding = DataEncodings.UTF8, Ip=null,Port=1234, RecorderName=nameof(TestRecorder)},
-                    new RecorderOptions { Encoding = DataEncodings.UTF8, Ip="192.168.1.213",Port=1803, RecorderName = nameof(TestRecorder2) }
+                    new RecorderOptions { Encoding = DataEncodings.UTF8, Ip="239.119.119.119",Port=33001, RecorderName = nameof(TestRecorder2) }
                 };
             });
             //.AddRecorder<Services.TestRecorder2>(opt =>
@@ -85,7 +85,7 @@ namespace ATCer.Core
             tr.StartWithRetry(5);
             tr.DataReceived += tr_DataReceived!;
 
-            //tr2.StartWithRetry(5);
+            tr2.StartWithRetry(5);
             Console.WriteLine(tr.RecordData.Ip + ":" + tr.RecordData.Port);
             //tr.Start();
             tr2.DataReceived += tr2_DataReceived!;
@@ -108,10 +108,10 @@ namespace ATCer.Core
 
         private async void tr2_DataReceived(object sender, Datagram e)
         {
-            var str = Encoding.ASCII.GetString(e.Data);
+            var str = Encoding.UTF8.GetString(e.Data);
             var data = new Record { Cat = "4029.3", Content = str };
             Console.WriteLine(str);
-            await publisher?.PublishAsync("cat048test", data)!;
+            //await publisher?.PublishAsync("cat048test", data)!;
         }
     }
 }

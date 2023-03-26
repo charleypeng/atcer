@@ -4,6 +4,8 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
+using SimpleUdp;
+
 namespace ATCer.DataRecorder
 {
     public class RecorderOptions
@@ -23,8 +25,11 @@ namespace ATCer.DataRecorder
         /// <summary>
         /// Default is UTF8
         /// </summary>
-        public DataEncodings Encoding { get; set; }
-
+        public DataEncodings Encoding { get; set; } = DataEncodings.UTF8;
+        /// <summary>
+        /// Set type of udp endpoint
+        /// </summary>
+        public EndpointType EndpointType { get; set; } = EndpointType.Unicast;
         public RecorderOptions()
         {
             Ip = "127.0.0.1";

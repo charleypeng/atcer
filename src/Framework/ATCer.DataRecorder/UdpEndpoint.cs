@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 using Caching;
+using SimpleUdp;
 
 namespace ATCer.DataRecorder
 {
@@ -103,50 +104,102 @@ namespace ATCer.DataRecorder
 
         #region Constructors-and-Factories
 
-        /// <summary>
-        /// Instantiate the UDP endpoint.
-        /// If you wish to also receive datagrams, set the 'DatagramReceived' event and call 'StartServer()'.
-        /// </summary>
-        /// <param name="ip">Local IP address.</param>
-        /// <param name="port">Local port number.</param>
-        public UdpEndpoint(string ip, int port)
-        {
-            if (port < 0 || port > 65535) throw new ArgumentException("Port must be greater than or equal to zero and less than or equal to 65535.");
-            _Port = port;
+        ///// <summary>
+        ///// Instantiate the UDP endpoint.
+        ///// If you wish to also receive datagrams, set the 'DatagramReceived' event and call 'StartServer()'.
+        ///// </summary>
+        ///// <param name="ip">Local IP address.</param>
+        ///// <param name="port">Local port number.</param>
+        //public UdpEndpoint(string ip, int port)
+        //{
+        //    if (port < 0 || port > 65535) throw new ArgumentException("Port must be greater than or equal to zero and less than or equal to 65535.");
+        //    _Port = port;
 
-            if (String.IsNullOrEmpty(ip))
-            {
-                _Ip = null;
-                _UdpClient = new UdpClient();
-                _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-                _UdpClient.ExclusiveAddressUse = false;
-            }
-            else
-            {
-                _Ip = ip;
-                _IPAddress = IPAddress.Parse(_Ip);
-                _UdpClient = new UdpClient(port);
-            }
-        }
+        //    if (String.IsNullOrEmpty(ip))
+        //    {
+        //        _Ip = null;
+        //        _UdpClient = new UdpClient();
+        //        _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+        //        _UdpClient.ExclusiveAddressUse = false;
+        //    }
+        //    else
+        //    {
+        //        _Ip = ip;
+        //        _IPAddress = IPAddress.Parse(_Ip);
+        //        _UdpClient = new UdpClient(port);
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Instantiate the UDP endpoint with a broadcast endpoint
+        ///// </summary>
+        ///// <param name="port"></param>
+        ///// <exception cref="ArgumentNullException"></exception>
+        ///// <exception cref="ArgumentException"></exception>
+        //public UdpEndpoint(int port)
+        //{
+        //    if (port < 0 || port > 65535) throw new ArgumentException("Port must be greater than or equal to zero and less than or equal to 65535.");
+        //    _Ip = null;
+        //    _Port = port;
+        //    _IPAddress = IPAddress.Any;
+
+        //    _UdpClient = new UdpClient();
+        //    _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+        //    _UdpClient.ExclusiveAddressUse = false;
+        //}
 
         /// <summary>
         /// Instantiate the UDP endpoint with a broadcast endpoint
         /// </summary>
         /// <param name="port"></param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="ip"></param>
+        /// <param name="type"></param>
         /// <exception cref="ArgumentException"></exception>
-        public UdpEndpoint(int port)
+        /// <exception cref="ArgumentNullException"></exception>
+        public UdpEndpoint(int port, string ip=null, EndpointType type = EndpointType.Unicast)
         {
             if (port < 0 || port > 65535) throw new ArgumentException("Port must be greater than or equal to zero and less than or equal to 65535.");
-            _Ip = null;
             _Port = port;
-            _IPAddress = IPAddress.Any;
 
-            _UdpClient = new UdpClient();
-            _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-            _UdpClient.ExclusiveAddressUse = false;
+            switch (type)
+            {
+                case EndpointType.Multicast:
+                    if (string.IsNullOrEmpty(ip))
+                    {
+                        throw new ArgumentNullException(nameof(ip));
+                    }
+                    else
+                    {
+                        _Ip = ip;
+                        _IPAddress = IPAddress.Parse(_Ip);
+                        _UdpClient = new UdpClient(port);
+                        _UdpClient.JoinMulticastGroup(_IPAddress);
+                        _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    }
+                    break;
+                case EndpointType.Broadcast:
+                    _Ip = null;
+                    _Port = port;
+                    _IPAddress = IPAddress.Any;
+
+                    _UdpClient = new UdpClient();
+                    _UdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    _UdpClient.ExclusiveAddressUse = false;
+                    break;
+                default:
+                    if (string.IsNullOrEmpty(ip))
+                    {
+                        throw new ArgumentNullException(nameof(ip));
+                    }
+                    else
+                    {
+                        _Ip = ip;
+                        _IPAddress = IPAddress.Parse(_Ip);
+                        _UdpClient = new UdpClient(port);
+                    }
+                    break;
+            }
         }
-
 
         #endregion
 

@@ -8,7 +8,7 @@ namespace ATCer.DataRecorder
 {
     public enum DataEncodings
     {
-        ASCII,
         UTF8,
+        ASCII
     }
 }

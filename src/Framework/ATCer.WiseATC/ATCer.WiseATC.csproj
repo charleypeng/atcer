@@ -12,7 +12,7 @@
     <Authors>彭磊</Authors>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Furion" Version="4.8.6.1" />
+		<PackageReference Include="Furion" Version="4.8.7.20" />
 		<PackageReference Include="Mapster" Version="7.4.0-pre05" />
 		<PackageReference Include="RabbitMQ.EventBus.AspNetCore" Version="6.0.2" />
 	</ItemGroup>
