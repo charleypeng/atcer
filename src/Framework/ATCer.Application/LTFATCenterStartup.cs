@@ -15,13 +15,16 @@ using ATCer.MessageQueue.Dtos;
 using SimpleUdp;
 using System.Text.Json;
 using ATCer.DataCenter.Domains;
+using ATCer.FanoutMq;
+using ATCer.Application.LTFATCenter.Services;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace ATCer.Core
 {
     /// <summary>
     /// LTFAT启动类
     /// </summary>
-    [AppStartup(600)]
+    [AppStartup(200)]
     public class LTFATCenterStartup : AppStartup
     {
         private string migrationAssemblyName = App.Configuration["FipsDbSettings:MigrationAssemblyName"]!;
@@ -30,6 +33,7 @@ namespace ATCer.Core
         private ILTFATDataService? dataService;
         private ICapPublisher? publisher;
         private IMQService? mqService;
+        private Fanout fo;
         /// <summary>
         /// Config service
         /// </summary>
@@ -71,6 +75,8 @@ namespace ATCer.Core
             //    opt.Ip = "127.0.0.1";
             //    opt.Port = 12334;
             //});
+            services.AddSingleton<TestOpt>();
+           // services.AddHostedService<Worker>();
         }
 
         /// <summary>
@@ -105,6 +111,25 @@ namespace ATCer.Core
 
             var dt = App.GetService<DataTest>();
             //dt.Start();
+        }
+
+        ICapPublisher _publisher = App.GetService<ICapPublisher>();
+        private async Task Fo_OnMessage(object sender, FanoutEventArgs @event)
+        {
+            if (@event == null)
+                return;
+
+            var data = JsonSerializer.Deserialize<RawMetData>(@event.Body.ToArray());
+            await _publisher.PublishAsync("data.raw.mh4029_3", data);
+        }
+
+        private async void Fo_MsgReceviedEvent(object? sender, FanoutData e)
+        {
+            if (e.data == null)
+                return;
+
+            var data = Encoding.UTF8.GetString(e.data);
+            await publisher?.PublishAsync("data.raw.mh4029_3ff", data)!;
         }
 
         private async void tr_DataReceived(object sender, Datagram e)

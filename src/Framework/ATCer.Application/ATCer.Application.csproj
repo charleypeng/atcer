@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ATCer.Core\ATCer.Core.csproj" />
     <ProjectReference Include="..\ATCer.DataRecorder\ATCer.DataRecorder.csproj" />
+    <ProjectReference Include="..\ATCer.FanoutMq\ATCer.FanoutMq.csproj" />
     <ProjectReference Include="..\ATCer.FDE\ATCer.FDE.csproj" />
     <ProjectReference Include="..\ATCer.MessageQueue\ATCer.MessageQueue.csproj" />
   </ItemGroup>

@@ -12,12 +12,6 @@
 		<Copyright>彭磊</Copyright>
 		<Authors>彭磊</Authors>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="NewFolder\**" />
-	  <EmbeddedResource Remove="NewFolder\**" />
-	  <None Remove="NewFolder\**" />
-	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="DotNetCore.CAP" Version="7.1.0" />
 		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="7.1.0" />
