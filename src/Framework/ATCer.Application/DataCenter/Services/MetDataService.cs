@@ -40,13 +40,15 @@ namespace ATCer.Application.DataCenter.Services
         [NonAction]
         public async Task MHT4016_9Receiver(string data1)
         {
-            if (data1.Length == 0)
+            if (string.IsNullOrWhiteSpace(data1))
                 return;
 
             try
             {
                 var data = JsonSerializer.Deserialize<RawMetData>(data1);
 
+                if (data == null)
+                    return;
                 var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
                 await _publisher.PublishAsync(pushmsg, data);
 

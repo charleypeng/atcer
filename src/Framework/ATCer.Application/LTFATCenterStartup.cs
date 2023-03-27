@@ -25,7 +25,7 @@ namespace ATCer.Core
     /// <summary>
     /// LTFAT启动类
     /// </summary>
-    [AppStartup(600)]
+    [AppStartup(500)]
     public class LTFATCenterStartup : AppStartup
     {
         private string migrationAssemblyName = App.Configuration["FipsDbSettings:MigrationAssemblyName"]!;
@@ -78,9 +78,9 @@ namespace ATCer.Core
             //});
             services.AddSingleton<TestOpt>();
             services.AddHostedService<MetDataWorker>();
-            services.AddHostedService<Origin101Worker>();
-            services.AddHostedService<Origin102Worker>();
-            services.AddHostedService<Origin103Worker>();
+            //services.AddHostedService<Origin101Worker>();
+            //services.AddHostedService<Origin102Worker>();
+            //services.AddHostedService<Origin103Worker>();
         }
 
         /// <summary>

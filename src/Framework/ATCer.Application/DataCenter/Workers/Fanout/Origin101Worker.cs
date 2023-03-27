@@ -11,7 +11,7 @@ namespace ATCer.Application.DataCenter.Workers.Fanout
     public class Origin101Worker : FanoutWorker
     {
         public Origin101Worker(
-            ILogger<MetDataWorker> logger,
+            ILogger<Origin101Worker> logger,
             ICapPublisher publisher) : base("logs1", "data.raw.test1", logger, publisher)
         {
             Worker = null;

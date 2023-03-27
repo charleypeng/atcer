@@ -16,7 +16,7 @@ namespace ATCer.Application.DataCenter.Services
     /// <summary>
     /// 数据接收接口
     /// </summary>
-    public class TestWorker1 :ICapSubscribe
+    public class TestWorker1 :ICapSubscribe, ITransient
     {
         /// <summary>
         /// 初始化
@@ -33,7 +33,7 @@ namespace ATCer.Application.DataCenter.Services
         /// <returns></returns>
         [CapSubscribe("data.raw.test1")]
         [NonAction]
-        public async Task MHT4016_9Receiver(string data1)
+        public async Task MHReceiver(string data1)
         {
             if (data1.Length == 0)
                 return;
