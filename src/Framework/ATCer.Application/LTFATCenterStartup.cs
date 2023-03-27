@@ -76,7 +76,7 @@ namespace ATCer.Core
             //    opt.Port = 12334;
             //});
             services.AddSingleton<TestOpt>();
-           // services.AddHostedService<Worker>();
+            services.AddHostedService<Worker>();
         }
 
         /// <summary>
