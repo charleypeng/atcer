@@ -18,13 +18,14 @@ using ATCer.DataCenter.Domains;
 using ATCer.FanoutMq;
 using ATCer.Application.LTFATCenter.Services;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using ATCer.Application.DataCenter.Workers.Fanout;
 
 namespace ATCer.Core
 {
     /// <summary>
     /// LTFAT启动类
     /// </summary>
-    [AppStartup(200)]
+    [AppStartup(600)]
     public class LTFATCenterStartup : AppStartup
     {
         private string migrationAssemblyName = App.Configuration["FipsDbSettings:MigrationAssemblyName"]!;
@@ -76,7 +77,10 @@ namespace ATCer.Core
             //    opt.Port = 12334;
             //});
             services.AddSingleton<TestOpt>();
-            services.AddHostedService<Worker>();
+            services.AddHostedService<MetDataWorker>();
+            services.AddHostedService<Origin101Worker>();
+            services.AddHostedService<Origin102Worker>();
+            services.AddHostedService<Origin103Worker>();
         }
 
         /// <summary>

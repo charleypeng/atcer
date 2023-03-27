@@ -1,6 +1,4 @@
 ﻿using System.Text;
-using System.Text.Json;
-using System.Threading.Channels;
 using DotNetCore.CAP;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -10,19 +8,23 @@ using RabbitMQ.Client.Exceptions;
 
 namespace ATCer.FanoutMq
 {
-    public class Worker : BackgroundService
+    public abstract class FanoutWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
-        private ConnectionFactory _connectionFactory;
-        private IConnection _connection;
-        private IModel _channel;
-        private ICapPublisher _publisher;
-        public string QueueName { get; set; }
-
-        public Worker(ILogger<Worker> logger, ICapPublisher publisher)
+        private readonly ILogger<FanoutWorker> _logger;
+        private ConnectionFactory? _connectionFactory;
+        private IConnection? _connection;
+        private IModel? _channel;
+        protected readonly ICapPublisher _publisher;
+        public string? QueueName { get;private set; }
+        protected readonly string _bindName;
+        protected readonly string _topic;
+        public Task? Worker { get; set; }
+        public FanoutWorker(string bindName, string topic,ILogger<FanoutWorker> logger, ICapPublisher publisher)
         {
             _logger = logger;
             _publisher = publisher;
+            _bindName = bindName;
+            _topic = topic;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -35,13 +37,13 @@ namespace ATCer.FanoutMq
                 Password = "1qaz@WSX3edc",
                 DispatchConsumersAsync = true
             };
-            _connection = _connectionFactory.CreateConnection();
-            _channel = _connection.CreateModel();
-            this.QueueName = _channel.QueueDeclare().QueueName;
+            _connection = _connectionFactory?.CreateConnection();
+            _channel = _connection?.CreateModel();
+            this.QueueName = _channel?.QueueDeclare(autoDelete:true,durable:false).QueueName;
             
-            _channel.BasicQos(0, 1, false);
-            _channel.QueueBind(queue: QueueName,
-                    exchange: "logs",
+            _channel?.BasicQos(0, 1, false);
+            _channel?.QueueBind(queue: QueueName,
+                    exchange: _bindName,
                     routingKey: string.Empty);
             _logger.LogInformation($"Queue [{QueueName}] is waiting for messages.");
 
@@ -55,21 +57,15 @@ namespace ATCer.FanoutMq
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += async (bc, ea) =>
             {
-                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                _logger.LogInformation($"Processing msg: '{message}'.");
                 try
                 {
-                    await _publisher.PublishAsync("testmsg", message);
-                    //_logger.LogInformation($"{message}");
+                    var message = Encoding.UTF8.GetString(ea.Body.ToArray());
+                    await _publisher.PublishAsync(_topic, message);
+                    _logger.LogInformation($"{message}");
 
                     //await Task.Delay(new Random().Next(1, 3) * 1000, stoppingToken); // simulate an async email process
-                  
-                    _channel.BasicAck(ea.DeliveryTag, false);
-                }
-                catch (JsonException)
-                {
-                    _logger.LogError($"JSON Parse Error: '{message}'.");
-                    _channel.BasicNack(ea.DeliveryTag, false, false);
+
+                    _channel?.BasicAck(ea.DeliveryTag, false);
                 }
                 catch (AlreadyClosedException)
                 {
@@ -81,7 +77,7 @@ namespace ATCer.FanoutMq
                 }
             };
 
-            _channel.BasicConsume(queue: QueueName, autoAck: false, consumer: consumer);
+            _channel?.BasicConsume(queue: QueueName, autoAck: false, consumer: consumer);
 
             await Task.CompletedTask;
         }
@@ -89,7 +85,7 @@ namespace ATCer.FanoutMq
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
             await base.StopAsync(cancellationToken);
-            _connection.Close();
+            _connection?.Close();
             _logger.LogInformation("RabbitMQ connection is closed.");
         }
     }

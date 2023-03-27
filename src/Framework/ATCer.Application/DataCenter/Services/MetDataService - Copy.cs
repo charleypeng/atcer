@@ -16,18 +16,13 @@ namespace ATCer.Application.DataCenter.Services
     /// <summary>
     /// 数据接收接口
     /// </summary>
-    public class MetDataService : BaseElasticService<MyMetData, MyMetData, string> ,ITransient, ICapSubscribe
+    public class TestWorker1 :ICapSubscribe
     {
-        private readonly ICapPublisher _publisher;
         /// <summary>
         /// 初始化
         /// </summary>
-        public MetDataService(ILogger<MetDataService> logger,
-                              ICapPublisher publisher,
-                              IATCerEsClient esClient,
-                              ICache cache):base(esClient,cache,logger, IndexNames.MetData_Raw)
+        public TestWorker1()
         {
-            _publisher = publisher;
         }
 
 
@@ -36,31 +31,14 @@ namespace ATCer.Application.DataCenter.Services
         /// </summary>
         /// <param name="data1"></param>
         /// <returns></returns>
-        [CapSubscribe("data.raw.mh4029_3")]
+        [CapSubscribe("data.raw.test1")]
         [NonAction]
         public async Task MHT4016_9Receiver(string data1)
         {
             if (data1.Length == 0)
                 return;
 
-            try
-            {
-                var data = JsonSerializer.Deserialize<RawMetData>(data1);
-
-                var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
-                await _publisher.PublishAsync(pushmsg, data);
-
-                var mdata = (MyMetData)data!;
-
-                if (mdata == null)
-                    return;
-
-                mdata.Id = Guid.NewGuid().ToString("N");
-            }
-            catch (Exception)
-            {
-                throw Oops.Oh($"转换自观原始数据出错:{JsonSerializer.Serialize(data1)}");
-            }
+            Console.WriteLine(data1);
            
             //var result = await this.Insert(mdata);
             //if (result != null)
@@ -94,11 +72,5 @@ namespace ATCer.Application.DataCenter.Services
         //    //    _logger.LogInformation($"已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(data)}");
         //}
 
-
-        public async Task TestMet()
-        {
-            var jj = new RawMetData();
-            await _publisher.PublishAsync("data.raw.mh4029_3", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(jj)));
-        }
     }
 }
