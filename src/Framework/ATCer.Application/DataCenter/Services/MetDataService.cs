@@ -49,6 +49,7 @@ namespace ATCer.Application.DataCenter.Services
 
                 if (data == null)
                     return;
+
                 var pushmsg = WorkerNames.Met_Raw_Prefix + data?.TYPE?.ToLower();
                 await _publisher.PublishAsync(pushmsg, data);
 

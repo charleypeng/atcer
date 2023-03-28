@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.FanoutMq;
+using System.Text;
 
 namespace ATCer.Application.DataCenter.Workers.Fanout
 {
@@ -14,7 +15,10 @@ namespace ATCer.Application.DataCenter.Workers.Fanout
             ILogger<Origin101Worker> logger,
             ICapPublisher publisher) : base("logs1", "data.raw.test1", logger, publisher)
         {
-            Worker = null;
+            Worker =async (a, b) =>
+            {
+                await _publisher.PublishAsync("aha", Encoding.UTF8.GetString(a.Body.ToArray()));
+            };
         }
     }
 }

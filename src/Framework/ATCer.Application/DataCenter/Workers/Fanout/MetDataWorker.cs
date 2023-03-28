@@ -19,7 +19,12 @@ namespace ATCer.Application.DataCenter.Workers.Fanout
             ILogger<MetDataWorker> logger, 
             ICapPublisher publisher):base("logs4", "data.raw.mh4029_3", logger,publisher)
         {
-            Worker = null;
+            Worker = MetWorker;
+        }
+
+        public async Task MetWorker(TransportMsg msg, object? info)
+        {
+            await _publisher.PublishAsync<string>("data.raw.mh4029_3", Encoding.UTF8.GetString(msg.Body.ToArray()));
         }
     }
 }

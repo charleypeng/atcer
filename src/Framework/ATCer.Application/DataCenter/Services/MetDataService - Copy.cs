@@ -23,6 +23,7 @@ namespace ATCer.Application.DataCenter.Services
         /// </summary>
         public TestWorker1()
         {
+
         }
 
 

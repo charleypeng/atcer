@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Consul;
 using DotNetCore.CAP;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ namespace ATCer.FanoutMq
         public string? QueueName { get;private set; }
         protected readonly string _bindName;
         protected readonly string _topic;
-        public Task? Worker { get; set; }
+        public Func<TransportMsg,object?,Task>? Worker { get; set; }
         public FanoutWorker(string bindName, string topic,ILogger<FanoutWorker> logger, ICapPublisher publisher)
         {
             _logger = logger;
@@ -60,7 +61,8 @@ namespace ATCer.FanoutMq
                 try
                 {
                     var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                    await _publisher.PublishAsync(_topic, message);
+                    var message1 = new TransportMsg(ea.Body);
+                    await Worker!(message1, ea.DeliveryTag);
                     _logger.LogInformation($"{message}");
 
                     //await Task.Delay(new Random().Next(1, 3) * 1000, stoppingToken); // simulate an async email process

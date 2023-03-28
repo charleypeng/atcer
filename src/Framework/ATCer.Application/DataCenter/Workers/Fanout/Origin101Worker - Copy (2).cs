@@ -19,7 +19,7 @@ namespace ATCer.Application.DataCenter.Workers.Fanout
             ILogger<Origin102Worker> logger,
             ICapPublisher publisher) : base("logs2", "data.raw.test2", logger, publisher)
         {
-            Worker = null;
+            
         }
     }
 }

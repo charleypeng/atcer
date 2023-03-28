@@ -17,7 +17,7 @@ namespace ATCer.Application.DataCenter.Services.Fips
     /// <summary>
     /// FIPS原始数据服务
     /// </summary>
-    [ApiDescriptionSettings(Module = "datacenter/met")]
+    [ApiDescriptionSettings(Module = "datacenter/fips",Name ="origin")]
     public class OriginFipsDataService : IDynamicApiController, IFipsService, IScoped
     {
         private readonly IRepository<GZFlightPlan, FipsDbContextLocator> _fipsRepo;
@@ -40,7 +40,7 @@ namespace ATCer.Application.DataCenter.Services.Fips
         /// <param name="end"></param>
         /// <param name="local"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<GZFlightPlanDto>> GetAsync(DateTime begin, DateTime end, string local = "")
+        public async Task<IEnumerable<GZFlightPlanDto>> GetAsync(DateTime begin, DateTime end, string local)
         {
             IEnumerable<GZFlightPlan> data;
 
@@ -86,10 +86,8 @@ namespace ATCer.Application.DataCenter.Services.Fips
         /// 获取今日计划航班
         /// </remarks>
         [HttpGet]
-        public async Task<IEnumerable<GZFlightPlanDto>> GetToday(string local = "")
+        public async Task<IEnumerable<GZFlightPlanDto>> GetToday(string local)
         {
-            if (string.IsNullOrWhiteSpace(local))
-                local = "ZGHA";
             //get data from cache first
             var data = await _cache.GetAsync<IEnumerable<GZFlightPlanDto>>(CacheSchems.FlightsOfToday);
             if (!data.IsNullOrEmpty())
