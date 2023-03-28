@@ -17,7 +17,7 @@ namespace ATCer.Application.DataCenter.Workers.Fanout
     {
         private readonly ICapPublisher _capPublisher;
         public MetDataWorker( 
-            ILogger<MetDataWorker> logger, 
+            ILogger<MetDataWorker> logger,  
             ICapPublisher publisher):base("logs4", "data.raw.mh4029_3", logger)
         {
             _capPublisher = publisher;
