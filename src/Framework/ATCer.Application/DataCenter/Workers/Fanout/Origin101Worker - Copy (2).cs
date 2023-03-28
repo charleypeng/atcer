@@ -17,7 +17,7 @@ namespace ATCer.Application.DataCenter.Workers.Fanout
     {
         public Origin102Worker(
             ILogger<Origin102Worker> logger,
-            ICapPublisher publisher) : base("logs2", "data.raw.test2", logger, publisher)
+            ICapPublisher publisher) : base("logs2", "data.raw.test2", logger)
         {
             
         }

@@ -15,15 +15,15 @@ namespace ATCer.FanoutMq
         private ConnectionFactory? _connectionFactory;
         private IConnection? _connection;
         private IModel? _channel;
-        protected readonly ICapPublisher _publisher;
+        //protected readonly ICapPublisher _publisher;
         public string? QueueName { get;private set; }
         protected readonly string _bindName;
         protected readonly string _topic;
         public Func<TransportMsg,object?,Task>? Worker { get; set; }
-        public FanoutWorker(string bindName, string topic,ILogger<FanoutWorker> logger, ICapPublisher publisher)
+        public FanoutWorker(string bindName, string topic,ILogger<FanoutWorker> logger )//, ICapPublisher publisher)
         {
             _logger = logger;
-            _publisher = publisher;
+            //_publisher = publisher;
             _bindName = bindName;
             _topic = topic;
         }
