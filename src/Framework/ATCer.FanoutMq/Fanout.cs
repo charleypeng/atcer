@@ -75,10 +75,16 @@ namespace ATCer.FanoutMq
             consumer = new AsyncEventingBasicConsumer(channel);
 
             //consumer.Received += Consumer_Received;
-            consumer.Received +=  (bc, ea) =>
+            consumer.Received += async(bc, ea) =>
             {
+#if DEBUG
                 _logger.LogWarning(Encoding.UTF8.GetString(ea.Body.ToArray()));
-                return Task.CompletedTask;
+#endif
+                var message = new TransportMsg(ea.Body);
+                //send message
+                await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
+                channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                //await OnMessageCallback!(message, e.DeliveryTag);
             };
             consumer.ConsumerCancelled += Consumer_ConsumerCancelled;
             consumer.Registered += Consumer_Registered;
