@@ -11,12 +11,14 @@ using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Channels;
 
 namespace ATCer.FanoutMq
 {
     public abstract class Fanout:BackgroundService, IConsumer, IHostedService
     {
+        private readonly object _syncLock = new();
         public string Ip { get; private set; }
         public int Port { get; private set; }
         public string? QueueName { get; private set; }
@@ -89,6 +91,7 @@ namespace ATCer.FanoutMq
                     var message = new TransportMsg(ea.Body);
                     //send message
                     await OnMessageCallback!(message, ea.DeliveryTag);
+                    
                     channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                     //await OnMessageCallback!(message, e.DeliveryTag);
                 }
@@ -102,29 +105,40 @@ namespace ATCer.FanoutMq
                 }
                 
             };
-            
-            channel.BasicConsume(queue: QueueName,
+            channel?.BasicQos(0, 1, false);
+            channel?.BasicConsume(queue: QueueName,
                                  consumer: consumer, autoAck: false);
+
+
             return Task.CompletedTask;
         }
 
         private void tryDeclareQueue()
         {
-            tryDeclareExchange();
+            _connection = factory?.CreateConnection();
             try
             {
-                _connection = factory?.CreateConnection();
-                channel = _connection?.CreateModel();
-                if (string.IsNullOrWhiteSpace(QueueName))
+                lock (_syncLock)
                 {
-                    this.QueueName = channel.QueueDeclare().QueueName;
+                    if(channel != null || channel.IsClosed)
+                    {
+                        channel = _connection?.CreateModel();
+                        tryDeclareExchange();
+                        if (string.IsNullOrWhiteSpace(QueueName))
+                        {
+                            this.QueueName = channel.QueueDeclare().QueueName;
+                        }
+                        else
+                        {
+                            channel.QueueDeclare(QueueName, false);
+                        }
+                        channel.QueueBind(queue: QueueName,
+                            exchange: BindName,
+                            routingKey: string.Empty);
+                    }
+                    _logger.LogInformation($"Queue [{QueueName}] is waiting for messages.");
                 }
-                channel?.BasicQos(0, 1, false);
-                channel.QueueBind(queue: QueueName,
-                    exchange: BindName,
-                    routingKey: string.Empty);
-
-                _logger.LogInformation($"Queue [{QueueName}] is waiting for messages.");
+                
             }
             catch (Exception)
             {
@@ -139,10 +153,6 @@ namespace ATCer.FanoutMq
             {
                 if (!string.IsNullOrWhiteSpace(BindName))
                 {
-
-                    using var connection = factory?.CreateConnection();
-                    channel = connection?.CreateModel();
-
                     channel.ExchangeDeclare(exchange: BindName, type: ExchangeType.Fanout, autoDelete: false);
                 }
             }
@@ -174,7 +184,7 @@ namespace ATCer.FanoutMq
         private async Task Consumer_Received(object? sender, BasicDeliverEventArgs e)
         {
             var message = new TransportMsg(e.Body);
-            await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
+            //await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
             channel?.BasicAck(deliveryTag: e.DeliveryTag, multiple: false);
             //await OnMessageCallback!(message, e.DeliveryTag);
         }
