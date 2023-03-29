@@ -25,7 +25,8 @@ namespace ATCer.FanoutMq
         //private fields
         private ConnectionFactory? factory;
         private IModel? channel;
-        AsyncEventingBasicConsumer? consumer;
+        private IConnection? _connection;
+        //AsyncEventingBasicConsumer? consumer;
         protected readonly ILogger<Fanout> _logger;
 
         public event AsyncEventHandler<FanoutEventArgs>? OnMessage;
@@ -72,7 +73,10 @@ namespace ATCer.FanoutMq
         {
             _logger.LogError("执行");
             stoppingToken.ThrowIfCancellationRequested();
-            consumer = new AsyncEventingBasicConsumer(channel);
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.ConsumerCancelled += Consumer_ConsumerCancelled;
+            consumer.Registered += Consumer_Registered;
+            consumer.Unregistered += Consumer_Unregistered;
 
             //consumer.Received += Consumer_Received;
             consumer.Received += async(bc, ea) =>
@@ -80,16 +84,25 @@ namespace ATCer.FanoutMq
 #if DEBUG
                 _logger.LogWarning(Encoding.UTF8.GetString(ea.Body.ToArray()));
 #endif
-                var message = new TransportMsg(ea.Body);
-                //send message
-                await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
-                channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-                //await OnMessageCallback!(message, e.DeliveryTag);
+                try
+                {
+                    var message = new TransportMsg(ea.Body);
+                    //send message
+                    await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
+                    channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                    //await OnMessageCallback!(message, e.DeliveryTag);
+                }
+                catch (AlreadyClosedException)
+                {
+                    _logger.LogInformation("RabbitMQ is closed!");
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(default, e, e.Message);
+                }
+                
             };
-            consumer.ConsumerCancelled += Consumer_ConsumerCancelled;
-            consumer.Registered += Consumer_Registered;
-            consumer.Unregistered += Consumer_Unregistered;
-
+            
             channel.BasicConsume(queue: QueueName,
                                  consumer: consumer, autoAck: false);
             return Task.CompletedTask;
@@ -100,8 +113,8 @@ namespace ATCer.FanoutMq
             tryDeclareExchange();
             try
             {
-                using var connection = factory?.CreateConnection();
-                channel = connection?.CreateModel();
+                _connection = factory?.CreateConnection();
+                channel = _connection?.CreateModel();
                 if (string.IsNullOrWhiteSpace(QueueName))
                 {
                     this.QueueName = channel.QueueDeclare().QueueName;
@@ -110,6 +123,8 @@ namespace ATCer.FanoutMq
                 channel.QueueBind(queue: QueueName,
                     exchange: BindName,
                     routingKey: string.Empty);
+
+                _logger.LogInformation($"Queue [{QueueName}] is waiting for messages.");
             }
             catch (Exception)
             {
