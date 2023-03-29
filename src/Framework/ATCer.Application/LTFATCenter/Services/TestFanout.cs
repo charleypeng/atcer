@@ -7,6 +7,7 @@
 using ATCer.DataCenter.Domains;
 using ATCer.FanoutMq;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 using System.Text.Json;
 
 namespace ATCer.Application.LTFATCenter.Services
@@ -18,6 +19,12 @@ namespace ATCer.Application.LTFATCenter.Services
         public TestFanout(ILogger<TestFanout> logger, TestOpt options, ICapPublisher publisher):base(logger:logger, options:options)
         {
             _options = options;
+            _publisher = publisher;
+            OnMessageCallback = (a, b) =>
+            {
+                _logger.LogWarning($"收到：{Encoding.UTF8.GetString(a.Body.ToArray())}");
+                return Task.CompletedTask;
+            };
         }
     }
 }

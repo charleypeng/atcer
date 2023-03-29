@@ -29,7 +29,7 @@ namespace ATCer.FanoutMq
         //AsyncEventingBasicConsumer? consumer;
         protected readonly ILogger<Fanout> _logger;
 
-        public event AsyncEventHandler<FanoutEventArgs>? OnMessage;
+        //public event AsyncEventHandler<FanoutEventArgs>? OnMessage;
         /// <summary>
         /// 
         /// </summary>
@@ -88,7 +88,7 @@ namespace ATCer.FanoutMq
                 {
                     var message = new TransportMsg(ea.Body);
                     //send message
-                    await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
+                    await OnMessageCallback!(message, ea.DeliveryTag);
                     channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                     //await OnMessageCallback!(message, e.DeliveryTag);
                 }
