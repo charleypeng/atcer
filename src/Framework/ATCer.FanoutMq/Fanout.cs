@@ -120,7 +120,7 @@ namespace ATCer.FanoutMq
             {
                 lock (_syncLock)
                 {
-                    if(channel != null || channel.IsClosed)
+                    if(channel == null || channel.IsClosed)
                     {
                         channel = _connection?.CreateModel();
                         tryDeclareExchange();
