@@ -20,7 +20,7 @@ public class MetDataWorker : Fanout
         ICapPublisher publisher) : base(logger: logger, options: options)
     {
         _publisher = publisher;
-        
+        BindName = "data.raw.awos";
         OnMessageCallback = async(a, b) =>
         {
             await _publisher.PublishAsync("data.raw.mh4029_3", a.GetModel<RawMetData>());
