@@ -32,7 +32,7 @@ public class Cat001Worker : ICapSubscribe
     /// <param name="data"></param>
     /// <returns></returns>
     [CapSubscribe("data.raw.origin001", Group = "rada.raw")]
-    public async Task AddDataAsync(byte[] data)
+    public async Task AddDataAsync(string data)
     {
         //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
     }
@@ -60,7 +60,7 @@ public class Cat002Worker : ICapSubscribe
     /// <param name="data"></param>
     /// <returns></returns>
     [CapSubscribe("data.raw.origin002", Group = "rada.raw")]
-    public async Task AddDataAsync(byte[] data)
+    public async Task AddDataAsync(string data)
     {
         //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
     }
@@ -88,7 +88,7 @@ public class Cat003Worker : ICapSubscribe
     /// <param name="data"></param>
     /// <returns></returns>
     [CapSubscribe("data.raw.origin003", Group = "rada.raw")]
-    public async Task AddDataAsync(byte[] data)
+    public async Task AddDataAsync(string data)
     {
         //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
     }
