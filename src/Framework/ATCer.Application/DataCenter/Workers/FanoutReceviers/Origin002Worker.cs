@@ -26,7 +26,7 @@ public class Origin002Worker : Fanout
         TestOpt options,
         ICapPublisher publisher) : base(logger: logger, options: options)
     {
-        BindName = "logs2";
+        BindName = "data.raw.origin2";
         _publisher = publisher;
 
         OnMessageCallback = async (a, b) =>
