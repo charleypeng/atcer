@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "udptest": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

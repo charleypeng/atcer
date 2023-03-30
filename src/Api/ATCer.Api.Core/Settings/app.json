@@ -62,7 +62,7 @@
   },
   "MessageQueue": {
     "GroupId": "B63CAF65-45DA-4172-B005-F6FF87DC6D77",
-    "DbProvider": "InMemory",
+    "DbProvider": "PostreSql",
     "MQProvider": "RabitMQ",
     "Origins": [
       "https://localhost:44321",

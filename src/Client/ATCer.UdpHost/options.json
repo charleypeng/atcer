@@ -1,0 +1,30 @@
+{
+  "HostOptions": [
+    {
+      "Port": 33101,
+      "Ip": "239.119.119.119",
+      "ExchangeName": "data.raw.origin1"
+    },
+    {
+      "Port": 33102,
+      "Ip": "239.119.119.119",
+      "ExchangeName": "data.raw.origin2"
+    },
+    {
+      "Port": 33103,
+      "Ip": "239.119.119.119",
+      "ExchangeName": "data.raw.origin3"
+    },
+    {
+      "Port": 40169,
+      "Ip": "239.119.119.119",
+      "ExchangeName": "data.raw.awos"
+    }
+  ],
+  "RabbitMqOptions": {
+    "HostName": "189.161.20.112",
+    "Port": 5672,
+    "UserName": "admin",
+    "Password": "1qaz@WSX3edc"
+  }
+}
