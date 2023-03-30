@@ -30,7 +30,7 @@ public class Origin001Worker : Fanout
 
         OnMessageCallback = async (a, b) =>
         {
-            await _publisher.PublishAsync("data.raw.origin001", a);
+            await _publisher.PublishAsync("data.raw.origin001", a.Body.ToArray());
         };
     }
 }

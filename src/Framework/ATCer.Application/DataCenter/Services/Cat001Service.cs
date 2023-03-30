@@ -6,6 +6,7 @@
 
 using ATCer.DataCenter.Services.MetData;
 using ATCer.FanoutMq;
+using System.Text;
 
 namespace ATCer.Application.DataCenter.Services;
 
@@ -31,8 +32,8 @@ public class Cat001Worker : ICapSubscribe
     /// <param name="data"></param>
     /// <returns></returns>
     [CapSubscribe("data.raw.origin001", Group = "rada.raw.cat001")]
-    public async Task AddDataAsync(TransportMsg data)
+    public async Task AddDataAsync(byte[] data)
     {
-        _logger.LogError($"ORRIGIN001：{data.GetModel<object>()}");
+        _logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
     }
 }
