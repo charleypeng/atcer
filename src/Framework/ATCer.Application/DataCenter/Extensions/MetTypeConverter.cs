@@ -120,10 +120,10 @@ public static class MetTypeConverterCore
                     if (property != null)
                     {
                         //fix PW integer error
-                        if (PWHighLights.Contains(data?[0]))
-                        {
-                            data![1] = MetDataTypeString.DString;
-                        }
+                        //if (PWHighLights.Contains(data?[0]))
+                        //{
+                        //    data![1] = MetDataTypeString.DString;
+                        //}
                         #region set property
                         switch (data?[1])
                         {
