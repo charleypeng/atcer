@@ -34,13 +34,14 @@ namespace ATCer.UdpHost
                         if (udpClient.Client == null) return;
 
                         var data = await udpClient.ReceiveAsync(_cancellationToken);
-                        var str = Encoding.UTF8.GetString(data.Buffer);
+                        //var str = Encoding.UTF8.GetString(data.Buffer);
                         this.mq.Send(data.Buffer);
                         //Console.WriteLine(str);
                     }
                     catch (Exception ex)
                     {
                         Logger.LogInfomation(ex.ToString());
+                        Thread.Sleep(TimeSpan.FromSeconds(10));
                     }
                 }
             });
