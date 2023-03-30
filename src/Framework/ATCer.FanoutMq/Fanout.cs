@@ -92,7 +92,7 @@ namespace ATCer.FanoutMq
                     //send message
                     await OnMessageCallback!(message, ea.DeliveryTag);
                     //acknowledge message
-                    _channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                    //_channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                     
                 }
                 catch (AlreadyClosedException)
@@ -107,7 +107,7 @@ namespace ATCer.FanoutMq
             };
             //_channel?.BasicQos(0, 1, false);
             _channel?.BasicConsume(queue: QueueName,
-                                 consumer: consumer, autoAck: false);
+                                 consumer: consumer, autoAck: true);
 
 
             return Task.CompletedTask;
