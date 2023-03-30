@@ -4,25 +4,25 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter.Domains;
-using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
+using ATCer.FanoutMq;
 
 namespace ATCer.Application.DataCenter.Services;
 
 /// <summary>
 /// 
 /// </summary>
-public class Cat001Worker : BaseWorker<CloudDto, string>
+public class Cat001Worker : ICapSubscribe
 {
+    private readonly ILogger<Cat001Worker> _logger;
     /// <summary>
     /// 
     /// </summary>
     /// <param name="client"></param>
     /// <param name="logger"></param>
-    public Cat001Worker(ICloudService client, ILogger<Cat001Worker> logger) : base(client, logger)
+    public Cat001Worker(ICloudService client, ILogger<Cat001Worker> logger)
     {
-
+        _logger = logger;
     }
 
     /// <summary>
@@ -31,8 +31,8 @@ public class Cat001Worker : BaseWorker<CloudDto, string>
     /// <param name="data"></param>
     /// <returns></returns>
     [CapSubscribe("data.raw.origin001", Group = "rada.raw.cat001")]
-    public override Task AddDataAsync(RawMetData data)
+    public async Task AddDataAsync(TransportMsg data)
     {
-        return base.AddDataAsync(data);
+        _logger.LogError($"ORRIGIN001：{data.GetModel<object>()}");
     }
 }

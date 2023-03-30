@@ -202,7 +202,7 @@ namespace ATCer.FanoutMq
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogError($"{_typeName} 已经停止");
+            _logger.LogWarning($"{_typeName} 已经停止");
             await base.StopAsync(cancellationToken);
             _channel?.Close();
             _channel?.Dispose();
