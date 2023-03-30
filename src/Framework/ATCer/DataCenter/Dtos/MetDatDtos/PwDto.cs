@@ -23,7 +23,11 @@ namespace ATCer.DataCenter.Dtos.MetDatDtos
         /// </remarks>
         [DataName("PW")]
         public MetTuple<string>? PW_Instant { get; set; }
-        public MetTuple? RW { get; set; }
+        /// <summary>
+        /// 近时天气代码
+        /// </summary>
+        /// <remarks>资料中显示为 S 但数据为 I</remarks>
+        public MetTuple<string>? RW { get; set; }
         public MetTuple<string>? WXNWS { get; set; }
         public MetTuple? WMOINS { get; set; }
         public MetTuple? WMO15A { get; set; }
