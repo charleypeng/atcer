@@ -71,8 +71,6 @@ namespace ATCer.FanoutMq
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation($"开始启动{_typeName}");
-
             stoppingToken.ThrowIfCancellationRequested();
 
             var consumer = new AsyncEventingBasicConsumer(_channel);
@@ -105,7 +103,7 @@ namespace ATCer.FanoutMq
                 }
                 
             };
-            //_channel?.BasicQos(0, 1, false);
+            _channel?.BasicQos(0, 1, false);
             _channel?.BasicConsume(queue: QueueName,
                                  consumer: consumer, autoAck: true);
 
