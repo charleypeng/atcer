@@ -84,7 +84,7 @@ namespace ATCer.FanoutMq
             consumer.Received += async(bc, ea) =>
             {
 #if DEBUG
-                _logger.LogWarning($"收到消息：{Encoding.UTF8.GetString(ea.Body.ToArray())}");
+                //_logger.LogWarning($"收到消息：{Encoding.UTF8.GetString(ea.Body.ToArray())}");
 #endif
                 try
                 {

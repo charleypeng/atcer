@@ -34,6 +34,6 @@ public class Cat001Worker : ICapSubscribe
     [CapSubscribe("data.raw.origin001", Group = "rada.raw.cat001")]
     public async Task AddDataAsync(byte[] data)
     {
-        _logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
+        //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
     }
 }
