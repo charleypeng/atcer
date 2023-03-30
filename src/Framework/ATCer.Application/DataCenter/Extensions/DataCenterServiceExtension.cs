@@ -5,6 +5,8 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Application.DataCenter.Builders.MetData;
+using ATCer.Application.DataCenter.Services;
+using ATCer.Application.DataCenter.Workers.FanoutReceviers;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -45,5 +47,8 @@ public static class DataCenterServiceExtension
         windBuilder.InitIndex();
 
         rawBuilder.InitIndex();
+
+        services.AddHostedService<MetDataWorker>();
+        services.AddHostedService<Origin001Worker>();
     }
 }

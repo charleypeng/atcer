@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ATCer.FanoutMq
 {
-    public interface IConsumer
+    public interface IFanoutMq
     {
         /// <summary>
         /// Start listening

@@ -10,28 +10,25 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Channels;
 
 namespace ATCer.FanoutMq
 {
-    public abstract class Fanout:BackgroundService, IConsumer, IHostedService
+    public abstract class Fanout:BackgroundService, IFanoutMq, IHostedService
     {
         private readonly object _syncLock = new();
         public string Ip { get; private set; }
         public int Port { get; private set; }
         public string? QueueName { get; private set; }
-        public string? BindName { get; private set; }
+        public string? BindName { get;set; }
         public Func<TransportMsg, object?, Task>? OnMessageCallback { get; set; }
         //private fields
-        private ConnectionFactory? factory;
-        private IModel? channel;
+        private ConnectionFactory? _factory;
+        private IModel? _channel;
         private IConnection? _connection;
         //AsyncEventingBasicConsumer? consumer;
         protected readonly ILogger<Fanout> _logger;
+        private string _typeName;
 
-        //public event AsyncEventHandler<FanoutEventArgs>? OnMessage;
         /// <summary>
         /// 
         /// </summary>
@@ -51,10 +48,11 @@ namespace ATCer.FanoutMq
             this.Port = options.Port.Value;
             this.BindName = options.BindName;
             _logger = logger;
+            _typeName = typeof(Fanout).Name;
 
             try
             {
-                factory = new ConnectionFactory
+                _factory = new ConnectionFactory
                 {
                     HostName = this.Ip,
                     Port = this.Port,
@@ -67,15 +65,17 @@ namespace ATCer.FanoutMq
             }
             catch (Exception ex)
             {
-                logger.LogError("无法创建连接", ex);
+                logger.LogError("无法初始化工厂程序", ex);
             }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogError("执行");
+            _logger.LogInformation($"开始启动{_typeName}");
+
             stoppingToken.ThrowIfCancellationRequested();
-            var consumer = new AsyncEventingBasicConsumer(channel);
+
+            var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.ConsumerCancelled += Consumer_ConsumerCancelled;
             consumer.Registered += Consumer_Registered;
             consumer.Unregistered += Consumer_Unregistered;
@@ -84,20 +84,20 @@ namespace ATCer.FanoutMq
             consumer.Received += async(bc, ea) =>
             {
 #if DEBUG
-                _logger.LogWarning(Encoding.UTF8.GetString(ea.Body.ToArray()));
+                _logger.LogWarning($"收到消息：{Encoding.UTF8.GetString(ea.Body.ToArray())}");
 #endif
                 try
                 {
                     var message = new TransportMsg(ea.Body);
                     //send message
                     await OnMessageCallback!(message, ea.DeliveryTag);
+                    //acknowledge message
+                    _channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                     
-                    channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-                    //await OnMessageCallback!(message, e.DeliveryTag);
                 }
                 catch (AlreadyClosedException)
                 {
-                    _logger.LogInformation("RabbitMQ is closed!");
+                    _logger.LogInformation("RabbitMQ 已经关闭!");
                 }
                 catch (Exception e)
                 {
@@ -105,8 +105,8 @@ namespace ATCer.FanoutMq
                 }
                 
             };
-            channel?.BasicQos(0, 1, false);
-            channel?.BasicConsume(queue: QueueName,
+            //_channel?.BasicQos(0, 1, false);
+            _channel?.BasicConsume(queue: QueueName,
                                  consumer: consumer, autoAck: false);
 
 
@@ -115,24 +115,24 @@ namespace ATCer.FanoutMq
 
         private void tryDeclareQueue()
         {
-            _connection = factory?.CreateConnection();
+            _connection = _factory?.CreateConnection();
             try
             {
                 lock (_syncLock)
                 {
-                    if(channel == null || channel.IsClosed)
+                    if(_channel == null || _channel.IsClosed)
                     {
-                        channel = _connection?.CreateModel();
+                        _channel = _connection?.CreateModel();
                         tryDeclareExchange();
                         if (string.IsNullOrWhiteSpace(QueueName))
                         {
-                            this.QueueName = channel.QueueDeclare().QueueName;
+                            this.QueueName = _channel.QueueDeclare().QueueName;
                         }
                         else
                         {
-                            channel.QueueDeclare(QueueName, false);
+                            _channel.QueueDeclare(QueueName, false);
                         }
-                        channel.QueueBind(queue: QueueName,
+                        _channel.QueueBind(queue: QueueName,
                             exchange: BindName,
                             routingKey: string.Empty);
                     }
@@ -153,7 +153,7 @@ namespace ATCer.FanoutMq
             {
                 if (!string.IsNullOrWhiteSpace(BindName))
                 {
-                    channel.ExchangeDeclare(exchange: BindName, type: ExchangeType.Fanout, autoDelete: false);
+                    _channel.ExchangeDeclare(exchange: BindName, type: ExchangeType.Fanout, autoDelete: false);
                 }
             }
             catch (Exception)
@@ -181,13 +181,13 @@ namespace ATCer.FanoutMq
             return Task.CompletedTask;
         }
 
-        private async Task Consumer_Received(object? sender, BasicDeliverEventArgs e)
-        {
-            var message = new TransportMsg(e.Body);
-            //await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
-            channel?.BasicAck(deliveryTag: e.DeliveryTag, multiple: false);
-            //await OnMessageCallback!(message, e.DeliveryTag);
-        }
+        //private async Task Consumer_Received(object? sender, BasicDeliverEventArgs e)
+        //{
+        //    var message = new TransportMsg(e.Body);
+        //    //await OnMessage!.InvokeAsync(this, new FanoutEventArgs(message));
+        //    _channel?.BasicAck(deliveryTag: e.DeliveryTag, multiple: false);
+        //    //await OnMessageCallback!(message, e.DeliveryTag);
+        //}
         private Task Consumer_ConsumerCancelled(object sender, ConsumerEventArgs @event)
         {
             _logger.LogWarning($"consumer registed:{@event.ConsumerTags}");
@@ -196,16 +196,16 @@ namespace ATCer.FanoutMq
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogError("开始");
             tryDeclareQueue();
             return base.StartAsync(cancellationToken);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogError("结束");
+            _logger.LogError($"{_typeName} 已经停止");
             await base.StopAsync(cancellationToken);
-            channel?.Close();
+            _channel?.Close();
+            _channel?.Dispose();
             _logger.LogInformation("FanoutMq connection is closed");
         }
         #endregion
