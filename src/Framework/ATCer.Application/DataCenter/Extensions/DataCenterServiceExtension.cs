@@ -49,5 +49,7 @@ public static class DataCenterServiceExtension
 
         services.AddHostedService<MetDataWorker>();
         services.AddHostedService<Origin001Worker>();
+        services.AddHostedService<Origin002Worker>();
+        services.AddHostedService<Origin003Worker>();
     }
 }
