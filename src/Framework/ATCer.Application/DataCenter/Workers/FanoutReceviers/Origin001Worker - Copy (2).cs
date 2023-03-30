@@ -13,7 +13,7 @@ namespace ATCer.Application.DataCenter.Workers.FanoutReceviers;
 /// <summary>
 /// 
 /// </summary>
-public class Origin001Worker : Fanout
+public class Origin003Worker : Fanout
 {
     private readonly ICapPublisher _publisher;
     /// <summary>
@@ -22,16 +22,16 @@ public class Origin001Worker : Fanout
     /// <param name="logger"></param>
     /// <param name="options"></param>
     /// <param name="publisher"></param>
-    public Origin001Worker(ILogger<Origin001Worker> logger,
+    public Origin003Worker(ILogger<Origin003Worker> logger,
         TestOpt options,
         ICapPublisher publisher) : base(logger: logger, options: options)
     {
-        BindName = "logs1";
+        BindName = "logs3";
         _publisher = publisher;
 
         OnMessageCallback = async (a, b) =>
         {
-            await _publisher.PublishAsync("data.raw.origin001", Encoding.UTF8.GetString(a.Body.ToArray()));
+            await _publisher.PublishAsync("data.raw.origin003", Encoding.UTF8.GetString(a.Body.ToArray()));
         };
     }
 }

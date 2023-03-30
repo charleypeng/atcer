@@ -31,7 +31,63 @@ public class Cat001Worker : ICapSubscribe
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    [CapSubscribe("data.raw.origin001", Group = "rada.raw.cat001")]
+    [CapSubscribe("data.raw.origin001", Group = "rada.raw")]
+    public async Task AddDataAsync(byte[] data)
+    {
+        //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class Cat002Worker : ICapSubscribe
+{
+    private readonly ILogger<Cat002Worker> _logger;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="logger"></param>
+    public Cat002Worker(ICloudService client, ILogger<Cat002Worker> logger)
+    {
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    [CapSubscribe("data.raw.origin002", Group = "rada.raw")]
+    public async Task AddDataAsync(byte[] data)
+    {
+        //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
+    }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class Cat003Worker : ICapSubscribe
+{
+    private readonly ILogger<Cat003Worker> _logger;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="logger"></param>
+    public Cat003Worker(ICloudService client, ILogger<Cat003Worker> logger)
+    {
+        _logger = logger;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    [CapSubscribe("data.raw.origin003", Group = "rada.raw")]
     public async Task AddDataAsync(byte[] data)
     {
         //_logger.LogError($"ORRIGIN001：{Encoding.UTF8.GetString(data)}");
