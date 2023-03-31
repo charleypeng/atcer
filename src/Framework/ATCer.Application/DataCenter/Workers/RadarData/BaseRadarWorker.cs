@@ -6,7 +6,6 @@
 
 using ATCer.DataCenter.Domains.RadarData;
 using ATCer.DataCenter.Dtos.RadarDataDtos;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ATCer.DataCenter.Workers.RadarData;
 

@@ -37,168 +37,163 @@ public static class MetTypeConverterCore
             rawDataTypeName = rawDataTypeName + "DTO";
 
         if (!typeName.Equals(rawDataTypeName))
-        {
             throw new Exception("the given met raw data type is not the expected type");
-        }
-        else
+
+        if (rawData.DATA == null)
+            return null;
+
+        var typeFromHandle = typeof(T);
+        var obj = Activator.CreateInstance(typeFromHandle);
+        var properties = typeFromHandle.GetProperties();
+        //set the time from unix time
+        var timeProperty = properties.FirstOrDefault(x => x.Name == "CreatedTime");
+
+        if (timeProperty != null)
         {
-            if (rawData.DATA == null)
-                return null;
-
-            var typeFromHandle = typeof(T);
-            var obj = Activator.CreateInstance(typeFromHandle);
-            var properties = typeFromHandle.GetProperties();
-            //set the time from unix time
-            var timeProperty = properties.FirstOrDefault(x => x.Name == "CreatedTime");
-
-            if (timeProperty != null)
+            try
             {
-                try
+                if (rawData.TIME != null)
                 {
-                    if (rawData.TIME != null)
-                    {
-                        timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(rawData.TIME.Value));
-                    }
-                    else
-                    {
-                        timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(DateTimeOffset.Now.ToUnixTimeSeconds()));
-                    }
+                    timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(rawData.TIME.Value));
                 }
-                catch (Exception e)
+                else
                 {
                     timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(DateTimeOffset.Now.ToUnixTimeSeconds()));
                 }
             }
-
-            //set location
-            var locProperty = properties.FirstOrDefault(x => x.Name == "Location");
-
-            locProperty?.SetValue(obj, rawData.LOC);
-
-            //set properties value
-            try
+            catch (Exception e)
             {
-                //get property dict
-                var dict = GetDataNames<T>();
-                PropertyInfo? property;
+                timeProperty.SetValue(obj, DateTimeOffset.FromUnixTimeSeconds(DateTimeOffset.Now.ToUnixTimeSeconds()));
+            }
+        }
 
-                foreach (var data in rawData.DATA)
+        //set location
+        var locProperty = properties.FirstOrDefault(x => x.Name == "Location");
+
+        locProperty?.SetValue(obj, rawData.LOC);
+
+        //set properties value
+        try
+        {
+            //get property dict
+            var dict = GetDataNames<T>();
+            PropertyInfo? property;
+
+            foreach (var data in rawData.DATA)
+            {
+                if (data == null || data?.Count != 4)
+                    throw new Exception("not valid met raw data");
+
+                //define use dataname as property or use property's own name
+                var dataName = data?[0];
+                var disPropName = string.Empty;
+
+                if (dataName != null)
                 {
-                    if (data == null || data?.Count != 4)
-                        throw new Exception("not valid met raw data");
-
-                    //define use dataname as property or use property's own name
-                    var dataName = data?[0];
-                    var disPropName = string.Empty;
-
-                    if (dataName != null)
+                    if (dict.ContainsKey(dataName))
                     {
-                        if(dict.ContainsKey(dataName))
+                        var dicPropName = dict[dataName];
+                        if (string.IsNullOrWhiteSpace(dicPropName))
                         {
-                            var dicPropName = dict[dataName];
-                            if (string.IsNullOrWhiteSpace(dicPropName))
-                            {
-                                property = properties?.FirstOrDefault(x => x.Name == dataName);
-                            }
-                            else
-                            {
-                                property = properties?.FirstOrDefault(x => x.Name == dicPropName);
-                            }
+                            property = properties?.FirstOrDefault(x => x.Name == dataName);
                         }
                         else
                         {
-                            property = properties?.FirstOrDefault(x => x.Name == dataName);
-
+                            property = properties?.FirstOrDefault(x => x.Name == dicPropName);
                         }
-
                     }
                     else
                     {
-                        throw new Exception("the given data property name can not be null");
+                        property = properties?.FirstOrDefault(x => x.Name == dataName);
+
                     }
 
-                    if (property != null)
-                    {
-                        //fix PW integer error
-                        //if (PWHighLights.Contains(data?[0]))
-                        //{
-                        //    data![1] = MetDataTypeString.DString;
-                        //}
-                        #region set property
-                        switch (data?[1])
-                        {
-                            case MetDataTypeString.DFloat:
-                                if (string.IsNullOrWhiteSpace(data[3]))
-                                {
-                                    var strData = new MetTuple
-                                    {
-                                        Status = metDict.Dict[data[2]],
-                                        Value = null
-                                    };
-                                    property.SetValue(obj, strData);
-                                }
-                                else
-                                {
-                                    var strData = new MetTuple
-                                    {
-                                        Status = metDict.Dict[data[2]!],
-                                        Value = float.Parse(data[3]!)
-                                    };
-                                    property.SetValue(obj, strData);
-                                }
-                                break;
-                            case MetDataTypeString.DInteger:
-                                if (string.IsNullOrWhiteSpace(data[3]))
-                                {
-                                    var strData = new MetTuple
-                                    {
-                                        Status = metDict.Dict[data[2]!],
-                                        Value = null
-                                    };
-                                    property.SetValue(obj, strData);
-                                }
-                                else
-                                {
-                                    var strData = new MetTuple
-                                    {
-                                        Status = metDict.Dict[data[2]!],
-                                        Value = float.Parse(data[3]!)
-                                    };
-                                    property.SetValue(obj, strData);
-                                }
-                                break;
-
-                            default:
-                                if (string.IsNullOrWhiteSpace(data?[3]))
-                                {
-                                    var strData = new MetTuple<string>
-                                    {
-                                        Status = metDict.Dict[data[2]],
-                                        Value = null
-                                    };
-                                    property.SetValue(obj, strData);
-                                }
-                                else
-                                {
-                                    var strData = new MetTuple<string>
-                                    {
-                                        Status = metDict.Dict[data[2]],
-                                        Value = data[3]
-                                    };
-                                    property.SetValue(obj, strData);
-                                }
-                                break;
-                        }
-                        #endregion
-                    }
                 }
-                return obj as T;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("无法倒装成气象类数据", ex);
-            }
+                else
+                {
+                    throw new Exception("the given data property name can not be null");
+                }
 
+                if (property != null)
+                {
+                    //fix PW integer error
+                    //if (PWHighLights.Contains(data?[0]))
+                    //{
+                    //    data![1] = MetDataTypeString.DString;
+                    //}
+                    #region set property
+                    switch (data?[1])
+                    {
+                        case MetDataTypeString.DFloat:
+                            if (string.IsNullOrWhiteSpace(data[3]))
+                            {
+                                var strData = new MetTuple
+                                {
+                                    Status = metDict.Dict[data[2]],
+                                    Value = null
+                                };
+                                property.SetValue(obj, strData);
+                            }
+                            else
+                            {
+                                var strData = new MetTuple
+                                {
+                                    Status = metDict.Dict[data[2]!],
+                                    Value = float.Parse(data[3]!)
+                                };
+                                property.SetValue(obj, strData);
+                            }
+                            break;
+                        case MetDataTypeString.DInteger:
+                            if (string.IsNullOrWhiteSpace(data[3]))
+                            {
+                                var strData = new MetTuple
+                                {
+                                    Status = metDict.Dict[data[2]!],
+                                    Value = null
+                                };
+                                property.SetValue(obj, strData);
+                            }
+                            else
+                            {
+                                var strData = new MetTuple
+                                {
+                                    Status = metDict.Dict[data[2]!],
+                                    Value = float.Parse(data[3]!)
+                                };
+                                property.SetValue(obj, strData);
+                            }
+                            break;
+
+                        default:
+                            if (string.IsNullOrWhiteSpace(data?[3]))
+                            {
+                                var strData = new MetTuple<string>
+                                {
+                                    Status = metDict.Dict[data[2]],
+                                    Value = null
+                                };
+                                property.SetValue(obj, strData);
+                            }
+                            else
+                            {
+                                var strData = new MetTuple<string>
+                                {
+                                    Status = metDict.Dict[data[2]],
+                                    Value = data[3]
+                                };
+                                property.SetValue(obj, strData);
+                            }
+                            break;
+                    }
+                    #endregion
+                }
+            }
+            return obj as T;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("无法倒装成气象类数据", ex);
         }
     }
 
