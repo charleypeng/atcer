@@ -4,9 +4,13 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-global using ATCer.DataCenter;
-global using ATCer.DataCenter.Workers;
-global using ATCer.DataCenter.Domains.MH4016_9;
-global using ATCer.ElasticSearch;
-global using Microsoft.Extensions.Configuration;
-global using Microsoft.AspNetCore.Mvc;
+namespace ATCer.DataCenter.Domains.RadarData.Cat048;
+
+public class Cat048
+{
+}
+
+public class I020
+{
+
+}

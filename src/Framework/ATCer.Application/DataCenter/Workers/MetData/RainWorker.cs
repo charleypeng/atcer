@@ -8,12 +8,12 @@ using ATCer.DataCenter.Domains;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
 
-namespace ATCer.Application.DataCenter.Workers.MetData;
+namespace ATCer.DataCenter.Workers.MetData;
 
 /// <summary>
 /// 
 /// </summary>
-public class RainWorker : BaseWorker<RainDto,string>
+public class RainWorker : BaseRadarWorker<RainDto,string>
 {
     /// <summary>
     /// 

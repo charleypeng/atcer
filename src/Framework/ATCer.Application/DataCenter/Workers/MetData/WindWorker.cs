@@ -8,12 +8,12 @@ using ATCer.DataCenter.Domains;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
 
-namespace ATCer.Application.DataCenter.Workers.MetData;
+namespace ATCer.DataCenter.Workers.MetData;
 
 /// <summary>
 /// 
 /// </summary>
-public class WindWorker : BaseWorker<WindDto,string>
+public class WindWorker : BaseRadarWorker<WindDto,string>
 {
     /// <summary>
     /// 

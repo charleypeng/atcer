@@ -4,19 +4,18 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter.Domains;
-using ATCer.DataCenter.Dtos.MetDatDtos;
+using ATCer.DataCenter.Domains.RadarData;
+using ATCer.DataCenter.Dtos.RadarDataDtos;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
-namespace ATCer.DataCenter.Workers;
+namespace ATCer.DataCenter.Workers.RadarData;
 
 /// <summary>
 /// 
 /// </summary>
 /// <typeparam name="TDto"></typeparam>
 /// <typeparam name="TKey"></typeparam>
-public abstract class BaseWorker<TDto,TKey>:ICapSubscribe where TDto: BaseMetDto,new()
+public abstract class BaseMetWorker<TDto, TKey> : ICapSubscribe where TDto : BaseRadarDto<string>, new()
 {
     /// <summary>
     /// 
@@ -32,7 +31,7 @@ public abstract class BaseWorker<TDto,TKey>:ICapSubscribe where TDto: BaseMetDto
     /// </summary>
     /// <param name="client"></param>
     /// <param name="logger"></param>
-    public BaseWorker(IServiceBase<TDto, TKey> client,
+    public BaseMetWorker(IServiceBase<TDto, TKey> client,
                       ILogger logger)
     {
         _client = client;
@@ -46,20 +45,34 @@ public abstract class BaseWorker<TDto,TKey>:ICapSubscribe where TDto: BaseMetDto
     /// <param name="data"></param>
     /// <returns></returns>
     [NonAction]
-    public virtual async Task AddDataAsync(RawMetData data)
+    public virtual async Task AddDataAsync(RawRadarData data)
     {
-        var mdata = data.ToMetType<TDto>();
+        if (data == null)
+            return;
+
+        var mdata = data?.D?.Adapt<List<TDto>>();
         if (mdata == null)
         {
             _logger.LogError(message: $"{DateTimeOffset.Now} 收到的原始数据有误");
             return;
         }
 
-        mdata.Id = Guid.NewGuid().ToString("N");
+        string? sourceId = null;
 
-        var result = await _client.Insert(mdata);
-        //insert
-        if (result != null)
-            _logger.LogInformation($"{typeof(BaseWorker<TDto, TKey>).Name}已入库：datetime{DateTime.Now}:{JsonConvert.SerializeObject(mdata)}");
+        if(!string.IsNullOrWhiteSpace(data?.O))
+        {
+            sourceId = Guid.NewGuid().ToString("N");
+        }
+
+        //var time = DateTimeOffset.Parse();
+        foreach (var item in mdata) 
+        {
+            item.Id = Guid.NewGuid().ToString("N");
+            item.SourceId = sourceId;
+            //todo: change to T
+            item.CreatedTime = DateTime.Now;
+            await _client.Insert(item);
+        }
+        //todo add sourceItem to local
     }
 }

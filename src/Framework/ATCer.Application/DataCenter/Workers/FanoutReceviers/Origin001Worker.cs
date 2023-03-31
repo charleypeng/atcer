@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Application.LTFATCenter.Services;
+using ATCer.DataCenter.Domains.RadarData;
 using ATCer.FanoutMq;
 using System.Text;
 
@@ -31,7 +32,17 @@ public class Origin001Worker : Fanout
 
         OnMessageCallback = async (a, b) =>
         {
-            await _publisher.PublishAsync("data.raw.origin001", Encoding.UTF8.GetString(a.Body.ToArray()));
+            var model = a.GetModel<RawRadarData>();
+
+            if (model == null)
+                return;
+
+            if(model.T == null)
+            {
+                model.T =  DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+
+            await _publisher.PublishAsync($"data.raw.{model.tp?.ToLower()}", model);
         };
     }
 }

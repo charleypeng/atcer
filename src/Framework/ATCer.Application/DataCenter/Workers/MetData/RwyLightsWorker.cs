@@ -8,12 +8,12 @@ using ATCer.DataCenter.Domains;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
 
-namespace ATCer.Application.DataCenter.Workers.MetData;
+namespace ATCer.DataCenter.Workers.MetData;
 
 /// <summary>
 /// 
 /// </summary>
-public class RwyLightsWorker : BaseWorker<RwyLightsDto, string>
+public class RwyLightsWorker : BaseRadarWorker<RwyLightsDto, string>
 {
     /// <summary>
     /// 

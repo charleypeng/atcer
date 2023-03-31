@@ -4,18 +4,12 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ATCer.DataCenter.Domains
 {
     /// <summary>
     /// 
     /// </summary>
-    public class BaseMetDomain<TKeky>:ATCElasticEntity<TKeky>
+    public class BaseMetDomain<Tkey>:ATCElasticEntity<Tkey>
     {
         /// <summary>
         /// 数据原ID
@@ -34,5 +28,4 @@ namespace ATCer.DataCenter.Domains
     public class BaseMetDomain : BaseMetDomain<string>
     {
     }
-
 }

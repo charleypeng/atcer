@@ -4,9 +4,11 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-global using ATCer.DataCenter;
-global using ATCer.DataCenter.Workers;
-global using ATCer.DataCenter.Domains.MH4016_9;
-global using ATCer.ElasticSearch;
-global using Microsoft.Extensions.Configuration;
-global using Microsoft.AspNetCore.Mvc;
+using ATCer.Base;
+
+namespace ATCer.DataCenter.Dtos.RadarDataDtos;
+
+public class BaseRadarDto<TKey> : BaseDto<TKey>
+{
+    public string? SourceId { get; set; }
+}

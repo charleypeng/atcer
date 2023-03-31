@@ -51,8 +51,6 @@ public class MetDataService : BaseElasticService<MyMetData, MyMetData, string>, 
 
             if (mdata == null)
                 return;
-
-            mdata.Id = Guid.NewGuid().ToString("N");
         }
         catch (Exception)
         {

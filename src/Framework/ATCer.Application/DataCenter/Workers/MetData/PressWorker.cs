@@ -7,15 +7,13 @@
 using ATCer.DataCenter.Domains;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
-namespace ATCer.Application.DataCenter.Workers.MetData;
+namespace ATCer.DataCenter.Workers.MetData;
 
 /// <summary>
 /// 
 /// </summary>
-public class PressWorker : BaseWorker<PressDto, string>
+public class PressWorker : BaseRadarWorker<PressDto, string>
 {
     /// <summary>
     /// 
