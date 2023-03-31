@@ -16,6 +16,19 @@ namespace ATCer.FanoutMq
             if(msg.Body.Length == 0)
                 return default;
 
+            if(typeof(T) == typeof(string))
+            {
+                try
+                {
+                    object obj = Encoding.UTF8.GetString(msg.Body.ToArray());
+                    return (T?)obj;
+                }
+                catch (Exception)
+                {
+                    throw new Exception("error when encoding TransportMsg as UTF8 string");
+                }
+            }
+
             try
             {
                 return JsonSerializer.Deserialize<T>(msg.Body.ToArray());

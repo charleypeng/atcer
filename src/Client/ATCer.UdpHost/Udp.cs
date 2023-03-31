@@ -8,7 +8,7 @@ namespace ATCer.UdpHost
     {
         private readonly UdpClient udpClient;
         //private readonly IPEndPoint iPEndPoint;
-        Thread task;
+        private Thread task;
         bool flag = true;
         private readonly MqSender mq;
         private CancellationToken _cancellationToken;
@@ -58,7 +58,7 @@ namespace ATCer.UdpHost
             flag = false;
             if(task.ThreadState == ThreadState.Running) 
             {
-                task.Abort();
+                _cancellationToken.ThrowIfCancellationRequested();
             }
             udpClient.Close();
             Logger.LogInfomation($"{_options.ExchangeName}已经停止");

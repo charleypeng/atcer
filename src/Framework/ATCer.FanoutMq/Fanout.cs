@@ -33,8 +33,8 @@ namespace ATCer.FanoutMq
         /// 
         /// </summary>
         /// <param name="options"></param>
+        /// <param name="logger"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="Exception"></exception>
         public Fanout(MqOptions options,
             ILogger<Fanout> logger)
         {
@@ -90,7 +90,7 @@ namespace ATCer.FanoutMq
                     //send message
                     await OnMessageCallback!(message, ea.DeliveryTag);
                     //acknowledge message
-                    //_channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                    _channel?.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                     
                 }
                 catch (AlreadyClosedException)
@@ -105,7 +105,7 @@ namespace ATCer.FanoutMq
             };
             _channel?.BasicQos(0, 1, false);
             _channel?.BasicConsume(queue: QueueName,
-                                 consumer: consumer, autoAck: true);
+                                 consumer: consumer, autoAck: false);
 
 
             return Task.CompletedTask;
@@ -121,7 +121,10 @@ namespace ATCer.FanoutMq
                     if(_channel == null || _channel.IsClosed)
                     {
                         _channel = _connection?.CreateModel();
+
+                        //declare exchange
                         tryDeclareExchange();
+
                         if (string.IsNullOrWhiteSpace(QueueName))
                         {
                             this.QueueName = _channel.QueueDeclare().QueueName;
@@ -130,6 +133,7 @@ namespace ATCer.FanoutMq
                         {
                             _channel.QueueDeclare(QueueName, false);
                         }
+                        //bind queue
                         _channel.QueueBind(queue: QueueName,
                             exchange: BindName,
                             routingKey: string.Empty);
@@ -138,10 +142,12 @@ namespace ATCer.FanoutMq
                 }
                 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //exception may be caused by undefined exchange
+                //so we try to declare the exchange
                 tryDeclareExchange();
-                throw;
+                throw new Exception(ex.Message,ex);
             }
             
         }
