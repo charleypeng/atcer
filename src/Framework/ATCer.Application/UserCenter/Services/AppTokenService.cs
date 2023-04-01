@@ -4,8 +4,6 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using Furion.DatabaseAccessor;
-using Furion.DependencyInjection;
 using ATCer.Authentication.Core;
 using ATCer.Authentication.Dtos;
 using ATCer.Authentication.Enums;
@@ -16,12 +14,6 @@ using ATCer.UserCenter.Dtos;
 using ATCer.UserCenter.Impl.Domains;
 using ATCer.UserCenter.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ATCer.UserCenter.Impl.Services
 {

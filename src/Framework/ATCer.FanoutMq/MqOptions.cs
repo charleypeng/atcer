@@ -12,6 +12,17 @@ using System.Threading.Tasks;
 
 namespace ATCer.FanoutMq
 {
+#if DEBUG
+    public class MqOptions
+    {
+        public string? Ip { get; set; } = "127.0.0.1";
+        public int? Port { get; set; } = 5672;
+        public string? Username { get; set; } = "admin";
+        public string? Password { get; set; } = "admin";
+        public string? BindName { get; set; } = "logs4";
+        public string? QueueName { get; set; } = "hahame";
+    }
+#else
     public class MqOptions
     {
         public string? Ip { get; set; } = "189.161.20.111";
@@ -21,4 +32,6 @@ namespace ATCer.FanoutMq
         public string? BindName { get; set; } = "logs4";
         public string? QueueName { get; set; } = "hahame";
     }
+#endif
+
 }

@@ -25,6 +25,7 @@ namespace ATCer.FanoutMq
         private ConnectionFactory? _factory;
         private IModel? _channel;
         private IConnection? _connection;
+        private bool isConnected;
         //AsyncEventingBasicConsumer? consumer;
         protected readonly ILogger<Fanout> _logger;
         private string _typeName;
@@ -111,9 +112,39 @@ namespace ATCer.FanoutMq
             return Task.CompletedTask;
         }
 
+        private void connectWithRetry()
+        {
+            isConnected = false;
+            while (isConnected == false)
+            {
+                try
+                {
+                    _connection = _factory?.CreateConnection();
+                    isConnected = true;
+                    _logger.LogWarning($"mq connected from{Ip}");
+                }
+                catch (Exception)
+                {
+                    isConnected = false;
+                }
+                Thread.Sleep(TimeSpan.FromSeconds(10));
+                _logger.LogError("still retrying...");
+            }
+        }
+
         private void tryDeclareQueue()
         {
-            _connection = _factory?.CreateConnection();
+            try
+            {
+                _connection = _factory?.CreateConnection();
+                isConnected = true;
+            }
+            catch (Exception)
+            {
+                _logger.LogError($"can not create mq connection from {this.Ip}, reconnecting ...");
+                connectWithRetry();
+            }
+            
             try
             {
                 lock (_syncLock)
