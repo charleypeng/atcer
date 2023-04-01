@@ -12,6 +12,10 @@ namespace ATCer.DataCenter;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
 public class DataName : Attribute
 {
+    /// <summary>
+    /// Set the data property name
+    /// </summary>
+    /// <param name="name"></param>
     public DataName(string name)
     {
         DisplayName = name;

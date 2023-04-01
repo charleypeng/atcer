@@ -5,12 +5,9 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.Cache;
-using ATCer.DataCenter.Domains.MH4016_9;
 using ATCer.DataCenter.Dtos.MetDatDtos;
 using ATCer.DataCenter.Services.MetData;
-using ATCer.ElasticSearch;
 using ATCer.ElasticSearch.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ATCer.Application.DataCenter.Services.MetData;
 

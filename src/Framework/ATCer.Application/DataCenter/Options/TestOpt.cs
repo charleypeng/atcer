@@ -5,15 +5,10 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.FanoutMq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ATCer.Application.LTFATCenter.Services
+namespace ATCer.DataCenter.Options
 {
-    public class TestOpt:MqOptions
+    public class TestOpt : MqOptions
     {
 
     }

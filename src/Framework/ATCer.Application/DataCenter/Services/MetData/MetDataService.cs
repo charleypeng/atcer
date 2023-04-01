@@ -7,10 +7,9 @@
 using ATCer.Cache;
 using ATCer.DataCenter.Domains;
 using ATCer.ElasticSearch.Services;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace ATCer.Application.DataCenter.Services;
+namespace ATCer.Application.DataCenter.Services.MetData;
 
 /// <summary>
 /// 数据接收接口

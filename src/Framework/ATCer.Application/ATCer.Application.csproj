@@ -36,4 +36,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.4" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="7.0.0" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="DataCenter\Services\RadarData\" />
+	</ItemGroup>
 </Project>

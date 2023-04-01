@@ -4,10 +4,7 @@
 //  CopyRight(C) 2023  版权所有
 // -----------------------------------------------------------------------------
 
-using ATCer.DataCenter.Domains;
-using ATCer.DataCenter.Domains.MH4016_9;
-
-namespace ATCer.DataCenter;
+namespace ATCer.DataCenter.Consts;
 
 public class IndexNames
 {
@@ -27,13 +24,4 @@ public class IndexNames
     /// 原始数据
     /// </summary>
     public const string MetData_Raw = "metdata.raw";
-    public static Dictionary<string, Type> IndexDict
-    {
-        get => new Dictionary<string, Type>
-        {
-            {Names[0], typeof(PRESS)},
-            {Names[1], typeof(PV)}
-        };
-    }
-    
 }

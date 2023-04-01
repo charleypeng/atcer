@@ -4,6 +4,8 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
+using System.Text.Json.Serialization;
+using ATCer.Attributes;
 using ATCer.Base;
 
 namespace ATCer.DataCenter.Dtos.RadarDataDtos;
@@ -11,4 +13,10 @@ namespace ATCer.DataCenter.Dtos.RadarDataDtos;
 public class BaseRadarDto<TKey> : BaseDto<TKey>
 {
     public string? SourceId { get; set; }
+    [JsonIgnore]
+    [DisabledSearchField]
+    public override bool IsLocked { get; set; }
+    [JsonIgnore]
+    [DisabledSearchField]
+    public override DateTimeOffset? UpdatedTime { get; set; }
 }

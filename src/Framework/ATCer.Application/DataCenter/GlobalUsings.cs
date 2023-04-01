@@ -10,3 +10,5 @@ global using ATCer.DataCenter.Domains.MH4016_9;
 global using ATCer.ElasticSearch;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.AspNetCore.Mvc;
+global using ATCer.DataCenter.Consts;
+global using ATCer.DataCenter.Options;

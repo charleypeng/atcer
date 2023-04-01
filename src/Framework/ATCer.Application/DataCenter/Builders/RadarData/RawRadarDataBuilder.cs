@@ -10,18 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATCer.Application.DataCenter.Consts
+namespace ATCer.Application.DataCenter.Builders.RadarData
 {
-    public struct Subsribers
+    internal class RawRadarDataBuilder
     {
-        public struct MetData
-        {
-
-        }
-
-        public struct RadarData
-        {
-            public const string RawCat048 = "data.raw.radar.cat048";
-        }
     }
 }

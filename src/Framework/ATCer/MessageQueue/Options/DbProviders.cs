@@ -4,34 +4,27 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace ATCer.MessageQueue.Options;
 
-namespace ATCer.MessageQueue.Options
+/// <summary>
+/// 
+/// </summary>
+public class DbProviders
 {
     /// <summary>
     /// 
     /// </summary>
-    public class DbProviders
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string MySql = "MySql";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string PostreSql = "PostreSql";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string SqlServer = "SqlServer";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string InMemory = "InMemory";
-    }
+    public const string MySql = "MySql";
+    /// <summary>
+    /// 
+    /// </summary>
+    public const string PostreSql = "PostreSql";
+    /// <summary>
+    /// 
+    /// </summary>
+    public const string SqlServer = "SqlServer";
+    /// <summary>
+    /// 
+    /// </summary>
+    public const string InMemory = "InMemory";
 }

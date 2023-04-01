@@ -7,22 +7,13 @@
 namespace ATCer.DataCenter.Domains.RadarData;
 
 /// <summary>
-/// 雷达数据基类
+/// 存储原始雷达数据
 /// </summary>
-/// <typeparam name="TKey"></typeparam>
-public abstract class BaseRadarDomain<TKey> : ATCElasticEntity<TKey>
+public class OriginSourceData : BaseRadarDomain
 {
     /// <summary>
-    /// 源数据Id
+    /// 雷达数据内容
     /// </summary>
-    [Nest.Keyword]
-    public string? SourceId { get; set; }
-}
-
-/// <summary>
-/// 雷达数据类
-/// </summary>
-public class BaseRadarDomain : BaseRadarDomain<string>
-{
-
+    [Nest.Keyword(Index = false)]
+    public string? RadarContent { get; set; }
 }

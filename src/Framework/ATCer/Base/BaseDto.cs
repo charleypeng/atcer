@@ -31,7 +31,7 @@ namespace ATCer.Base
         /// 是否锁定
         /// </summary>
         [DisplayName("是否锁定")]
-        public bool IsLocked { get; set; }
+        public virtual bool IsLocked { get; set; }
         /// <summary>
         /// 是否逻辑删除
         /// </summary>
@@ -47,6 +47,6 @@ namespace ATCer.Base
         /// 创建日期
         /// </summary>
         [DisplayName("更新时间")]
-        public DateTimeOffset? UpdatedTime { get; set; }
+        public virtual DateTimeOffset? UpdatedTime { get; set; }
     }
 }

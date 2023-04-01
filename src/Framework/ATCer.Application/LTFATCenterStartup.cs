@@ -16,7 +16,6 @@ using SimpleUdp;
 using System.Text.Json;
 using ATCer.DataCenter.Domains;
 using ATCer.FanoutMq;
-using ATCer.Application.LTFATCenter.Services;
 
 namespace ATCer.Core
 {

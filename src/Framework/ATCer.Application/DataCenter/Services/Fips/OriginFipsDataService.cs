@@ -10,7 +10,6 @@ using ATCer.LTFATCenter.Domains.GZFips;
 using ATCer.LTFATCenter.Dtos.GZFips;
 using ATCer.LTFATCenter.Services;
 using Furion.DynamicApiController;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ATCer.Application.DataCenter.Services.Fips
 {
