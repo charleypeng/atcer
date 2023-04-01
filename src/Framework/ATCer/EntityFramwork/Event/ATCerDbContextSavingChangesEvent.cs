@@ -9,7 +9,7 @@ namespace ATCer.EntityFramwork.Event
     /// <summary>
     /// 保存数据更改事件
     /// </summary>
-    public class GardenerDbContextSavingChangesEvent
+    public class ATCerDbContextSavingChangesEvent
     {
         /// <summary>
         /// 数据
