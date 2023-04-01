@@ -1,25 +1,27 @@
 ﻿@namespace ATCer.Client.Base.Shared
 @inherits LayoutComponentBase
 
-<div class="container__b__0" style="background-color:@computedBgColor">
-    <div class="lang">
-        <!--todo: selectLang-->
-    </div>
-    <div class="content">
-        <div class="top">
-            <div class="header">
-                <a>
-                    <img alt="logo" class="logo" src="assets/logo.png" />
-                    <span class="title" style="color:@computedFontColor">@systemConfig.SystemName</span>
-                </a>
-            </div>
-            <div class="desc">@systemConfig.SystemDescription</div>
+<CascadingAuthenticationState>
+    <div class="container__b__0" style="background-color:@computedBgColor">
+        <div class="lang">
+            <!--todo: selectLang-->
         </div>
-        @Body
+        <div class="content">
+            <div class="top">
+                <div class="header">
+                    <a>
+                        <img alt="logo" class="logo" src="assets/logo.png" />
+                        <span class="title" style="color:@computedFontColor">@systemConfig.SystemName</span>
+                    </a>
+                </div>
+                <div class="desc">@systemConfig.SystemDescription</div>
+            </div>
+            @Body
+        </div>
+        <GlobalFooter Links="ClientConstant.FooterLinks">
+            <Copyright>
+                Copyright <Icon Type="copyright" /> @systemConfig?.Copyright
+            </Copyright>
+        </GlobalFooter>
     </div>
-    <GlobalFooter Links="ClientConstant.FooterLinks">
-        <Copyright>
-            Copyright <Icon Type="copyright" /> @systemConfig?.Copyright
-        </Copyright>
-    </GlobalFooter>
-</div>
+</CascadingAuthenticationState>

@@ -68,7 +68,7 @@
             </Row>
 
         </TitleTemplate>
-        <RowTemplate>
+        <ColumnDefinitions>
             <ResourceAuthorize ResourceKey="system_manager_function_delete_selected">
                 <Selection Key="@(model.Id.ToString())" Width="5%" />
             </ResourceAuthorize>
@@ -125,6 +125,6 @@
                     </ResourceAuthorize>
                 </Space>
             </ActionColumn>
-        </RowTemplate>
+        </ColumnDefinitions>
     </Table>
 </div>

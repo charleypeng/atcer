@@ -22,7 +22,7 @@
 		<PackageReference Include="DotNetCore.CAP.PostgreSql" Version="7.1.0" />
 		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.1.0" />
 		<PackageReference Include="DotNetCore.CAP.SqlServer" Version="7.1.0" />
-		<PackageReference Include="Furion" Version="4.8.7.20" />
+		<PackageReference Include="Furion" Version="4.8.7.31" />
 		<PackageReference Include="Mapster" Version="7.4.0-pre05" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.4" />

@@ -45,7 +45,7 @@
                 </AntDesign.Col>
             </Row>
         </TitleTemplate>
-        <RowTemplate>
+        <ColumnDefinitions>
             <ResourceAuthorize ResourceKey="user_center_position_delete_selected">
                 <Selection Key="@(model.Id.ToString())" />
             </ResourceAuthorize>
@@ -88,6 +88,6 @@
                     </ResourceAuthorize>
                 </Space>
             </ActionColumn>
-        </RowTemplate>
+        </ColumnDefinitions>
     </Table>
 </div>

@@ -65,7 +65,7 @@
                 </Col>
             </Row>
         </TitleTemplate>
-        <RowTemplate>
+        <ColumnDefinitions>
             <Column TData="long"
                 @bind-Field="context.Id"
                 Sortable
@@ -96,6 +96,6 @@
                     @bind-Field="context.Confirmed"
                     Sortable
                     Filterable />
-        </RowTemplate> 
+        </ColumnDefinitions> 
     </Table>    
 </div>

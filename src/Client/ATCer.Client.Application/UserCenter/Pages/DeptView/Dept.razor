@@ -45,7 +45,7 @@
             </Row>
 
         </TitleTemplate>
-        <RowTemplate>
+        <ColumnDefinitions>
             <Selection CheckStrictly Width="5%" />
             <Column @bind-Field="@model.Name" Width="25%" />
             <Column @bind-Field="@model.Contacts" Width="10%" />
@@ -102,6 +102,6 @@
                     </ResourceAuthorize>
                 </Space>
             </ActionColumn>
-        </RowTemplate>
+        </ColumnDefinitions>
     </Table>
 </div>

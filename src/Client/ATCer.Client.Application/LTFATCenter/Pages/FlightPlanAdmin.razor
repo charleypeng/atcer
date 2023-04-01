@@ -87,7 +87,7 @@
                 </AntDesign.Col>
             </Row>
         </TitleTemplate>
-        <RowTemplate>
+        <ColumnDefinitions>
             <ResourceAuthorize ResourceKey="atcer_ltfatcenter">
                 <Selection Key="@(model.Id.ToString())" />
             </ResourceAuthorize>
@@ -129,7 +129,7 @@
                     </ResourceAuthorize>
                 </Space>
             </ActionColumn>
-        </RowTemplate>
+        </ColumnDefinitions>
     </Table>
         </ChildContent>
     </TabPane>

@@ -20,10 +20,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AntDesign" Version="0.13.2" />
-		<PackageReference Include="AntDesign.Charts" Version="0.3.0" />
-		<PackageReference Include="AntDesign.ProLayout" Version="0.13.1" />
-		<PackageReference Include="Blazor.ContextMenu" Version="1.15.0" />
+		<PackageReference Include="AntDesign" Version="0.14.4" />
+		<PackageReference Include="AntDesign.Charts" Version="0.3.1" />
+		<PackageReference Include="AntDesign.ProLayout" Version="0.14.4" />
+		<PackageReference Include="Blazor.ContextMenu" Version="1.16.0" />
 		<PackageReference Include="OneOf" Version="3.0.243" />
 		<PackageReference Include="Mapster" Version="7.4.0-pre05" />
 		<PackageReference Include="blazor-dragdrop" Version="2.4.0" />
