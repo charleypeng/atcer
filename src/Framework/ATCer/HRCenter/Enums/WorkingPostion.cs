@@ -4,20 +4,13 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace ATCer.HRCenter.Enums;
 
-namespace ATCer.HRCenter.Enums
+/// <summary>
+/// 工作类型
+/// </summary>
+public enum WorkingPostion:byte
 {
-    /// <summary>
-    /// 工作类型
-    /// </summary>
-    public enum WorkingPostion
-    {
-        GuanZhi,
-        JianXi
-    }
+    GuanZhi,
+    JianXi
 }

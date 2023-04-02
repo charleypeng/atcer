@@ -21,9 +21,5 @@ namespace ATCer.Base
         /// 已删除
         /// </summary>
         bool IsDeleted { get; set; }
-        /// <summary>
-        /// 已锁定
-        /// </summary>
-        bool IsLocked { get; set; }
     }
 }

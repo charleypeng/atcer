@@ -25,7 +25,7 @@ namespace ATCer.Base
     /// <summary>
     /// dto基础类
     /// </summary>
-    public class BaseDto
+    public class BaseDto:IBaseEntity
     {
         /// <summary>
         /// 是否锁定

@@ -4,39 +4,31 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace ATCer.HRCenter.Enums;
 
-namespace ATCer.HRCenter.Enums
+/// <summary>
+/// 管制部门
+/// </summary>
+public enum ATCDepartment:byte
 {
     /// <summary>
-    /// 管制部门
+    /// 塔台
     /// </summary>
-    public enum ATCDepartment
-    {
-        /// <summary>
-        /// 塔台
-        /// </summary>
-        [Description("塔台")]
-        TWR = 0,
-        /// <summary>
-        /// 进近
-        /// </summary>
-        [Description("进近")]
-        APP = 1,
-        /// <summary>
-        /// 区调
-        /// </summary>
-        [Description("区调")]
-        ACC = 2,
-        /// <summary>
-        /// 非管制部门
-        /// </summary>
-        [Description("非管制部门")]
-        NONE = 3,
-    }
+    [Description("塔台")]
+    TWR = 0,
+    /// <summary>
+    /// 进近
+    /// </summary>
+    [Description("进近")]
+    APP = 1,
+    /// <summary>
+    /// 区调
+    /// </summary>
+    [Description("区调")]
+    ACC = 2,
+    /// <summary>
+    /// 非管制部门
+    /// </summary>
+    [Description("非管制部门")]
+    NONE = 3,
 }

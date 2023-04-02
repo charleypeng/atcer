@@ -48,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
             using var serviceProvider = services.BuildServiceProvider();
-            var jwtSettings = serviceProvider.GetService<IOptions<JWTOptions>>().Value;
+            var jwtSettings = serviceProvider.GetService<IOptions<JWTOptions>>()!.Value;
 
             Func<MessageReceivedContext, Task> contextHandle = context =>
             {
@@ -65,9 +65,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (!string.IsNullOrWhiteSpace(atcerToken))
                 {
                     var service = App.GetService<ATCer.UserCenter.Services.IAppTokenServce>();
-                    context.Token = service.GetJwtToken(atcerToken).Result;
+                    context.Token = service.GetJwtToken(atcerToken!).Result;
                     return Task.CompletedTask;
                 }
+                
+                var atcerQuery = context.Request.Query["atcer"];
+
+                //to add token for atcer header authentication
+                if (!string.IsNullOrWhiteSpace(atcerQuery))
+                {
+                    var service = App.GetService<ATCer.UserCenter.Services.IAppTokenServce>();
+                    context.Token = service.GetJwtToken(atcerQuery!).Result;
+                    return Task.CompletedTask;
+                }
+
                 return Task.CompletedTask;
             };
 

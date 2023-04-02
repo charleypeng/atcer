@@ -4,15 +4,12 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.Client.Base;
+namespace ATCer;
 
-namespace ATCer
+public partial class UserOptions : ObservableModel
 {
-    public partial class UserOptions : ObservableModel
-    {
-        private bool _darkMode = false;
-        public bool DarkMode {get{ return _darkMode; } set { _darkMode = value; RaisePropertyChanged(nameof(DarkMode)); } }
-        public Theme  Theme { get; set; }
-        public string RightContentSize { get; set; } = "large";
-    }
+    private bool _darkMode = false;
+    public bool DarkMode { get { return _darkMode; } set { _darkMode = value; RaisePropertyChanged(nameof(DarkMode)); } }
+    public Theme Theme { get; set; }
+    public string RightContentSize { get; set; } = "large";
 }

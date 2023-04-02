@@ -146,9 +146,9 @@ namespace ATCer
         /// <param name="tracking"></param>
         /// <returns></returns>
         public static IQueryable<TEntity> AsDefaultQuaryable<TEntity>(this IRepository<TEntity> entity, bool tracking = false)
-            where TEntity : class, IPrivateEntity, IBaseEntity, new()
+            where TEntity : class, IPrivateEntity, IATCerEntity, new()
         {
-            var et = entity.AsQueryable(tracking).Where(x => x.IsDeleted == false, x => x.IsDeleted == false);
+            var et = entity.AsQueryable(tracking).Where(x => x.IsDeleted == false, x => x.IsLocked == false);
             return et;
         }
 
@@ -160,11 +160,13 @@ namespace ATCer
         /// <param name="entity"></param>
         /// <param name="tracking"></param>
         /// <returns></returns>
-        public static IQueryable<TEntity> AsDefaultQuaryable<TEntity, TDbContextLocator>(this IRepository<TEntity, TDbContextLocator> entity, bool tracking = false)
-            where TEntity : class, IPrivateEntity, IBaseEntity, new()
+        public static IQueryable<TEntity> AsDefaultQuaryable<TEntity, TDbContextLocator>
+            (this IRepository<TEntity, TDbContextLocator> entity, bool tracking = false)
+
+            where TEntity : class, IPrivateEntity, IATCerEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            var et = entity.AsQueryable(tracking).Where(x => x.IsDeleted == false, x => x.IsDeleted == false);
+            var et = entity.AsQueryable(tracking).Where(x => x.IsDeleted == false, x => x.IsLocked == false);
             return et;
         }
 
@@ -175,7 +177,7 @@ namespace ATCer
         /// <param name="quary"></param>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public static IQueryable<T> GWhere<T>(this IQueryable<T> quary, Expression<Func<T, bool>> expression) where T : ATCer.Base.IATCerEntity
+        public static IQueryable<T> GWhere<T>(this IQueryable<T> quary, Expression<Func<T, bool>> expression) where T : IATCerEntity
         {
             return quary.Where(x => x.IsDeleted == false && x.IsLocked == false).Where(expression);
         }

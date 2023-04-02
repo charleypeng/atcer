@@ -4,21 +4,15 @@
 //  CopyRight(C) 2022  版权所有 
 // -----------------------------------------------------------------------------
 
-using ATCer.Authentication.Enums;
-
 namespace ATCer.Base;
 
 /// <summary>
 /// Entity基类
 /// </summary>
-public interface IATCerEntity
+public interface IATCerEntity : IBaseEntity
 {
     /// <summary>
     /// 是否锁定
     /// </summary>
     bool IsLocked { get; set; }
-    /// <summary>
-    /// 是否删除
-    /// </summary>
-    bool IsDeleted { get; set; }
 }

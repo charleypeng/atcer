@@ -1,7 +1,7 @@
 @namespace ATCer.Client.Components
 @inherits AntDomComponentBase
 
-<TabPane Key="@TabKey" Tab="@($"{Title} {Data?.Count ?? 0}")">
+<TabPane Key="@TabKey" Tab="@($"{Title} {Data?.Count ?? 0}")" Class="@ClassMapper.Class">
     @if (Data == null || Data.Count <= 0)
     {
         <div class="notFound" style="min-width: 336px;">
