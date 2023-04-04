@@ -6,7 +6,6 @@
 
 using Nest;
 using ATCer.ElasticSearch;
-using Microsoft.CodeAnalysis;
 
 namespace ATCer.Core.ElasticSearch.Extensions
 {
@@ -125,19 +124,7 @@ namespace ATCer.Core.ElasticSearch.Extensions
         {
             var logger = App.GetService<ILogger>();
             
-            if (response == null)
-                return;
-
-            logger.LogError(response?.ServerError?.Error?.Reason);
-
-            var type = response?.GetType();
-            if (type != typeof(BulkResponse)) return;
-            var bulkResponse = response as BulkResponse;
-            if (bulkResponse == null) return;
-            foreach (var itemError in bulkResponse.ItemsWithErrors)
-            {
-                logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
-            }
+            LogError(response, logger);
         }
 
         /// <summary>
@@ -150,7 +137,8 @@ namespace ATCer.Core.ElasticSearch.Extensions
             if (response == null)
                 return;
 
-            //logger.LogError(response?.ServerError?.Error?.Reason);
+            if(response?.ServerError != null)
+                logger.LogError(response?.ServerError?.Error?.Reason);
 
             var type = response?.GetType();
             if (type != typeof(BulkResponse)) return;
@@ -158,7 +146,8 @@ namespace ATCer.Core.ElasticSearch.Extensions
             if (bulkResponse == null) return;
             foreach (var itemError in bulkResponse.ItemsWithErrors)
             {
-                //logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
+                if(itemError != null)
+                    logger.LogError($"es error:id={itemError.Id}, {itemError.Error.Reason}");
             }
         }
     }
