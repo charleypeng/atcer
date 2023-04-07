@@ -20,7 +20,7 @@ namespace ATCer.HRCenter.Dtos
         /// 姓名
         /// </summary>
         [ImporterHeader(Name = "姓名")]
-        public string ControllerName { get; set; }
+        public string? ControllerName { get; set; }
         /// <summary>
         /// 扇区
         /// </summary>
@@ -51,6 +51,6 @@ namespace ATCer.HRCenter.Dtos
         /// </summary>
         [ImporterHeader(Name = "值班类型")]
         [Required(ErrorMessage = "岗位角色不能为空")]
-        public ControllerRole ControllerRole { get; set; }
+        public ControllerRole? ControllerRole { get; set; }
     }
 }

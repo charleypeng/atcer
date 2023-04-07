@@ -17,27 +17,27 @@ public enum ATCLevel:byte
     [Description("特级")]
     Teji = 0,
     /// <summary>
-    /// 特级
+    /// 一级
     /// </summary>
     [Description("一级")]
     YiJi = 1,
     /// <summary>
-    /// 特级
+    /// 二级
     /// </summary>
     [Description("二级")]
     ErJi = 2,
     /// <summary>
-    /// 特级
+    /// 三级
     /// </summary>
     [Description("三级")]
     SanJi = 3,
     /// <summary>
-    /// 特级
+    /// 四级
     /// </summary>
     [Description("四级")]
     SiJi = 4,
     /// <summary>
-    /// 特级
+    /// 五级
     /// </summary>
     [Description("五级")]
     WuJi = 5,

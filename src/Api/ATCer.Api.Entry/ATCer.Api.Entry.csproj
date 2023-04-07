@@ -8,6 +8,8 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'ATCer.Web.Entry' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'ATCData' " />
   <ItemGroup>
     <Compile Remove="logs\**" />
     <Compile Remove="wwwroot\upload\**" />

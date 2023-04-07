@@ -10,6 +10,8 @@ global using ATCer.Base.Domains;
 global using Mapster;
 global using ATCer;
 global using ATCer.Enums;
+global using ATCer.HRCenter.Dtos;
+global using ATCer.HRCenter.Enums;
 global using Furion;
 global using Furion.DatabaseAccessor;
 global using Furion.DependencyInjection;

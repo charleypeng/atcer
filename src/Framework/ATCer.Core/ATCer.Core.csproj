@@ -34,4 +34,12 @@
 	  <ProjectReference Include="..\ATCer\ATCer.csproj" />
 	  <ProjectReference Include="..\Furion.TaskScheduler\Furion.TaskScheduler.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="SysJob\Core\JobClusterServer.cs" />
+	  <Compile Remove="SysJob\Core\DbJobPersistence.cs" />
+	  <Compile Remove="SysJob\Domains\SysJobDetail.cs" />
+	  <Compile Remove="SysJob\Domains\SysJobTrigger.cs" />
+	  <Compile Remove="SysJob\Domains\SysJobCluster.cs" />
+	  <Compile Remove="SysJob\Services\SysJobService.cs" />
+	</ItemGroup>
 </Project>

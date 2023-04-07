@@ -239,6 +239,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     }
     #endregion
 
+    string[] source = new string[10] { "TWRPRE", "ZTZX08", "ZTZXO9", "ZTZX10", "地面监控席", "西塔监控席", "地面管制席", "GND", "TWRC,TWRE", "TWR,TWRF" };
     #region time item importer
     private async Task<ImportFromExcelOutput> importTimeItems(Stream stream)
     {
@@ -262,51 +263,55 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
 
         foreach (var item in rowItems)
         {
-            if (item.SectorCode.Contains(",") && item.SectorCode.Contains("TWR"))
-            {
-                item.SectorCode = "TWR";
-                item.PysicalPosition = "ZTZX09";
-                goto wo1;
-            }
-            if (item.SectorCode.Contains("TWR"))
-            {
-                item.SectorCode = "TWR";
-                item.PysicalPosition = "ZTZX09";
-                goto wo1;
-            }
-            if (item.PositionType.Contains("塔台") || item.PositionType.Contains("地面"))
-            {
-                item.SectorCode = "TWR";
-                item.PysicalPosition = "ZTZX09";
-                goto wo1;
-            }
-        wo1:
+            //to ensure begin and end time  is correct
+            var timeSpan = item.EndTime - item.BeginTime;
 
+            if (timeSpan.TotalSeconds < 0)
+                throw Oops.Oh($"时间错误：{item.ControllerName}:{item.BeginTime}:{item.EndTime}");
+
+            //set the import time item format to make sure it can attach to a signle sector
+            if (item.SectorCode.Equals("AS") && (item.PositionType.Equals("流控席") || item.PositionType.Equals("流控见习")))
+            {
+                item.SectorCode = "APPFLM";
+            }
+            if (item.PositionType.Contains("见习"))
+            {
+                item.ControllerRole = ControllerRole.Student;
+            }
+
+            if (source.Any((string x) => x.Contains(item.PysicalPosition)))
+            {
+                item.PysicalPosition = "ZTZX09";
+                item.SectorCode = "TWR";
+            }
             if (item.PositionType.Equals("放行席见习"))
             {
                 item.PositionType = "放行见习";
-            }
-            //error fix for approach controller
-            if (item.SectorCode.Equals("AS"))
-            {
-                if (item.PositionType.Equals("流控席") || item.PositionType.Equals("流控见习"))
-                {
-                    item.SectorCode = "APPFLM";
-                }
             }
             //get user
             var user = users.Where(x => x.ATCName == item.ControllerName &&
                                    x.Department == item.PysicalPosition.ToDepartment()).Single();
             if (user == null)
                 throw Oops.Oh($"管制员 {item.ControllerName} 不存在");
+
             //get sector
-            var sector = sectors.Where(x => x.Code == item.SectorCode &&
-                                       x.PositionName.Contains(item.PositionType) &&
-                                       x.Department == user.Department).Single();
+            Sector? sector;
+            try
+            {
+
+                sector = sectors.Where((Sector c) => c.Department == user.Department &&
+                    c.PositionName.Contains(item.PositionType) &&
+                    c.Code.ReverseContain(item.SectorCode)).Single();
+            }
+            catch (Exception)
+            {
+                sector = null;
+            }
 
             if (sector == null)
                 throw Oops.Oh($"扇区 {item.SectorCode}:{item.PositionType} 不存在或不止一个");
 
+            //form time item
             var timeItem = new TimeItemDto
             {
                 BeginTime = item.BeginTime,
@@ -316,7 +321,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                 Confirmed = false,
                 WorkTimeConfId = workConf.Id,
                 UserName = user.ATCName,
-                ControllerRole = item.ControllerRole,
+                ControllerRole = item.ControllerRole!.Value,
                 CreatedTime = DateTime.Now
             };
             lst.Add(timeItem);

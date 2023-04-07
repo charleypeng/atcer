@@ -44,8 +44,12 @@
 		<!--<Exec WorkingDirectory="$(SolutionDir)" Command="npm run gulp:pro" />-->
 	</Target>
   <ItemGroup>
-    <ProjectReference Include="..\ATCer.Client.Application\ATCer.Client.Application.csproj" />
-    <ProjectReference Include="..\ATCer.Client.Core\ATCer.Client.Core.csproj" />
+    <ProjectReference Include="..\ATCer.Client.Application\ATCer.Client.Application.csproj">
+      <ReferenceSourceTarget></ReferenceSourceTarget>
+    </ProjectReference>
+    <ProjectReference Include="..\ATCer.Client.Core\ATCer.Client.Core.csproj">
+      <ReferenceSourceTarget></ReferenceSourceTarget>
+    </ProjectReference>
   </ItemGroup>
 	<ItemGroup>
 		<Watch Include="**\*.razor" />

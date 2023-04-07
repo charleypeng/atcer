@@ -34,7 +34,7 @@ namespace ATCer.HRCenter.Dtos
         [DisplayName("扇区名称")]
         [MaxLength(10)]
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// 扇区系数
         /// </summary>
@@ -50,11 +50,11 @@ namespace ATCer.HRCenter.Dtos
         /// 物理席位
         /// </summary>
         [DisplayName("物理席位")]
-        public string PhysicalPosition { get; set; }
+        public string? PhysicalPosition { get; set; }
         /// <summary>
         /// 席位名称
         /// </summary>
         [DisplayName("席位名称")]
-        public string PositionName { get; set; }
+        public string? PositionName { get; set; }
     }
 }

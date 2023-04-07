@@ -63,6 +63,11 @@ namespace ATCer.HRCenter.Domains
         /// </summary>
         public ControllerRole Role { get; set; }
         /// <summary>
+        /// 是否三类人员
+        /// </summary>
+        [Description("是否三类人员")]
+        public bool IsCat3People { get; set; }
+        /// <summary>
         /// Seed data
         /// </summary>
         /// <param name="dbContext"></param>
@@ -73,7 +78,7 @@ namespace ATCer.HRCenter.Domains
         {
             return new UserATCInfo[]
             {
-                new UserATCInfo{Id=1, ATCName = "彭磊", UserId=1, ATCLevel=ATCLevel.WuJi, Department=ATCDepartment.TWR }
+                new UserATCInfo{Id=1, ATCName = "彭磊", UserId=1, ATCLevel=ATCLevel.SanJi, Department=ATCDepartment.TWR }
             };
         }
     }

@@ -29,8 +29,7 @@ namespace ATCer.HRCenter.Domains
         /// </summary>
         [DisplayName("扇区名称")]
         [MaxLength(10)]
-        [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 扇区系数
         /// </summary>
@@ -57,5 +56,11 @@ namespace ATCer.HRCenter.Domains
         /// </summary>
         [DisplayName("席位类型")]
         public PositionRole Position { get; set; }
+        /// <summary>
+        /// 重点席位
+        /// </summary>
+        [DisplayName("重点席位")]
+        [Required]
+        public bool Cat3Sector { get; set; } = false;
     }
 }

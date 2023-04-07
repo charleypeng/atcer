@@ -6,6 +6,7 @@
 
 using ATCer.HRCenter.Domains;
 using ATCer.HRCenter.Dtos;
+using ATCer.HRCenter.Extensions;
 using EFCore.BulkExtensions;
 using ATCer.UserCenter.Impl.Domains;
 using ATCer.UserCenter.Dtos;
@@ -33,10 +34,11 @@ public class UserATCInfoService : ServiceBase<UserATCInfo, UserATCInfoDto, int>,
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    public async Task ImportData(IEnumerable<UserATCInfoDto> data)
+    public async Task ImportData(IEnumerable<ImportUserAtoInfoDto> data)
     {
-        var datas = data.Adapt<IList<UserATCInfo>>();
-        await _repository.Context.BulkInsertAsync(datas);
+        var datas = data.AdaptUserATCInfo().Adapt<IList<UserATCInfo>>();
+        await _repository.Context.AddRangeAsync(datas);
+        await _repository.Context.SaveChangesAsync();
     }
 
     /// <summary>

@@ -32,8 +32,9 @@ namespace ATCer.Client.MAUI
                 });
 
             #region 加载 Appsettings
-            var a = Assembly.GetExecutingAssembly();
-            using var stream = a.GetManifestResourceStream("ATCer.Client.MAUI.appsettings.json");
+            var a = typeof(App).GetTypeInfo().Assembly;
+            var name = a.GetName().Name;
+            using var stream = FileSystem.OpenAppPackageFileAsync($"appsettings.json").Result;
             var config = new ConfigurationBuilder()
             .AddJsonStream(stream)
             .Build();

@@ -54,11 +54,11 @@
             <Column @bind-Field="@model.Name" Filterable />
             <Column @bind-Field="@model.Code" Filterable />
             <Column @bind-Field="@model.Position" Filters="FunctionPositionRoleFilters">
-                <TagPro Text="@EnumHelper.GetEnumDescription(model.Position)"></TagPro>
+                <TagPro Text="@model.Position"></TagPro>
             </Column>
             <Column @bind-Field="@model.PhysicalPosition" Filterable />
             <Column @bind-Field="@model.Department" Filters="FunctionATCDepartmentFilters">
-                <TagPro Text="@EnumHelper.GetEnumDescription(model.Department)"></TagPro>
+                <TagPro Text="@model.Department"></TagPro>
             </Column>
              <Column @bind-Field="@model.Multiplier" Filterable />
             <Column @bind-Field="@model.CreatedTime" Format="@ClientConstant.DateTimeFormat" Sortable DefaultSortOrder="@SortDirection.Descending" />

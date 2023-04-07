@@ -37,6 +37,6 @@ namespace ATCer.HRCenter.Dtos
         /// </summary>
         [Description("变更原因")]
         [MaxLength(100)]
-        public string ChangeLog { get; set; }
+        public string? ChangeLog { get; set; }
     }
 }

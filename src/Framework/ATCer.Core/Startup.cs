@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ATCer.SysJob.Core;
+//using ATCer.SysJob.Core;
 
 #nullable disable
 namespace ATCer
@@ -50,10 +50,10 @@ namespace ATCer
             }, migrationAssemblyName);
 
             //分布式系统作业
-            services.AddSchedule(options =>
-            {
-                options.AddPersistence<DbJobPersistence>(); // 添加作业持久化器
-            });
+            //services.AddSchedule(options =>
+            //{
+            //    options.AddPersistence<DbJobPersistence>(); // 添加作业持久化器
+            //});添加作业持久化器
         }
 
         /// <summary>
