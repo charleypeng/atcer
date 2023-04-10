@@ -49,16 +49,49 @@ namespace ATCer.Client.MAUI.Extensions
 
         private static Assembly GetFromFile(string fileName)
         {
-            var ss = Environment.ProcessPath.Replace("ATCer.Client.MAUI.exe", "");
+            string dir = string.Empty;
+            var platform = DeviceInfo.Current.Platform;
+
+            if(platform == DevicePlatform.MacCatalyst ||
+                platform == DevicePlatform.iOS ||
+                platform == DevicePlatform.macOS)
+            {
+                dir = AppDomain.CurrentDomain.BaseDirectory;
+                try
+                {
+                    return Assembly.LoadFile($"{dir}/{fileName}");
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            else if(platform == DevicePlatform.Android)
+            {
+                //dir = System.AppContext.BaseDirectory;
+                switch(fileName)
+                {
+                    case "ATCer.Client.Base.dll":
+                        return typeof(ATCer.Client.Base.ApiSettings).Assembly;
+                    case "ATCer.Client.Core.dll":
+                        return typeof(ATCer.Client.Core.ApiCaller).Assembly;
+                    default:
+                        return typeof(ATCer.Client.Application.Home.Index).Assembly;
+                }
+            }
+            else
+            {
+                dir = Environment.ProcessPath.Replace("ATCer.Client.MAUI.exe", "");
+                try
+                {
+                    return Assembly.LoadFile($"{dir}/{fileName}");
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
             
-            try
-            {
-                return Assembly.LoadFile(ss + fileName);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
             
         }
     }

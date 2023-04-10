@@ -1,18 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>loading...</title>
+    <title>ATCer</title>
     <base href="/" />
     <link href="_content/AntDesign/css/ant-design-blazor.css" rel="stylesheet" />
     <link href="_content/AntDesign.ProLayout/css/ant-design-pro-layout-blazor.css" rel="stylesheet" />
-    <link href="./css/site.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
     <link href="ATCer.Client.MAUI.styles.css" rel="stylesheet" />
-    <link href="manifest.json" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png?v=0.1.14" />
-
 </head>
 <body>
     <app id="app">
@@ -178,8 +174,7 @@
           align-items: center;
           flex-direction: column;
           min-height: 420px;
-          height: 100%;
-        ">
+          height: 100%;">
             <img src="./assets/logo.png" alt="logo" width="100" />
             <div class="page-loading-warp">
                 <div class="ant-spin ant-spin-lg ant-spin-spinning">
@@ -201,8 +196,7 @@
     <!--<script src="_content/ATCer.Client.Base/atcer.js"></script>-->
     <script src="_content/Blazor.ContextMenu/blazorContextMenu.min.js"></script>
     <script src="_content/ATCer.Client.Base/js/echarts/5.1.1/echarts.min.js"></script>
-    <script src="_content/ATCer.Client.Base/js/g2plot.min.js"></script>
-    <script type="module">import { BrotliDecode } from './decode.min.js';
+    <script type="module">import { BrotliDecode } from 'decode.min.js';
         Blazor.start({
             loadBootResource: function (type, name, defaultUri, integrity) {
                 if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
