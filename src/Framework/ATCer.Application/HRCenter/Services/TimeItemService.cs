@@ -38,6 +38,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     private readonly IImporter _importer;
     private readonly IWebHostEnvironment _hostingEnvironment;
     private readonly ILogger<TimeItemService> _logger;
+    private WorkTimeConf? _workTimeConf;
     /// <summary>
     /// Init
     /// </summary>
@@ -62,6 +63,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         _importer = new ExcelImporter();
         _hostingEnvironment = hostingEnvironment;
         _logger = logger;
+        _workTimeConf = null!;
     }
     #endregion
 
@@ -244,16 +246,14 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     private async Task<ImportFromExcelOutput> importTimeItems(Stream stream)
     {
         //get work time config
-        var workConf = await _workTimeConfRepo.Where(x => x.IsDeleted == false && x.IsLocked == false).SingleOrDefaultAsync();
-        if (workConf == null)
+        _workTimeConf = await _workTimeConfRepo.Where(x => x.IsDeleted == false && x.IsLocked == false).SingleOrDefaultAsync();
+        if (_workTimeConf == null)
             throw Oops.Oh("时间配置没有");
         //set input bussiness id
         var excel = await _importer.Import<ImportTimeItemDto>(stream);
 
-        var errObj = new { info = "导入的执勤小时数据有错请检查", errors = excel.RowErrors };
-
         if (excel.HasError)
-            throw Oops.Oh("导入的执勤小时数据有错请检查", errObj);
+            throw Oops.Oh(new { info = $"导入的执勤小时数据有错请检查:{excel.Exception.Message}", errors = excel.RowErrors });
 
         var rowItems = excel.Data;
 
@@ -319,7 +319,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                 UserId = user.Id,
                 SectorId = sector.Id,
                 Confirmed = false,
-                WorkTimeConfId = workConf.Id,
+                WorkTimeConfId = _workTimeConf.Id,
                 UserName = user.ATCName,
                 ControllerRole = item.ControllerRole!.Value,
                 CreatedTime = DateTime.Now
@@ -363,4 +363,23 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         }
     }
     #endregion
-}
+
+    /// <summary>
+    /// 获取用户工作小时
+    /// </summary>
+    /// <returns></returns>
+    public async Task GetWorkerStats()
+    {
+        _logger.LogInformation("start processing...");
+
+        var query = from a in _sectorRepo.AsQueryable(false)
+                    join b in _timeItemRepo.AsQueryable(false)
+                    on a.Id equals b.SectorId
+                    join c in _userATCInfoRepo.AsQueryable(false)
+                    on b.UserId equals c.Id
+                    where b.BeginTime.Date - b.EndTime >= _workTimeConf!.NightSpan
+                    select b;
+
+
+    }
+ }

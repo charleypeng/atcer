@@ -5,7 +5,7 @@ namespace ATCer.HRCenter.Extensions
     {
         public static IList<SectorDto> AdaptSector(this IEnumerable<ImportSectorDto> infoDtos)
         {
-            if (infoDtos == null || infoDtos.Count() == 0)
+            if (infoDtos.IsNullOrEmpty())
                 return default(IList<SectorDto>)!;
 
             var lst = new List<SectorDto>();

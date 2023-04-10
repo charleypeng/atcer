@@ -178,7 +178,6 @@ namespace ATCer.Client.Core
             var token = await ReloadToken();
             if (token != null)
             {
-                await eventBus.Publish(new ReloadCurrentUserEvent() { Token=token});
                 //重新请求user信息
                 var userResult = await accountService.GetCurrentUser();
                 if (userResult != null)
@@ -189,6 +188,7 @@ namespace ATCer.Client.Core
                     this.uiHashtableResources = null;
                     this.menuResources = await accountService.GetCurrentUserMenus(AuthConstant.ClientResourceRootKey);
                     this.currentUser = userResult;
+                    await eventBus.Publish(new ReloadCurrentUserEvent() { Token = token });
                     onMenusLoaded.Invoke(this.menuResources);
                 }
             }
@@ -202,10 +202,10 @@ namespace ATCer.Client.Core
         {
             return uiResourceKeys ?? new List<string>();
         }
-        public async Task<bool> CheckCurrentUserHaveBtnResourceKey(object key)
+        public Task<bool> CheckCurrentUserHaveBtnResourceKey(object key)
         {
             //超级管理员
-            if (currentUserIsSuperAdmin) return true;
+            if (currentUserIsSuperAdmin) return Task.FromResult(true);
 
             if (uiHashtableResources == null)
             {
@@ -213,7 +213,7 @@ namespace ATCer.Client.Core
                 uiHashtableResources = new Hashtable(resources.Count);
                 resources.ForEach(x => { uiHashtableResources.Add(x, null); });
             }
-            return uiHashtableResources.ContainsKey(key);
+            return Task.FromResult(uiHashtableResources.ContainsKey(key));
         }
         public List<ResourceDto> GetCurrentUserEmnus()
         {

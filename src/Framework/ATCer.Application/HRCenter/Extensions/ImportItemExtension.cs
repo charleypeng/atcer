@@ -19,9 +19,9 @@ namespace ATCer.HRCenter
         {
             if (string.IsNullOrEmpty(str))
             {
-                throw new Exception("can not transfer into department");
+                throw new Exception($"部门信息不能为空");
             }
-            var departmentValue = str;
+            var departmentValue = str.ToUpper();
 
             if (departmentValue.Contains("ZT") || departmentValue.Contains("TWR"))
             {
@@ -38,7 +38,7 @@ namespace ATCer.HRCenter
             }
             else
             {
-                throw new Exception($"未知的物理席位地址 {str}");
+                throw new Exception($"未知的物理席位地址: {str}");
             }
         }
     }

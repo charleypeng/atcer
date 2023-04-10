@@ -83,7 +83,6 @@ namespace ATCer.HRCenter.Client.Pages.ATCTime
             uploadAttachmentInput.Add("BusinessId", null);
             headers = await authenticationStateManager.GetCurrentTokenHeaders();
             await base.OnInitializedAsync();
-            this.PropertyChanged += ImportTimeItems_PropertyChanged;
         }
 
         private void ImportTimeItems_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -102,6 +101,7 @@ namespace ATCer.HRCenter.Client.Pages.ATCTime
             {
                 this.firstRenderAfter = true;
                 await ReLoadTable(true);
+                this.PropertyChanged += ImportTimeItems_PropertyChanged;
                 await InvokeAsync(StateHasChanged);
             }
             await base.OnAfterRenderAsync(firstRender);
@@ -226,6 +226,8 @@ namespace ATCer.HRCenter.Client.Pages.ATCTime
                 await messagerService.Error(localizer.Combination("加载", "失败"));
             }
             isTableLoading = false;
+            if (!pageListResult.Items.IsNullOrEmpty())
+                importNowDisabled = false;
         }
         //import time items
         private async Task ImportNow()
