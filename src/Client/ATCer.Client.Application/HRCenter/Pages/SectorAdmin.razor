@@ -53,14 +53,14 @@
             </ResourceAuthorize>
             <Column @bind-Field="@model.Name" Filterable />
             <Column @bind-Field="@model.Code" Filterable />
-            <Column @bind-Field="@model.Position" Filters="FunctionPositionRoleFilters">
+            <Column @bind-Field="@model.Position" Filters="FunctionPositionRoleFilters" Sortable="true">
                 <TagPro Text="@model.Position"></TagPro>
             </Column>
             <Column @bind-Field="@model.PhysicalPosition" Filterable />
-            <Column @bind-Field="@model.Department" Filters="FunctionATCDepartmentFilters">
+            <Column @bind-Field="@model.Department" Filters="FunctionATCDepartmentFilters" Sortable DefaultSortOrder="@SortDirection.Ascending">
                 <TagPro Text="@model.Department"></TagPro>
             </Column>
-             <Column @bind-Field="@model.Multiplier" Filterable />
+             <Column @bind-Field="@model.Multiplier" Filterable Sortable="true"/>
             <Column @bind-Field="@model.CreatedTime" Format="@ClientConstant.DateTimeFormat" Sortable DefaultSortOrder="@SortDirection.Descending" />
             <ActionColumn>
                 <Space>

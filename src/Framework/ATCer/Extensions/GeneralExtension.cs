@@ -80,6 +80,20 @@ namespace ATCer
         }
 
         /// <summary>
+        /// Add Non-Null object into a list
+        /// </summary>
+        /// <param name="lst">non-empty list</param>
+        /// <param name="item">item object</param>
+        /// <typeparam name="T">given object type</typeparam>
+        public static void AddNonNullListObject<T>(this IList<IEnumerable<T>> lst, IEnumerable<T> item)
+        {
+            if (!item.IsNullOrEmpty())
+            {
+                lst?.Add(item);
+            }
+        }
+
+        /// <summary>
         /// Safely parse a datetime with less exception
         /// </summary>
         /// <param name="str">the given date time string</param>

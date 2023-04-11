@@ -10,7 +10,7 @@ namespace ATCer.Client
     {
         public struct HRCenter
         {
-            public const string Base = "hr_center";
+            public const string Base = "hrcenter";
             public const string Admin = $"{Base}_admin";
             /// <summary>
             /// 只有查看权限
@@ -21,7 +21,7 @@ namespace ATCer.Client
 
         public struct DataCenter
         {
-            public const string Base = "data_center";
+            public const string Base = "datacenter";
             public const string Admin = $"{Base}_admin";
             /// <summary>
             /// 只有查看权限

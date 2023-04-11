@@ -282,7 +282,8 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
             if (source.Any((string x) => x.Contains(item.PysicalPosition)))
             {
                 item.PysicalPosition = "ZTZX09";
-                item.SectorCode = "TWR";
+                //order can not change
+                //item.SectorCode = "TWR,TWRF,GND,TWRW,TWRC,TWRE";
             }
             if (item.PositionType.Equals("放行席见习"))
             {
@@ -298,14 +299,24 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
             Sector? sector;
             try
             {
-
-                sector = sectors.Where((Sector c) => c.Department == user.Department &&
+                //tower user must use different sector
+                if(user.Department == ATCDepartment.TWR)
+                {
+                    sector = sectors.Where((Sector c) => c.Department == user.Department &&
+                    c.PositionName.Contains(item.PositionType)).Single();
+                }
+                else
+                {
+                    sector = sectors.Where((Sector c) => c.Department == user.Department &&
                     c.PositionName.Contains(item.PositionType) &&
                     c.Code.ReverseContain(item.SectorCode)).Single();
+                }
+                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 sector = null;
+                _logger.LogError(ex.Message);
             }
 
             if (sector == null)
@@ -368,18 +379,83 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     /// 获取用户工作小时
     /// </summary>
     /// <returns></returns>
-    public async Task GetWorkerStats()
+    public async Task<object> GetWorkerStats(DateTime? beginTime, DateTime? endTime)
     {
-        _logger.LogInformation("start processing...");
+        //_logger.LogInformation("start processing...");
 
-        var query = from a in _sectorRepo.AsQueryable(false)
-                    join b in _timeItemRepo.AsQueryable(false)
-                    on a.Id equals b.SectorId
-                    join c in _userATCInfoRepo.AsQueryable(false)
-                    on b.UserId equals c.Id
-                    where b.BeginTime.Date - b.EndTime >= _workTimeConf!.NightSpan
-                    select b;
+        //if (beginTime == null || endTime == null)
+        //    throw Oops.Oh("开始和结束时间不能为空");
+
+        //var span = endTime - beginTime;
+
+        //if (span > TimeSpan.FromDays(32))
+        //    throw Oops.Oh("查询时间应该小于一个月");
+
+        ////get the expected timeitem query
+        //var qSector = _sectorRepo.AsQueryable(false);
+        //var qGroupedByDate = from a in _timeItemRepo.AsDefaultQuaryable(false)
+        //                 join b in qSector
+        //                 on a.SectorId equals b.Id
+        //                 where a.Confirmed == true
+        //                 where b.Cat3Sector == true
+        //                 group a by a.BeginTime.Date into gp
+        //                 select new {Code = gp.Key, Data = gp.OrderBy(x=>x.BeginTime).ToList()};
+
+        //var t1 = from a in qGroupedByDate
+        //         join b in qSector
+        //         on a.Data.Where(x=>x.SectorId == )
 
 
+        //var query = from a in _sectorRepo.AsQueryable(false)
+        //            join b in _timeItemRepo.AsDefaultQuaryable(false)
+        //            on a.Id equals b.SectorId
+        //            join c in _userATCInfoRepo.AsQueryable(false)
+        //            on b.UserId equals c.Id
+        //            where b.BeginTime >= beginTime && b.EndTime <= endTime
+        //            where a.Cat3Sector == true && c.IsCat3 == true
+        //            select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
+
+        //var query2 = from a in _sectorRepo.AsQueryable(false)
+        //             join b in _timeItemRepo.AsDefaultQuaryable(false)
+        //             on a.Id equals b.SectorId
+        //             join c in _userATCInfoRepo.AsQueryable(false)
+        //             on b.UserId equals c.Id
+        //             where b.BeginTime >= beginTime && b.EndTime <= endTime
+        //             where c.CanCat3 == false
+        //             select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
+
+        //var rawData1 = await query.ToListAsync();
+        //var stats = rawData1.GroupBy(x => x.Item1.Code).Select(x => new { Code = x.Key, Data = x });
+
+        //List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>> dd = new List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>>();
+        //foreach (var stat in stats)
+        //{
+        //    //group by date
+        //    var statData1 = stat.Data.GroupBy(x => x.Item2.BeginTime.Date)
+        //        .Select(x => new StatData { Date = x.Key, Data = x.OrderBy(x => x.Item2.BeginTime) })
+        //        .ToList();
+
+        //    foreach (var stat1 in statData1)
+        //    {
+        //        var statData2 = stat1.Data.ToList();
+        //        //search for data item time
+        //        for (int i = 0; i < statData2.Count; i++)
+        //        {
+        //            var compare1 = statData2[i];
+        //            var data1 = statData2.Where(x => x.Item1.Position != compare1.Item1.Position).Where(x => !(x.Item2.BeginTime > compare1.Item2.EndTime
+        //                || x.Item2.EndTime < compare1.Item2.BeginTime))
+        //                .Where(x => x.Item3.Id != compare1.Item3.Id).OrderBy(x => x.Item2.BeginTime);
+
+        //            dd.AddNonNullListObject(data1);
+        //        }
+        //    }
+        //}
+        return null;//.GroupBy(x=>x.GroupBy(x=>x.Item1.Code)).Select(x=>new {code = x.Key, data = x});
     }
  }
+
+public class StatData
+{
+    public DateTime Date { get; set; }
+    public IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>> Data { get; set; }
+}

@@ -98,6 +98,10 @@ public class SectorService : ATCer.ServiceBase<Sector, SectorDto, int>, ISectorS
     public async Task ImportSector([FromBody] IList<ImportSectorDto> sector)
     {
         var sectors = sector.Adapt<IList<Sector>>();
+        foreach (var item in sectors)
+        {
+            item.Position = item.Name.ToPositionRole();
+        }
         await _repository.Context.BulkInsertAsync(sectors);
     }
 }

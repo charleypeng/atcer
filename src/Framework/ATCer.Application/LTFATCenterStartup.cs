@@ -57,7 +57,7 @@ namespace ATCer.Core
                 {
                     new RecorderOptions { Encoding = DataEncodings.UTF8, Ip=null,Port=1234, RecorderName=nameof(TestRecorder),EndpointType= EndpointType.Broadcast},
                     new RecorderOptions { Encoding = DataEncodings.UTF8, 
-                        Ip="239.119.119.119",Port=40169, 
+                        Ip="239.119.119.119",Port=40168, 
                         RecorderName = nameof(TestRecorder2), 
                         EndpointType = EndpointType.Multicast , 
                         JobAction = (a)=>
@@ -98,20 +98,20 @@ namespace ATCer.Core
             //UDPListener.StartListener();
             //var tr = App.GetService<IRecorder>();
             //tr.Start();
-            var tr = App.GetService<ITestRecorder>();
-            ITestRecorder2 tr2 = App.GetService<ITestRecorder2>();
+            //var tr = App.GetService<ITestRecorder>();
+            //ITestRecorder2 tr2 = App.GetService<ITestRecorder2>();
             //tr.StartWithRetry(5);
-            tr.DataReceived += tr_DataReceived!;
+            //tr.DataReceived += tr_DataReceived!;
 
-            tr2.StartWithRetry(5);
-            Console.WriteLine(tr.RecordData.Ip + ":" + tr.RecordData.Port);
+            //tr2.StartWithRetry(5);
+            //Console.WriteLine(tr.RecordData.Ip + ":" + tr.RecordData.Port);
             //tr.Start();
-            tr2.DataReceived += tr2_DataReceived!;
+            //tr2.DataReceived += tr2_DataReceived!;
             publisher = App.GetService<ICapPublisher>();
             dataService = App.GetService<ILTFATDataService>();
             mqService = App.GetService<IMQService>();
 
-            var dt = App.GetService<DataTest>();
+            //var dt = App.GetService<DataTest>();
             //dt.Start();
         }
 

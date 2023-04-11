@@ -95,7 +95,9 @@
             <Column TData="bool"
                     @bind-Field="context.Confirmed"
                     Sortable
-                    Filterable />
+                    Filterable>
+                <TagYesNo Yes="context.Confirmed"></TagYesNo>
+            </Column>
         </ColumnDefinitions> 
     </Table>    
 </div>

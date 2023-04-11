@@ -45,9 +45,12 @@ namespace ATCer.Common
         /// 带参数使用
         /// </summary>
         /// <param name="dateTime"></param>
-        public TimeConfig(DateTime dateTime)
+        public TimeConfig(DateTime? dateTime)
         {
-            DateOfToday = dateTime.Date;
+            if (dateTime == null)
+                throw new ArgumentNullException("日期不能为空");
+
+            DateOfToday = dateTime.Value.Date;
             init();
         }
         /// <summary>
