@@ -69,7 +69,7 @@ namespace ATCer.HRCenter.Domains
         [Comment("是否3类人员")]
         public bool IsCat3 { get; set; }
         /// <summary>
-        /// 是否三类人员
+        /// 能否搭档3类人员
         /// </summary>
         [Description("能否搭档3类人员")]
         [Comment("能否搭档3类人员")]

@@ -69,7 +69,7 @@ namespace ATCer.EntityFramwork.DbContexts
         {
             IOrmAuditService ormAuditService = App.GetService<IOrmAuditService>();
             if (ormAuditService != null)
-                ormAuditService.SavingChangesEvent(eventData.Context.ChangeTracker.Entries());
+                ormAuditService.SavingChangesEvent(eventData?.Context?.ChangeTracker?.Entries());
             else
                 Oops.Bah("Audit Orm为空");
         }

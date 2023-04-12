@@ -16,7 +16,7 @@ namespace ATCer
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> list)
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T>? list)
         {
             return list == null || list?.Count() == 0;
         }
@@ -71,8 +71,10 @@ namespace ATCer
         /// <param name="lst">non-empty list</param>
         /// <param name="item">item object</param>
         /// <typeparam name="T">given object type</typeparam>
-        public static void AddNonNullObject<T>(this IList<T> lst, T item)
+        public static void AddNonNullObject<T>(this IList<T>? lst, T? item)
         {
+            if (lst == null)
+                lst = new List<T>();
             if(item != null)
             {
                 lst?.Add(item);
@@ -138,6 +140,23 @@ namespace ATCer
             int intValue;
             float floatValue;
             return Int32.TryParse(value, out intValue) || float.TryParse(value, out floatValue);
+        }
+
+        public static T CloneObject<T>(this object source)
+        {
+            T result = Activator.CreateInstance<T>();
+            return result;
+        }
+
+        public static void AddUnique<T>(this IList<T>? lst, T? value)
+        {
+            if (lst == null)
+                return;
+            if (value == null)
+                return;
+
+            if (!lst.Contains(value))
+                lst.Add(value);
         }
     }
     

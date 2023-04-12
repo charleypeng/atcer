@@ -4,21 +4,20 @@
 //  CopyRight(C) 2023  版权所有 
 // -----------------------------------------------------------------------------
 
-namespace ATCer.FanoutMq
-{
-    public delegate Task AsyncEventHandler<in TEvent>(object sender, TEvent @event) where TEvent : EventArgs;
+namespace ATCer.FanoutMq;
 
-    internal static class AsyncEventHandlerExtensions
+public delegate Task AsyncEventHandler<in TEvent>(object sender, TEvent @event) where TEvent : EventArgs;
+
+static internal class AsyncEventHandlerExtensions
+{
+    public static async Task InvokeAsync<TEvent>(this AsyncEventHandler<TEvent>? eventHandler, object sender, TEvent @event) where TEvent : EventArgs
     {
-        public static async Task InvokeAsync<TEvent>(this AsyncEventHandler<TEvent> eventHandler, object sender, TEvent @event) where TEvent : EventArgs
+        if (eventHandler == null)
+            return;
+        foreach (var @delegate in eventHandler.GetInvocationList())
         {
-            if (eventHandler != null)
-            {
-                foreach (AsyncEventHandler<TEvent> handlerInstance in eventHandler.GetInvocationList())
-                {
-                    await handlerInstance(sender, @event).ConfigureAwait(false);
-                }
-            }
+            var handlerInstance = (AsyncEventHandler<TEvent>)@delegate;
+            await handlerInstance(sender, @event).ConfigureAwait(false);
         }
     }
 }

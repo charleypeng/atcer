@@ -8,6 +8,7 @@ using ATCer.Base;
 using ATCer.HRCenter.Enums;
 using System;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace ATCer.HRCenter.Dtos
 {
@@ -15,7 +16,7 @@ namespace ATCer.HRCenter.Dtos
     /// 执勤时间
     /// </summary>
     [DisplayName("执勤时间")]
-    public class TimeItemDto: ATCerBaseDto<long>
+    public class TimeItemDto: ATCerBaseDto<long>, IEquatable<TimeItemDto>
     {
         /// <summary>
         /// 管制员
@@ -72,5 +73,16 @@ namespace ATCer.HRCenter.Dtos
         /// </summary>
         [DisplayName("导入确认")]
         public bool Confirmed { get; set; }
+
+        [JsonIgnore]
+        public bool IsComparer { get; set; } = false;
+
+        [JsonIgnore]
+        public Guid GroupId { get; set; }
+
+        public bool Equals(TimeItemDto? other)
+        {
+            return Id.Equals(other?.Id);
+        }
     }
 }
