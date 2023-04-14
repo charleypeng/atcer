@@ -117,7 +117,6 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     /// <returns></returns>
     public async Task<gBase.MyPagedList<TimeItemDto>> GetImported(int pageIndex = 1, int pageSize = 10)
     {
-        var ssd = await _timeItemRepo.Where(x => x.UserATCInfo.ATCName == "彭磊").ToListAsync();
         var query = from a in _repository.AsQueryable(false).Where(x => x.Confirmed == false)
                     join b in _sectorRepo.AsQueryable(false)
                     on a.SectorId equals b.Id
@@ -616,7 +615,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     public async Task<object> GetWorkerStatsV2(DateTime? beginTime, DateTime? endTime)
     {
         _logger.LogInformation("start processing...");
-
+       
         if (beginTime == null || endTime == null)
             throw Oops.Oh("开始和结束时间不能为空");
 
@@ -624,6 +623,17 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
 
         if (span > TimeSpan.FromDays(32))
             throw Oops.Oh("查询时间应该小于一个月");
+
+        var cat3ATC = _timeItemRepo
+            .Include(x => x.UserATCInfo)
+            .Include(x => x.Sector)
+            .Where(x => x.BeginTime >= beginTime &&
+                x.EndTime <= endTime);
+
+        foreach (var atc in cat3ATC)
+        {
+           // atc.UserATCInfo?.
+        }
 
         //get also deleted and locked sectors
         var qSector = _sectorRepo.AsQueryable(false);
