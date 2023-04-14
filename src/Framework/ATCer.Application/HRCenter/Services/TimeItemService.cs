@@ -610,7 +610,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     /// 获取用户工作小时
     /// </summary>
     /// <returns></returns>
-    public async Task<object> GetWorkerStatsV2(DateTime? beginTime, DateTime? endTime)
+    public Task<object> GetWorkerStatsV2(DateTime? beginTime, DateTime? endTime)
     {
         _logger.LogInformation("start processing...");
         //check area
@@ -630,9 +630,10 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
             .AsDefaultQuaryable()
             .Include(x => x.UserATCInfo)
             .Include(x => x.Sector)
+            .Where(x=>x.Confirmed == true)
             .Where(x=>x.Sector!.Cat3Sector == true)
-            .Where(x=>x.UserATCInfo != null && x.Sector != null)
             .Where(x => x.BeginTime >= beginTime && x.EndTime <= endTime);
+
         //get the grouped query
         var groupedList = cat3ATC.GroupBy(x => x.BeginTime.Date)
             .Select(x => new
@@ -649,6 +650,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         //List<long> ids = new List<long> { 123, 12345, 122521, 123556 };
 
         //List<long> ids2 = new List<long> { 122521, 12345, 123, 123556 };
+        //List<long> ids4 = new List<long> { 12345, 122521 , 123, 123556 };
 
         //List<long> ids3 = new List<long> { 122521, 12345, 123, 123556, 112 };
         //var se = new List<List<long>>
@@ -656,18 +658,19 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         //    ids, ids2
         //};
 
-        //var ssw = se.NoOrderContains(ids);
+        //var ssw = se.NoOrderContains(ids4);
         //var ss = ids.SameAs(ids3);
 
         var comparedList = new List<List<long>>();
         List<Cat3ATCStats>? finalList = new List<Cat3ATCStats>();
+
+        var debugList = new List<object>();
         //group by date
         foreach (var dateItem in groupedList)
         {
             //group by sector
             foreach (var sectorItem in dateItem.DataByDate)
             {
-                var cpList = new List<long>();
                 for (int i = 0; i < sectorItem.Data.Count; i++)
                 {
                     var comparer = sectorItem.Data[i];
@@ -675,19 +678,21 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                     //will not check non cat3 people
                     if (comparer.UserATCInfo!.IsCat3 == false) continue;
 
+                    var cpList = new List<long>();
+
                     var violators = sectorItem.Data
-                        .Where(x => x.SectorId != comparer.SectorId)
-                        .Where(x => x.UserATCInfoId != comparer.UserATCInfoId)
-                        .Where(x => x.Sector!.Cat3Sector == true)
-                        .Where(x => x.UserATCInfo!.IsCat3 == true || x.UserATCInfo.CanCat3 == false)
-                        .Where(x => !(x.BeginTime > comparer.EndTime || x.EndTime < comparer.BeginTime));
+                            .Where(x => x.SectorId != comparer.SectorId)
+                            .Where(x => x.UserATCInfoId != comparer.UserATCInfoId)
+                            .Where(x => x.Sector!.Cat3Sector == true)
+                            .Where(x => x.UserATCInfo!.IsCat3 == true || x.UserATCInfo.CanCat3 == false)
+                            .Where(x => !(x.BeginTime > comparer.EndTime || x.EndTime < comparer.BeginTime));
 
                     if (violators == null || violators.Count() == 0) continue;
 
                     cpList.Add(comparer.Id);
                     cpList.AddRange(violators.Select(x => x.Id));
 
-                    if(!comparedList.NoOrderContains(cpList))
+                    if (!comparedList.NoOrderContains(cpList))
                     {
                         comparedList.Add(cpList);
                         finalList.Add(new Cat3ATCStats
@@ -697,11 +702,34 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                             Sector = sectorItem.SectorCode,
                             Violator = violators.Adapt<IEnumerable<TimeItemDto>>(),
                         });
+#if DEBUG
+                        var sw = violators.Select(x => new
+                        {
+                            sector = x.Sector?.Name == null ? x.Sector?.Code : x.Sector.Name,
+                            name = x.UserATCInfo?.ATCName,
+                            bTime = x.BeginTime,
+                            eTime = x.EndTime
+                        });
+                        var walala = (new
+                        {
+                            sector = comparer.Sector?.Name == null ? sectorItem.SectorCode : comparer.Sector?.Name,
+                            comparer = new
+                            {
+                                name = comparer.UserATCInfo.ATCName,
+                                begintime = comparer.BeginTime,
+                                endtime = comparer.EndTime
+                            },
+                            violators = sw
+                        });
+
+
+                        debugList.Add(walala);
+#endif
                     }
                 };
             }
         }
-        return finalList;
+        return Task.FromResult((object)debugList);//Task.FromResult((object)finalList);
     }
 }
 

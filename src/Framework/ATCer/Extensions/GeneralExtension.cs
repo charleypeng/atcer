@@ -51,7 +51,7 @@ namespace ATCer
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string SafeToUpper(this string str)
+        public static string? SafeToUpper(this string? str)
         {
             return str?.Trim().ToUpper();
         }
@@ -61,9 +61,9 @@ namespace ATCer
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string SafeToLower(this string str)
+        public static string? SafeToLower(this string? str)
         {
-            return str?.Trim().ToLower();
+            return str?.Trim()?.ToLower();
         }
 
         /// <summary>
@@ -143,12 +143,24 @@ namespace ATCer
             return Int32.TryParse(value, out intValue) || float.TryParse(value, out floatValue);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static T CloneObject<T>(this object source)
         {
             T result = Activator.CreateInstance<T>();
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lst"></param>
+        /// <param name="value"></param>
         public static void AddUnique<T>(this IList<T>? lst, T? value)
         {
             if (lst == null)
