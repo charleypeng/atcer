@@ -6,8 +6,6 @@
 
 using ATCer.Base;
 using ATCer.HRCenter.Enums;
-using System;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace ATCer.HRCenter.Dtos
