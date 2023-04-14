@@ -91,8 +91,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                         select new TimeItemDto
                         {
                             Id = a.Id,
-                            UserName = b.ATCName,
-                            SectorName = c.Name,
+                            
                             IsDeleted = a.IsDeleted,
                             BeginTime = a.BeginTime,
                             EndTime = a.EndTime,
@@ -127,9 +126,9 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                         Id = a.Id,
                         BeginTime = a.BeginTime,
                         EndTime = a.EndTime,
-                        UserName = c.ATCName,
+
                         IsLocked = a.IsLocked,
-                        SectorName = b.Name,
+
                         Confirmed = a.Confirmed,
                         ControllerRole = a.ControllerRole,
                         CreatedTime = a.CreatedTime,
@@ -333,7 +332,6 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                 SectorId = sector.Id,
                 Confirmed = false,
                 WorkTimeConfId = _workTimeConf.Id,
-                UserName = user.ATCName,
                 ControllerRole = item.ControllerRole!.Value,
                 CreatedTime = DateTime.Now
             };
@@ -344,7 +342,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         {
             var q = from a in rowItems
                     join b in lst
-                    on a.ControllerName equals b.UserName
+                    on a.BeginTime equals b.BeginTime
                     select a;
 
             return new ImportFromExcelOutput
@@ -381,232 +379,232 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     /// 获取用户工作小时
     /// </summary>
     /// <returns></returns>
-    public async Task<object> GetWorkerStats(DateTime? beginTime, DateTime? endTime)
-    {
-        _logger.LogInformation("start processing...");
+    //public async Task<object> GetWorkerStats(DateTime? beginTime, DateTime? endTime)
+    //{
+    //    _logger.LogInformation("start processing...");
 
-        if (beginTime == null || endTime == null)
-            throw Oops.Oh("开始和结束时间不能为空");
+    //    if (beginTime == null || endTime == null)
+    //        throw Oops.Oh("开始和结束时间不能为空");
 
-        var span = endTime - beginTime;
+    //    var span = endTime - beginTime;
 
-        if (span > TimeSpan.FromDays(32))
-            throw Oops.Oh("查询时间应该小于一个月");
+    //    if (span > TimeSpan.FromDays(32))
+    //        throw Oops.Oh("查询时间应该小于一个月");
         
-        //get also deleted and locked sectors
-        var qSector = _sectorRepo.AsQueryable(false);
-        var qTimeItem = _timeItemRepo.AsDefaultQuaryable();
-        var qUserInfo = _userATCInfoRepo.AsDefaultQuaryable();
+    //    //get also deleted and locked sectors
+    //    var qSector = _sectorRepo.AsQueryable(false);
+    //    var qTimeItem = _timeItemRepo.AsDefaultQuaryable();
+    //    var qUserInfo = _userATCInfoRepo.AsDefaultQuaryable();
        
-        //get can cat3 people timeitem
-        var qCat3ATC =  from a in qTimeItem
-                        where a.Confirmed == true
-                        join b in qUserInfo
-                        on a.UserATCInfoId equals b.Id
-                        where b.CanCat3 == false || b.IsCat3 == true
-                        join c in qSector
-                        on a.SectorId equals c.Id
-                        where c.Cat3Sector == true
-                        select new
-                        {
-                            SectorCode = c.Code,
-                            TimeItem = new TimeItemDto
-                            {
-                                Id = a.Id,
-                                BeginTime = a.BeginTime,
-                                EndTime = a.EndTime,
-                                UserName = b.ATCName,
-                                IsLocked = a.IsLocked,
-                                SectorName = c.Name,
-                                Confirmed = a.Confirmed,
-                                ControllerRole = a.ControllerRole,
-                                CreatedTime = a.CreatedTime,
-                                IsDeleted = a.IsDeleted,
-                                SectorId = a.SectorId,
-                                TypeOfLogin = a.TypeOfLogin,
-                                TypeOfLogout = a.TypeOfLogout,
-                                UpdatedTime = a.UpdatedTime,
-                                UserATCInfoId = a.UserATCInfoId,
-                                WorkTimeConfId = a.WorkTimeConfId   
-                            },
-                            SectorInfo  = c,
-                            UserInfo = b
-                        };
+    //    //get can cat3 people timeitem
+    //    var qCat3ATC =  from a in qTimeItem
+    //                    where a.Confirmed == true
+    //                    join b in qUserInfo
+    //                    on a.UserATCInfoId equals b.Id
+    //                    where b.CanCat3 == false || b.IsCat3 == true
+    //                    join c in qSector
+    //                    on a.SectorId equals c.Id
+    //                    where c.Cat3Sector == true
+    //                    select new
+    //                    {
+    //                        SectorCode = c.Code,
+    //                        TimeItem = new TimeItemDto
+    //                        {
+    //                            Id = a.Id,
+    //                            BeginTime = a.BeginTime,
+    //                            EndTime = a.EndTime,
+    //                            UserName = b.ATCName,
+    //                            IsLocked = a.IsLocked,
+    //                            SectorName = c.Name,
+    //                            Confirmed = a.Confirmed,
+    //                            ControllerRole = a.ControllerRole,
+    //                            CreatedTime = a.CreatedTime,
+    //                            IsDeleted = a.IsDeleted,
+    //                            SectorId = a.SectorId,
+    //                            TypeOfLogin = a.TypeOfLogin,
+    //                            TypeOfLogout = a.TypeOfLogout,
+    //                            UpdatedTime = a.UpdatedTime,
+    //                            UserATCInfoId = a.UserATCInfoId,
+    //                            WorkTimeConfId = a.WorkTimeConfId   
+    //                        },
+    //                        SectorInfo  = c,
+    //                        UserInfo = b
+    //                    };
 
-        //get the expected cat3 timeitem query
-        //grouped by date
-        //then grouped by sector
-        var qGroupedByDate = qCat3ATC.GroupBy(x => x.TimeItem.BeginTime.Date)
-            .Select(x => new
-            {
-                Date = x.Key,
-                DataByDate = x.GroupBy(x => x.SectorCode)
-                    .Select(x => new { Sector = x.Key, Data = x.ToList()})
-            });
+    //    //get the expected cat3 timeitem query
+    //    //grouped by date
+    //    //then grouped by sector
+    //    var qGroupedByDate = qCat3ATC.GroupBy(x => x.TimeItem.BeginTime.Date)
+    //        .Select(x => new
+    //        {
+    //            Date = x.Key,
+    //            DataByDate = x.GroupBy(x => x.SectorCode)
+    //                .Select(x => new { Sector = x.Key, Data = x.ToList()})
+    //        });
 
-        List<Cat3ATCStats>? finalQuery = new List<Cat3ATCStats>();
-        List<List<long>> comparedList = new List<List<long>>();
+    //    List<Cat3ATCStats>? finalQuery = new List<Cat3ATCStats>();
+    //    List<List<long>> comparedList = new List<List<long>>();
 
-        //date list
-        foreach (var dateData in qGroupedByDate)
-        {
-            //sector list
-            foreach (var sectorData in dateData.DataByDate)
-            {
-                var dtList = sectorData.Data.ToList();
+    //    //date list
+    //    foreach (var dateData in qGroupedByDate)
+    //    {
+    //        //sector list
+    //        foreach (var sectorData in dateData.DataByDate)
+    //        {
+    //            var dtList = sectorData.Data.ToList();
 
-                for (int i = 0; i < sectorData.Data.Count(); i++)
-                {
-                    var dt1 = dtList[i];
+    //            for (int i = 0; i < sectorData.Data.Count(); i++)
+    //            {
+    //                var dt1 = dtList[i];
 
-                    //compare
-                    //we only compare cat3 people
-                    if (dt1.UserInfo.IsCat3)
-                    {
-                        //
-                        var lst = dtList
-                            //get where the sector and user is not the same
-                            .Where(x => x.UserInfo.Id != dt1.UserInfo.Id)
-                            //time item comparer
-                            .Where(x => !(x.TimeItem.BeginTime > dt1.TimeItem.EndTime || x.TimeItem.EndTime < dt1.TimeItem.BeginTime));
+    //                //compare
+    //                //we only compare cat3 people
+    //                if (dt1.UserInfo.IsCat3)
+    //                {
+    //                    //
+    //                    var lst = dtList
+    //                        //get where the sector and user is not the same
+    //                        .Where(x => x.UserInfo.Id != dt1.UserInfo.Id)
+    //                        //time item comparer
+    //                        .Where(x => !(x.TimeItem.BeginTime > dt1.TimeItem.EndTime || x.TimeItem.EndTime < dt1.TimeItem.BeginTime));
 
-                        //cotinue if not null
-                        if (!lst.IsNullOrEmpty())
-                        {
-                            Cat3ATCStats? final = null;
+    //                    //cotinue if not null
+    //                    if (!lst.IsNullOrEmpty())
+    //                    {
+    //                        Cat3ATCStats? final = null;
 
-                            //to make sure wheather they are doing the handling job
-                            var isHandling = lst.Any(x => x.SectorInfo.Id == dt1.SectorInfo.Id &&
-                                x.UserInfo.Id != dt1.UserInfo.Id);
-                            //if true
-                            if(isHandling)
-                            {
-                                //to make sure the sector have a valid non cat3 or cancat3=false atc
-                                var isValidHandling = lst.Any(x => x.SectorInfo.Id != dt1.SectorInfo.Id &&
-                                    x.UserInfo.CanCat3 == true);
+    //                        //to make sure wheather they are doing the handling job
+    //                        var isHandling = lst.Any(x => x.SectorInfo.Id == dt1.SectorInfo.Id &&
+    //                            x.UserInfo.Id != dt1.UserInfo.Id);
+    //                        //if true
+    //                        if(isHandling)
+    //                        {
+    //                            //to make sure the sector have a valid non cat3 or cancat3=false atc
+    //                            var isValidHandling = lst.Any(x => x.SectorInfo.Id != dt1.SectorInfo.Id &&
+    //                                x.UserInfo.CanCat3 == true);
 
-                                if(isValidHandling)
-                                {
-                                    final = new Cat3ATCStats
-                                    {
-                                        Date = dateData.Date,
-                                        Sector = sectorData.Sector,
-                                        Violator = lst.Select(x=>x.TimeItem.Adapt<TimeItemDto>()),
-                                        Comparer = dt1.TimeItem.Adapt<TimeItemDto>()
-                                    };
-                                }
-                            }
-                            else
-                            {
-                                final = new Cat3ATCStats
-                                {
-                                    Date = dateData.Date,
-                                    Sector = sectorData.Sector,
-                                    Violator = lst.Select(x => x.TimeItem.Adapt<TimeItemDto>()),
-                                    Comparer = dt1.TimeItem.Adapt<TimeItemDto>()
-                                };
-                            }
+    //                            if(isValidHandling)
+    //                            {
+    //                                final = new Cat3ATCStats
+    //                                {
+    //                                    Date = dateData.Date,
+    //                                    Sector = sectorData.Sector,
+    //                                    Violator = lst.Select(x=>x.TimeItem.Adapt<TimeItemDto>()),
+    //                                    Comparer = dt1.TimeItem.Adapt<TimeItemDto>()
+    //                                };
+    //                            }
+    //                        }
+    //                        else
+    //                        {
+    //                            final = new Cat3ATCStats
+    //                            {
+    //                                Date = dateData.Date,
+    //                                Sector = sectorData.Sector,
+    //                                Violator = lst.Select(x => x.TimeItem.Adapt<TimeItemDto>()),
+    //                                Comparer = dt1.TimeItem.Adapt<TimeItemDto>()
+    //                            };
+    //                        }
 
-                            //make sure the comparer is not exist before;
+    //                        //make sure the comparer is not exist before;
 
-                            if(final != null)
-                            {
-                                var isComparerExist = finalQuery?.Any(x => x.Comparer?.Id == final.Comparer?.Id);
-                                var fList = finalQuery?.Select(x => x.Violator).ToList();
+    //                        if(final != null)
+    //                        {
+    //                            var isComparerExist = finalQuery?.Any(x => x.Comparer?.Id == final.Comparer?.Id);
+    //                            var fList = finalQuery?.Select(x => x.Violator).ToList();
 
-                                if (isComparerExist == false)
-                                {
-                                    final.UID = Guid.NewGuid();
-                                    finalQuery?.AddNonNullObject(final);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    //                            if (isComparerExist == false)
+    //                            {
+    //                                final.UID = Guid.NewGuid();
+    //                                finalQuery?.AddNonNullObject(final);
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
 
-        var violatorList = new List<TimeItemDto>();
-        //remove redundant items
-        foreach (var item in finalQuery)
-        {
-            if(item?.Violator != null)
-            {
-                foreach (var item2 in item?.Violator!)
-                {
-                    item2.GroupId = item.UID;
-                    violatorList.Add(item2);
-                }
-            }
-        }
+    //    var violatorList = new List<TimeItemDto>();
+    //    //remove redundant items
+    //    foreach (var item in finalQuery)
+    //    {
+    //        if(item?.Violator != null)
+    //        {
+    //            foreach (var item2 in item?.Violator!)
+    //            {
+    //                item2.GroupId = item.UID;
+    //                violatorList.Add(item2);
+    //            }
+    //        }
+    //    }
 
-        var strList = new List<Guid?>();
+    //    var strList = new List<Guid?>();
 
-        foreach (var item in finalQuery)
-        {
-            var items = violatorList.Where(x => x.Id == item?.Comparer?.Id);
-            if (items != null && items.Count() > 1)
-            {
-                var items2 = items.FirstOrDefault();
-                strList.AddUnique(items2?.GroupId);
-            }
-            else
-            {
-                strList.AddUnique(item.UID);
-            }
-        }
+    //    foreach (var item in finalQuery)
+    //    {
+    //        var items = violatorList.Where(x => x.Id == item?.Comparer?.Id);
+    //        if (items != null && items.Count() > 1)
+    //        {
+    //            var items2 = items.FirstOrDefault();
+    //            strList.AddUnique(items2?.GroupId);
+    //        }
+    //        else
+    //        {
+    //            strList.AddUnique(item.UID);
+    //        }
+    //    }
 
-        var selector = from a in finalQuery
-                       join b in strList
-                       on a.UID equals b
-                       select a;
-        //var dt = await qGroupedByDate.ToListAsync();
-        //var query = from a in _sectorRepo.AsQueryable(false)
-        //            join b in _timeItemRepo.AsDefaultQuaryable(false)
-        //            on a.Id equals b.SectorId
-        //            join c in _userATCInfoRepo.AsQueryable(false)
-        //            on b.UserId equals c.Id
-        //            where b.BeginTime >= beginTime && b.EndTime <= endTime
-        //            where a.Cat3Sector == true && c.IsCat3 == true
-        //            select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
+    //    var selector = from a in finalQuery
+    //                   join b in strList
+    //                   on a.UID equals b
+    //                   select a;
+    //    //var dt = await qGroupedByDate.ToListAsync();
+    //    //var query = from a in _sectorRepo.AsQueryable(false)
+    //    //            join b in _timeItemRepo.AsDefaultQuaryable(false)
+    //    //            on a.Id equals b.SectorId
+    //    //            join c in _userATCInfoRepo.AsQueryable(false)
+    //    //            on b.UserId equals c.Id
+    //    //            where b.BeginTime >= beginTime && b.EndTime <= endTime
+    //    //            where a.Cat3Sector == true && c.IsCat3 == true
+    //    //            select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
 
-        //var query2 = from a in _sectorRepo.AsQueryable(false)
-        //             join b in _timeItemRepo.AsDefaultQuaryable(false)
-        //             on a.Id equals b.SectorId
-        //             join c in _userATCInfoRepo.AsQueryable(false)
-        //             on b.UserId equals c.Id
-        //             where b.BeginTime >= beginTime && b.EndTime <= endTime
-        //             where c.CanCat3 == false
-        //             select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
+    //    //var query2 = from a in _sectorRepo.AsQueryable(false)
+    //    //             join b in _timeItemRepo.AsDefaultQuaryable(false)
+    //    //             on a.Id equals b.SectorId
+    //    //             join c in _userATCInfoRepo.AsQueryable(false)
+    //    //             on b.UserId equals c.Id
+    //    //             where b.BeginTime >= beginTime && b.EndTime <= endTime
+    //    //             where c.CanCat3 == false
+    //    //             select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
 
-        //var rawData1 = await query.ToListAsync();
-        //var stats = rawData1.GroupBy(x => x.Item1.Code).Select(x => new { Code = x.Key, Data = x });
+    //    //var rawData1 = await query.ToListAsync();
+    //    //var stats = rawData1.GroupBy(x => x.Item1.Code).Select(x => new { Code = x.Key, Data = x });
 
-        //List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>> dd = new List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>>();
-        //foreach (var stat in stats)
-        //{
-        //    //group by date
-        //    var statData1 = stat.Data.GroupBy(x => x.Item2.BeginTime.Date)
-        //        .Select(x => new StatData { Date = x.Key, Data = x.OrderBy(x => x.Item2.BeginTime) })
-        //        .ToList();
+    //    //List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>> dd = new List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>>();
+    //    //foreach (var stat in stats)
+    //    //{
+    //    //    //group by date
+    //    //    var statData1 = stat.Data.GroupBy(x => x.Item2.BeginTime.Date)
+    //    //        .Select(x => new StatData { Date = x.Key, Data = x.OrderBy(x => x.Item2.BeginTime) })
+    //    //        .ToList();
 
-        //    foreach (var stat1 in statData1)
-        //    {
-        //        var statData2 = stat1.Data.ToList();
-        //        //search for data item time
-        //        for (int i = 0; i < statData2.Count; i++)
-        //        {
-        //            var compare1 = statData2[i];
-        //            var data1 = statData2.Where(x => x.Item1.Position != compare1.Item1.Position).Where(x => !(x.Item2.BeginTime > compare1.Item2.EndTime
-        //                || x.Item2.EndTime < compare1.Item2.BeginTime))
-        //                .Where(x => x.Item3.Id != compare1.Item3.Id).OrderBy(x => x.Item2.BeginTime);
+    //    //    foreach (var stat1 in statData1)
+    //    //    {
+    //    //        var statData2 = stat1.Data.ToList();
+    //    //        //search for data item time
+    //    //        for (int i = 0; i < statData2.Count; i++)
+    //    //        {
+    //    //            var compare1 = statData2[i];
+    //    //            var data1 = statData2.Where(x => x.Item1.Position != compare1.Item1.Position).Where(x => !(x.Item2.BeginTime > compare1.Item2.EndTime
+    //    //                || x.Item2.EndTime < compare1.Item2.BeginTime))
+    //    //                .Where(x => x.Item3.Id != compare1.Item3.Id).OrderBy(x => x.Item2.BeginTime);
 
-        //            dd.AddNonNullListObject(data1);
-        //        }
-        //    }
-        //}
-        return selector!;//.GroupBy(x=>x.GroupBy(x=>x.Item1.Code)).Select(x=>new {code = x.Key, data = x});
-    }
+    //    //            dd.AddNonNullListObject(data1);
+    //    //        }
+    //    //    }
+    //    //}
+    //    return selector!;//.GroupBy(x=>x.GroupBy(x=>x.Item1.Code)).Select(x=>new {code = x.Key, data = x});
+    //}
 
     /// <summary>
     /// 获取用户工作小时
@@ -615,239 +613,95 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     public async Task<object> GetWorkerStatsV2(DateTime? beginTime, DateTime? endTime)
     {
         _logger.LogInformation("start processing...");
-       
+        //check area
         if (beginTime == null || endTime == null)
             throw Oops.Oh("开始和结束时间不能为空");
 
         var span = endTime - beginTime;
 
+        if(span?.TotalSeconds < 0)
+            throw Oops.Oh("查询时间输入有误");
+
         if (span > TimeSpan.FromDays(32))
             throw Oops.Oh("查询时间应该小于一个月");
 
+        //get the cat3 atc query
         var cat3ATC = _timeItemRepo
+            .AsDefaultQuaryable()
             .Include(x => x.UserATCInfo)
             .Include(x => x.Sector)
-            .Where(x => x.BeginTime >= beginTime &&
-                x.EndTime <= endTime);
-
-        foreach (var atc in cat3ATC)
-        {
-           // atc.UserATCInfo?.
-        }
-
-        //get also deleted and locked sectors
-        var qSector = _sectorRepo.AsQueryable(false);
-        var qTimeItem = _timeItemRepo.AsDefaultQuaryable();
-        var qUserInfo = _userATCInfoRepo.AsDefaultQuaryable();
-
-        //get can cat3 people timeitem
-        var qCat3ATC = from a in qTimeItem
-                       where a.Confirmed == true
-                       join b in qUserInfo
-                       on a.UserATCInfoId equals b.Id
-                       where b.CanCat3 == false || b.IsCat3 == true
-                       join c in qSector
-                       on a.SectorId equals c.Id
-                       where c.Cat3Sector == true
-                       select new
-                       {
-                           SectorCode = c.Code,
-                           TimeItem = new TimeItemDto
-                           {
-                               Id = a.Id,
-                               BeginTime = a.BeginTime,
-                               EndTime = a.EndTime,
-                               UserName = b.ATCName,
-                               IsLocked = a.IsLocked,
-                               SectorName = c.Name,
-                               Confirmed = a.Confirmed,
-                               ControllerRole = a.ControllerRole,
-                               CreatedTime = a.CreatedTime,
-                               IsDeleted = a.IsDeleted,
-                               SectorId = a.SectorId,
-                               TypeOfLogin = a.TypeOfLogin,
-                               TypeOfLogout = a.TypeOfLogout,
-                               UpdatedTime = a.UpdatedTime,
-                               UserATCInfoId = a.UserATCInfoId,
-                               WorkTimeConfId = a.WorkTimeConfId
-                           },
-                           SectorInfo = c,
-                           UserInfo = b
-                       };
-
-        //get the expected cat3 timeitem query
-        //grouped by date
-        //then grouped by sector
-        var qGroupedByDate = qCat3ATC.GroupBy(x => x.TimeItem.BeginTime.Date)
+            .Where(x=>x.Sector!.Cat3Sector == true)
+            .Where(x=>x.UserATCInfo != null && x.Sector != null)
+            .Where(x => x.BeginTime >= beginTime && x.EndTime <= endTime);
+        //get the grouped query
+        var groupedList = cat3ATC.GroupBy(x => x.BeginTime.Date)
             .Select(x => new
             {
                 Date = x.Key,
-                DataByDate = x.GroupBy(x => x.SectorCode)
-                    .Select(x => new { Sector = x.Key, Data = x.ToList() })
+                DataByDate = x.GroupBy(x => x.Sector!.Code)
+                .Select(x => new
+                {
+                    SectorCode = x.Key,
+                    Data = x.ToList()
+                })
             });
 
-        List<Cat3ATCStats>? finalQuery = new List<Cat3ATCStats>();
-        List<List<long>> comparedList = new List<List<long>>();
+        //List<long> ids = new List<long> { 123, 12345, 122521, 123556 };
 
-        //date list
-        foreach (var dateData in qGroupedByDate)
-        {
-            //sector list
-            foreach (var sectorData in dateData.DataByDate)
-            {
-                var dtList = sectorData.Data.ToList();
+        //List<long> ids2 = new List<long> { 122521, 12345, 123, 123556 };
 
-                for (int i = 0; i < sectorData.Data.Count(); i++)
-                {
-                    var dt1 = dtList[i];
-
-                    //compare
-                    //we only compare cat3 people
-                    if (dt1.UserInfo.IsCat3)
-                    {
-                        //
-                        var lst = dtList
-                            //get where the sector and user is not the same
-                            .Where(x => x.UserInfo.Id != dt1.UserInfo.Id)
-                            //time item comparer
-                            .Where(x => !(x.TimeItem.BeginTime > dt1.TimeItem.EndTime || x.TimeItem.EndTime < dt1.TimeItem.BeginTime));
-
-                        //cotinue if not null
-                        if (!lst.IsNullOrEmpty())
-                        {
-                            Cat3ATCStats? final = null;
-
-                            //to make sure wheather they are doing the handling job
-                            var isHandling = lst.Any(x => x.SectorInfo.Id == dt1.SectorInfo.Id &&
-                                x.UserInfo.Id != dt1.UserInfo.Id);
-                            //if true
-                            if (isHandling)
-                            {
-                                //to make sure the sector have a valid non cat3 or cancat3=false atc
-                                var isValidHandling = lst.Any(x => x.SectorInfo.Id != dt1.SectorInfo.Id &&
-                                    x.UserInfo.CanCat3 == true);
-
-                                if (isValidHandling)
-                                {
-                                    final = new Cat3ATCStats
-                                    {
-                                        Date = dateData.Date,
-                                        Sector = sectorData.Sector,
-                                        Violator = lst.Select(x => x.TimeItem.Adapt<TimeItemDto>()),
-                                        Comparer = dt1.TimeItem.Adapt<TimeItemDto>()
-                                    };
-                                }
-                            }
-                            else
-                            {
-                                final = new Cat3ATCStats
-                                {
-                                    Date = dateData.Date,
-                                    Sector = sectorData.Sector,
-                                    Violator = lst.Select(x => x.TimeItem.Adapt<TimeItemDto>()),
-                                    Comparer = dt1.TimeItem.Adapt<TimeItemDto>()
-                                };
-                            }
-
-                            //make sure the comparer is not exist before;
-
-                            if (final != null)
-                            {
-                                var isComparerExist = finalQuery?.Any(x => x.Comparer?.Id == final.Comparer?.Id);
-                                var fList = finalQuery?.Select(x => x.Violator).ToList();
-
-                                if (isComparerExist == false)
-                                {
-                                    final.UID = Guid.NewGuid();
-                                    finalQuery?.AddNonNullObject(final);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        var violatorList = new List<TimeItemDto>();
-        //remove redundant items
-        foreach (var item in finalQuery)
-        {
-            if (item?.Violator != null)
-            {
-                foreach (var item2 in item?.Violator!)
-                {
-                    item2.GroupId = item.UID;
-                    violatorList.Add(item2);
-                }
-            }
-        }
-
-        var strList = new List<Guid?>();
-
-        foreach (var item in finalQuery)
-        {
-            var items = violatorList.Where(x => x.Id == item?.Comparer?.Id);
-            if (items != null && items.Count() > 1)
-            {
-                var items2 = items.FirstOrDefault();
-                strList.AddUnique(items2?.GroupId);
-            }
-            else
-            {
-                strList.AddUnique(item.UID);
-            }
-        }
-
-        var selector = from a in finalQuery
-                       join b in strList
-                       on a.UID equals b
-                       select a;
-        //var dt = await qGroupedByDate.ToListAsync();
-        //var query = from a in _sectorRepo.AsQueryable(false)
-        //            join b in _timeItemRepo.AsDefaultQuaryable(false)
-        //            on a.Id equals b.SectorId
-        //            join c in _userATCInfoRepo.AsQueryable(false)
-        //            on b.UserId equals c.Id
-        //            where b.BeginTime >= beginTime && b.EndTime <= endTime
-        //            where a.Cat3Sector == true && c.IsCat3 == true
-        //            select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
-
-        //var query2 = from a in _sectorRepo.AsQueryable(false)
-        //             join b in _timeItemRepo.AsDefaultQuaryable(false)
-        //             on a.Id equals b.SectorId
-        //             join c in _userATCInfoRepo.AsQueryable(false)
-        //             on b.UserId equals c.Id
-        //             where b.BeginTime >= beginTime && b.EndTime <= endTime
-        //             where c.CanCat3 == false
-        //             select new Tuple<Sector, TimeItem, UserATCInfo>(a, b, c);
-
-        //var rawData1 = await query.ToListAsync();
-        //var stats = rawData1.GroupBy(x => x.Item1.Code).Select(x => new { Code = x.Key, Data = x });
-
-        //List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>> dd = new List<IEnumerable<Tuple<Sector, TimeItem, UserATCInfo>>>();
-        //foreach (var stat in stats)
+        //List<long> ids3 = new List<long> { 122521, 12345, 123, 123556, 112 };
+        //var se = new List<List<long>>
         //{
-        //    //group by date
-        //    var statData1 = stat.Data.GroupBy(x => x.Item2.BeginTime.Date)
-        //        .Select(x => new StatData { Date = x.Key, Data = x.OrderBy(x => x.Item2.BeginTime) })
-        //        .ToList();
+        //    ids, ids2
+        //};
 
-        //    foreach (var stat1 in statData1)
-        //    {
-        //        var statData2 = stat1.Data.ToList();
-        //        //search for data item time
-        //        for (int i = 0; i < statData2.Count; i++)
-        //        {
-        //            var compare1 = statData2[i];
-        //            var data1 = statData2.Where(x => x.Item1.Position != compare1.Item1.Position).Where(x => !(x.Item2.BeginTime > compare1.Item2.EndTime
-        //                || x.Item2.EndTime < compare1.Item2.BeginTime))
-        //                .Where(x => x.Item3.Id != compare1.Item3.Id).OrderBy(x => x.Item2.BeginTime);
+        //var ssw = se.NoOrderContains(ids);
+        //var ss = ids.SameAs(ids3);
 
-        //            dd.AddNonNullListObject(data1);
-        //        }
-        //    }
-        //}
-        return selector!;//.GroupBy(x=>x.GroupBy(x=>x.Item1.Code)).Select(x=>new {code = x.Key, data = x});
+        var comparedList = new List<List<long>>();
+        List<Cat3ATCStats>? finalList = new List<Cat3ATCStats>();
+        //group by date
+        foreach (var dateItem in groupedList)
+        {
+            //group by sector
+            foreach (var sectorItem in dateItem.DataByDate)
+            {
+                var cpList = new List<long>();
+                for (int i = 0; i < sectorItem.Data.Count; i++)
+                {
+                    var comparer = sectorItem.Data[i];
+
+                    //will not check non cat3 people
+                    if (comparer.UserATCInfo!.IsCat3 == false) continue;
+
+                    var violators = sectorItem.Data
+                        .Where(x => x.SectorId != comparer.SectorId)
+                        .Where(x => x.UserATCInfoId != comparer.UserATCInfoId)
+                        .Where(x => x.Sector!.Cat3Sector == true)
+                        .Where(x => x.UserATCInfo!.IsCat3 == true || x.UserATCInfo.CanCat3 == false)
+                        .Where(x => !(x.BeginTime > comparer.EndTime || x.EndTime < comparer.BeginTime));
+
+                    if (violators == null || violators.Count() == 0) continue;
+
+                    cpList.Add(comparer.Id);
+                    cpList.AddRange(violators.Select(x => x.Id));
+
+                    if(!comparedList.NoOrderContains(cpList))
+                    {
+                        comparedList.Add(cpList);
+                        finalList.Add(new Cat3ATCStats
+                        {
+                            Comparer = comparer.Adapt<TimeItemDto>(),
+                            Date = dateItem.Date,
+                            Sector = sectorItem.SectorCode,
+                            Violator = violators.Adapt<IEnumerable<TimeItemDto>>(),
+                        });
+                    }
+                };
+            }
+        }
+        return finalList;
     }
 }
 

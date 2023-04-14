@@ -62,8 +62,16 @@ namespace ATCer.HRCenter.Domains
         [DisplayName("导入确认")]
         public bool Confirmed { get; set; }
 
+        /// <summary>
+        /// 山区信息
+        /// </summary>
+        [DisplayName("管制信息")]
         public Sector? Sector { get; set; }
 
+        /// <summary>
+        /// 管制员信息
+        /// </summary>
+        [DisplayName("扇区信息")]
         public UserATCInfo? UserATCInfo { get; set; }
 
         public void Configure(EntityTypeBuilder<TimeItem> entityBuilder, DbContext dbContext, Type dbContextLocator)

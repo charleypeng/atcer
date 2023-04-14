@@ -27,7 +27,7 @@ namespace ATCer.HRCenter.Dtos
         /// </summary>
         [Description("管制员名称")]
         [Required]
-        public string? ATCName{ get; set; }
+        public string? ATCName { get; set; }
         /// <summary>
         /// 管制员等级
         /// </summary>
@@ -62,6 +62,16 @@ namespace ATCer.HRCenter.Dtos
         /// 管制职位
         /// </summary>
         public ControllerRole Role { get; set; }
+        /// <summary>
+        /// 是否三类人员
+        /// </summary>
+        [Description("是否3类人员")]
+        public bool IsCat3 { get; set; }
+        /// <summary>
+        /// 能否搭档3类人员
+        /// </summary>
+        [Description("能否搭档3类人员")]
+        public bool CanCat3 { get; set; }
 
     }
 }

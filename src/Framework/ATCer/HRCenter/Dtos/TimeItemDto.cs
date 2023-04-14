@@ -14,55 +14,44 @@ namespace ATCer.HRCenter.Dtos
     /// 执勤时间
     /// </summary>
     [DisplayName("执勤时间")]
-    public class TimeItemDto: ATCerBaseDto<long>, IEquatable<TimeItemDto>
+    public class TimeItemDto: ATCerBaseDto<long>
     {
-        /// <summary>
-        /// 管制员
-        /// </summary>
-        [DisplayName("管制员")]
-        public string? UserName { get; set; }
-        /// <summary>
-        /// 席位名称
-        /// </summary>
-        [DisplayName("席位名称")]
-        public string? SectorName { get; set; }
         /// <summary>
         /// 管制员Id
         /// </summary>
-        [DisplayName("Id")]
+        [Description("管制员Id")]
         public int UserATCInfoId { get; set; }
-        /// <summary>
         /// 扇区Id
         /// </summary>
-        [DisplayName("扇区")]
+        [Description("扇区Id")]
         public int SectorId { get; set; }
         /// <summary>
         /// 登入方式
         /// </summary>
-        [DisplayName("登入方式")]
-        public ATCLoginType TypeOfLogin { get; set; } = ATCLoginType.Unknown;
+        [Description("登入方式")]
+        public ATCLoginType TypeOfLogin { get; set; }
         /// <summary>
         /// 登出方式
         /// </summary>
-        [DisplayName("登出方式")]
-        public ATCLoginType TypeOfLogout { get; set; } = ATCLoginType.Unknown;
+        [Description("登出方式")]
+        public ATCLoginType TypeOfLogout { get; set; }
         /// <summary>
         /// 开始时间
         /// </summary>
-        [DisplayName("开始时间")]
+        [Description("开始时间")]
         public DateTimeOffset BeginTime { get; set; }
         /// <summary>
         /// 结束时间
         /// </summary>
-        [DisplayName("结束时间")]
+        [Description("结束时间")]
         public DateTimeOffset EndTime { get; set; }
         /// <summary>
         /// 夜班时间Id
         /// </summary>
-        [DisplayName("夜班时间Id")]
+        [Description("夜班时间Id")]
         public int WorkTimeConfId { get; set; }
         /// <summary>
-        /// 岗位角色
+        /// 管制员角色
         /// </summary>
         [DisplayName("角色")]
         public ControllerRole ControllerRole { get; set; }
@@ -72,15 +61,17 @@ namespace ATCer.HRCenter.Dtos
         [DisplayName("导入确认")]
         public bool Confirmed { get; set; }
 
-        [JsonIgnore]
-        public bool IsComparer { get; set; } = false;
+        /// <summary>
+        /// 山区信息
+        /// </summary>
+        [DisplayName("管制信息")]
+        public SectorDto? Sector { get; set; }
 
-        [JsonIgnore]
-        public Guid? GroupId { get; set; }
+        /// <summary>
+        /// 管制员信息
+        /// </summary>
+        [DisplayName("扇区信息")]
+        public UserATCInfoDto? UserATCInfo { get; set; }
 
-        public bool Equals(TimeItemDto? other)
-        {
-            return Id.Equals(other?.Id);
-        }
     }
 }
