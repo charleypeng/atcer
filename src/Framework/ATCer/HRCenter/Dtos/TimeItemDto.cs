@@ -20,17 +20,17 @@ namespace ATCer.HRCenter.Dtos
         /// 管制员
         /// </summary>
         [DisplayName("管制员")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         /// <summary>
         /// 席位名称
         /// </summary>
         [DisplayName("席位名称")]
-        public string SectorName { get; set; }
+        public string? SectorName { get; set; }
         /// <summary>
         /// 管制员Id
         /// </summary>
         [DisplayName("Id")]
-        public int UserId { get; set; }
+        public int UserATCInfoId { get; set; }
         /// <summary>
         /// 扇区Id
         /// </summary>
@@ -76,7 +76,7 @@ namespace ATCer.HRCenter.Dtos
         public bool IsComparer { get; set; } = false;
 
         [JsonIgnore]
-        public Guid GroupId { get; set; }
+        public Guid? GroupId { get; set; }
 
         public bool Equals(TimeItemDto? other)
         {

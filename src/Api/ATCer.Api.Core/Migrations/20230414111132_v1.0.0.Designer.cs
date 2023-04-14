@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ATCer.Api.Core.Migrations
 {
     [DbContext(typeof(ATCerDbContext))]
-    [Migration("20230414095527_v1.0.0")]
+    [Migration("20230414111132_v1.0.0")]
     partial class v100
     {
         /// <inheritdoc />
@@ -8247,7 +8247,7 @@ namespace ATCer.Api.Core.Migrations
                             Id = 1,
                             Cat3Sector = false,
                             Code = "TWR",
-                            CreatedTime = new DateTimeOffset(new DateTime(2023, 4, 14, 17, 55, 26, 671, DateTimeKind.Unspecified).AddTicks(2195), new TimeSpan(0, 8, 0, 0, 0)),
+                            CreatedTime = new DateTimeOffset(new DateTime(2023, 4, 14, 19, 11, 32, 33, DateTimeKind.Unspecified).AddTicks(5514), new TimeSpan(0, 8, 0, 0, 0)),
                             CreatorIdentityType = 0,
                             Department = (byte)0,
                             IsDeleted = false,
@@ -8305,17 +8305,17 @@ namespace ATCer.Api.Core.Migrations
                     b.Property<DateTimeOffset?>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserATCInfoId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("WorkTimeConfId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SectorId");
+
+                    b.HasIndex("UserATCInfoId");
 
                     b.ToTable("TimeItem", t =>
                         {
@@ -10383,6 +10383,25 @@ namespace ATCer.Api.Core.Migrations
                     b.Navigation("AuditEntity");
                 });
 
+            modelBuilder.Entity("ATCer.HRCenter.Domains.TimeItem", b =>
+                {
+                    b.HasOne("ATCer.HRCenter.Domains.Sector", "Sector")
+                        .WithMany("TimeItems")
+                        .HasForeignKey("SectorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ATCer.HRCenter.Domains.UserATCInfo", "UserATCInfo")
+                        .WithMany("TimeItems")
+                        .HasForeignKey("UserATCInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sector");
+
+                    b.Navigation("UserATCInfo");
+                });
+
             modelBuilder.Entity("ATCer.UserCenter.Impl.Domains.ClientFunction", b =>
                 {
                     b.HasOne("ATCer.UserCenter.Impl.Domains.Client", "Client")
@@ -10495,6 +10514,16 @@ namespace ATCer.Api.Core.Migrations
             modelBuilder.Entity("ATCer.EntityFramwork.Audit.Domains.AuditOperation", b =>
                 {
                     b.Navigation("AuditEntities");
+                });
+
+            modelBuilder.Entity("ATCer.HRCenter.Domains.Sector", b =>
+                {
+                    b.Navigation("TimeItems");
+                });
+
+            modelBuilder.Entity("ATCer.HRCenter.Domains.UserATCInfo", b =>
+                {
+                    b.Navigation("TimeItems");
                 });
 
             modelBuilder.Entity("ATCer.UserCenter.Impl.Domains.Client", b =>

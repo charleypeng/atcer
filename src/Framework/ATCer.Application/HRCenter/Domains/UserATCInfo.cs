@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ATCer.HRCenter.Enums;
 
-#nullable disable
 namespace ATCer.HRCenter.Domains
 {
     /// <summary>
@@ -27,7 +26,7 @@ namespace ATCer.HRCenter.Domains
         /// </summary>
         [Description("管制员名称")]
         [Required]
-        public string ATCName { get; set; }
+        public string? ATCName { get; set; }
         /// <summary>
         /// 管制员等级
         /// </summary>
@@ -74,6 +73,10 @@ namespace ATCer.HRCenter.Domains
         [Description("能否搭档3类人员")]
         [Comment("能否搭档3类人员")]
         public bool CanCat3 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICollection<TimeItem>? TimeItems { get; set; }
         /// <summary>
         /// Seed data
         /// </summary>

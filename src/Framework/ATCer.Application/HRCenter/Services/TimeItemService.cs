@@ -85,7 +85,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         Expression<Func<TimeItemDto, bool>> expression = filterService.GetExpression<TimeItemDto>(request.FilterGroups);
         var timeItems = from a in timeItem
                         join b in atcInfo
-                        on a.UserId equals b.Id
+                        on a.UserATCInfoId equals b.Id
                         join c in sector
                         on a.SectorId equals c.Id
                         select new TimeItemDto
@@ -104,7 +104,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                             IsLocked = a.IsLocked,
                             SectorId = a.SectorId,
                             UpdatedTime = a.UpdatedTime,
-                            UserId = a.UserId,
+                            UserATCInfoId = a.UserATCInfoId,
                             WorkTimeConfId = a.WorkTimeConfId,
                         };
         var pageList = await timeItems.Where(expression).ToPageAsync(request.PageIndex, request.PageSize);
@@ -117,11 +117,12 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
     /// <returns></returns>
     public async Task<gBase.MyPagedList<TimeItemDto>> GetImported(int pageIndex = 1, int pageSize = 10)
     {
+        var ssd = await _timeItemRepo.Where(x => x.UserATCInfo.ATCName == "彭磊").ToListAsync();
         var query = from a in _repository.AsQueryable(false).Where(x => x.Confirmed == false)
                     join b in _sectorRepo.AsQueryable(false)
                     on a.SectorId equals b.Id
                     join c in _userATCInfoRepo.AsQueryable(false)
-                    on a.UserId equals c.Id
+                    on a.UserATCInfoId equals c.Id
                     select new TimeItemDto
                     {
                         Id = a.Id,
@@ -138,7 +139,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                         TypeOfLogin = a.TypeOfLogin,
                         TypeOfLogout = a.TypeOfLogout,
                         UpdatedTime = a.UpdatedTime,
-                        UserId = a.UserId,
+                        UserATCInfoId = a.UserATCInfoId,
                         WorkTimeConfId = a.WorkTimeConfId
                     };
         var data = await query.ToPageAsync(pageIndex, pageSize);
@@ -329,7 +330,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
             {
                 BeginTime = item.BeginTime,
                 EndTime = item.EndTime,
-                UserId = user.Id,
+                UserATCInfoId = user.Id,
                 SectorId = sector.Id,
                 Confirmed = false,
                 WorkTimeConfId = _workTimeConf.Id,
@@ -402,7 +403,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         var qCat3ATC =  from a in qTimeItem
                         where a.Confirmed == true
                         join b in qUserInfo
-                        on a.UserId equals b.Id
+                        on a.UserATCInfoId equals b.Id
                         where b.CanCat3 == false || b.IsCat3 == true
                         join c in qSector
                         on a.SectorId equals c.Id
@@ -426,7 +427,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                                 TypeOfLogin = a.TypeOfLogin,
                                 TypeOfLogout = a.TypeOfLogout,
                                 UpdatedTime = a.UpdatedTime,
-                                UserId = a.UserId,
+                                UserATCInfoId = a.UserATCInfoId,
                                 WorkTimeConfId = a.WorkTimeConfId   
                             },
                             SectorInfo  = c,
@@ -633,7 +634,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
         var qCat3ATC = from a in qTimeItem
                        where a.Confirmed == true
                        join b in qUserInfo
-                       on a.UserId equals b.Id
+                       on a.UserATCInfoId equals b.Id
                        where b.CanCat3 == false || b.IsCat3 == true
                        join c in qSector
                        on a.SectorId equals c.Id
@@ -657,7 +658,7 @@ public class TimeItemService : ServiceBase<TimeItem, TimeItemDto, long>, ITimeIt
                                TypeOfLogin = a.TypeOfLogin,
                                TypeOfLogout = a.TypeOfLogout,
                                UpdatedTime = a.UpdatedTime,
-                               UserId = a.UserId,
+                               UserATCInfoId = a.UserATCInfoId,
                                WorkTimeConfId = a.WorkTimeConfId
                            },
                            SectorInfo = c,

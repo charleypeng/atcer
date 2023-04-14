@@ -664,35 +664,6 @@ namespace ATCer.Api.Core.Migrations
                 comment: "定时任务表");
 
             migrationBuilder.CreateTable(
-                name: "TimeItem",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    UserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    SectorId = table.Column<int>(type: "integer", nullable: false),
-                    TypeOfLogin = table.Column<byte>(type: "smallint", nullable: false),
-                    TypeOfLogout = table.Column<byte>(type: "smallint", nullable: false),
-                    BeginTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    EndTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    WorkTimeConfId = table.Column<int>(type: "integer", nullable: false),
-                    ControllerRole = table.Column<byte>(type: "smallint", nullable: false),
-                    Confirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsLocked = table.Column<bool>(type: "boolean", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatorId = table.Column<string>(type: "text", nullable: true),
-                    CreatorIdentityType = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TimeItem", x => x.Id);
-                },
-                comment: "执勤信息");
-
-            migrationBuilder.CreateTable(
                 name: "UserATCInfo",
                 columns: table => new
                 {
@@ -930,6 +901,46 @@ namespace ATCer.Api.Core.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TimeItem",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserATCInfoId = table.Column<int>(type: "integer", nullable: false),
+                    SectorId = table.Column<int>(type: "integer", nullable: false),
+                    TypeOfLogin = table.Column<byte>(type: "smallint", nullable: false),
+                    TypeOfLogout = table.Column<byte>(type: "smallint", nullable: false),
+                    BeginTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    EndTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    WorkTimeConfId = table.Column<int>(type: "integer", nullable: false),
+                    ControllerRole = table.Column<byte>(type: "smallint", nullable: false),
+                    Confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    IsLocked = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    CreatorIdentityType = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimeItem_Sector_SectorId",
+                        column: x => x.SectorId,
+                        principalTable: "Sector",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TimeItem_UserATCInfo_UserATCInfoId",
+                        column: x => x.UserATCInfoId,
+                        principalTable: "UserATCInfo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "执勤信息");
 
             migrationBuilder.CreateTable(
                 name: "AuditProperty",
@@ -1321,7 +1332,7 @@ namespace ATCer.Api.Core.Migrations
             migrationBuilder.InsertData(
                 table: "Sector",
                 columns: new[] { "Id", "Cat3Sector", "Code", "CreatedTime", "CreatorId", "CreatorIdentityType", "Department", "IsDeleted", "IsLocked", "Multiplier", "Name", "PhysicalPosition", "Position", "PositionName", "UpdatedTime" },
-                values: new object[] { 1, false, "TWR", new DateTimeOffset(new DateTime(2023, 4, 14, 17, 55, 26, 671, DateTimeKind.Unspecified).AddTicks(2195), new TimeSpan(0, 8, 0, 0, 0)), null, 0, (byte)0, false, false, 1.05, "塔台管制席", null, (byte)0, null, null });
+                values: new object[] { 1, false, "TWR", new DateTimeOffset(new DateTime(2023, 4, 14, 19, 11, 32, 33, DateTimeKind.Unspecified).AddTicks(5514), new TimeSpan(0, 8, 0, 0, 0)), null, 0, (byte)0, false, false, 1.05, "塔台管制席", null, (byte)0, null, null });
 
             migrationBuilder.InsertData(
                 table: "SysTimer",
@@ -1854,6 +1865,16 @@ namespace ATCer.Api.Core.Migrations
                 column: "ResourceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TimeItem_SectorId",
+                table: "TimeItem",
+                column: "SectorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeItem_UserATCInfoId",
+                table: "TimeItem",
+                column: "UserATCInfoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_DeptId",
                 table: "User",
                 column: "DeptId");
@@ -1933,16 +1954,10 @@ namespace ATCer.Api.Core.Migrations
                 name: "SADProcedure");
 
             migrationBuilder.DropTable(
-                name: "Sector");
-
-            migrationBuilder.DropTable(
                 name: "SysTimer");
 
             migrationBuilder.DropTable(
                 name: "TimeItem");
-
-            migrationBuilder.DropTable(
-                name: "UserATCInfo");
 
             migrationBuilder.DropTable(
                 name: "UserExtension");
@@ -1970,6 +1985,12 @@ namespace ATCer.Api.Core.Migrations
 
             migrationBuilder.DropTable(
                 name: "Resource");
+
+            migrationBuilder.DropTable(
+                name: "Sector");
+
+            migrationBuilder.DropTable(
+                name: "UserATCInfo");
 
             migrationBuilder.DropTable(
                 name: "Role");
