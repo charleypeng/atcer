@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.4" />
+    <PackageReference Include="Photino.Blazor" Version="2.6.0" />
   </ItemGroup>
 
   <ItemGroup>

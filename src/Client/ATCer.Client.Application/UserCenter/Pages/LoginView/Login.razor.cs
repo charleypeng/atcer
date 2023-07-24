@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Threading.Tasks;
+using PhotinoNET;
 
 namespace ATCer.UserCenter.Client.Pages.LoginView
 {
@@ -72,6 +73,17 @@ namespace ATCer.UserCenter.Client.Pages.LoginView
                 //await InvokeAsync(StateHasChanged);
             }
             
+        }
+
+        private void openwindow()
+        {
+            var window = new PhotinoWindow();
+            
+            window
+                .SetDevToolsEnabled(false)
+                .SetContextMenuEnabled(false)
+                .Load("wwwroot/rock.html")
+                .WaitForClose();
         }
     }
     

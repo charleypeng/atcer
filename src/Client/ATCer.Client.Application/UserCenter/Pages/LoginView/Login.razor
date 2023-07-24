@@ -5,6 +5,7 @@
 @attribute [ReuseTabsPage(Ignore =true)]
 
 <div class="main__b__0">
+    <Button OnClick="openwindow">hahaha</Button>
     <div class="login">
         <Form Model="@loginInput"
               OnFinish="OnLogin"
@@ -19,18 +20,18 @@
                     <ChildContent>
                         <FormItem Label="">
                             <Input Placeholder="用户名" Size="large" @bind-Value="@context.UserName">
-                                <Prefix><Icon Type="user" /></Prefix>
-                             </Input>
+                                <Prefix><Icon Type="user"/></Prefix>
+                            </Input>
                         </FormItem>
                         <FormItem Label="">
                             <InputPassword Placeholder="密码" Size="large" @bind-Value="@context.Password" Type="password">
-                                <Prefix><Icon Type="lock" /></Prefix>
+                                <Prefix><Icon Type="lock"/></Prefix>
                             </InputPassword>
                         </FormItem>
                         <FormItem Label="">
                             <Row>
                                 <Col Span="18">
-                                    <Input Placeholder="验证码" Size="large" @bind-Value="@context.VerifyCode" />
+                                    <Input Placeholder="验证码" Size="large" @bind-Value="@context.VerifyCode"/>
                                 </Col>
                                 <Col Span="6">
                                     <ImageVerifyCode @bind-VerifyCodeKey="@context.VerifyCodeKey" @ref="_imageVerifyCode"></ImageVerifyCode>
@@ -38,7 +39,7 @@
                             </Row>
                         </FormItem>
                         <FormItem Style="display:none">
-                            <Input @bind-Value="@context.VerifyCodeKey" />
+                            <Input @bind-Value="@context.VerifyCodeKey"/>
                         </FormItem>
                     </ChildContent>
                 </TabPane>
