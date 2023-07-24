@@ -57,5 +57,11 @@ namespace ATCer.HRCenter.Dtos
         /// </summary>
         [DisplayName("席位名称")]
         public string? PositionName { get; set; }
+        /// <summary>
+        /// 重点席位
+        /// </summary>
+        [DisplayName("重点席位")]
+        [Required]
+        public bool Cat3Sector { get; set; } = false;
     }
 }

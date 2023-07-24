@@ -62,5 +62,7 @@ namespace ATCer.HRCenter.Domains
         [DisplayName("重点席位")]
         [Required]
         public bool Cat3Sector { get; set; } = false;
+
+        public ICollection<TimeItem> TimeItems { get; set; }
     }
 }

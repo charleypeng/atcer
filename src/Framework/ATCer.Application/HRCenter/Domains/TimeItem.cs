@@ -5,33 +5,26 @@
 // -----------------------------------------------------------------------------
 
 using ATCer.HRCenter.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-#nullable disable
 namespace ATCer.HRCenter.Domains
 {
     /// <summary>
     /// 执勤信息
     /// </summary>
     [Comment("执勤信息")]
-    public class TimeItem:ATCerEntityBase<long>, IBaseEntity
+    public class TimeItem:ATCerEntityBase<long>, IBaseEntity, IEntityTypeBuilder<TimeItem>
     {
         /// <summary>
         /// 管制员Id
         /// </summary>
-        [Description("Id")]
-        public int UserId { get; set; }
-        /// <summary>
-        /// 管制员
-        /// </summary>
-        [DisplayName("管制员")]
-        [MaxLength(50)]
-        public string UserName { get; set; }
-        /// <summary>
+        [Description("管制员Id")]
+        public int UserATCInfoId { get; set; }
         /// 扇区Id
         /// </summary>
-        [Description("扇区")]
+        [Description("扇区Id")]
         public int SectorId { get; set; }
         /// <summary>
         /// 登入方式
@@ -68,5 +61,30 @@ namespace ATCer.HRCenter.Domains
         /// </summary>
         [DisplayName("导入确认")]
         public bool Confirmed { get; set; }
+
+        /// <summary>
+        /// 山区信息
+        /// </summary>
+        [DisplayName("管制信息")]
+        public Sector? Sector { get; set; }
+
+        /// <summary>
+        /// 管制员信息
+        /// </summary>
+        [DisplayName("扇区信息")]
+        public UserATCInfo? UserATCInfo { get; set; }
+
+        public void Configure(EntityTypeBuilder<TimeItem> entityBuilder, DbContext dbContext, Type dbContextLocator)
+        {
+            entityBuilder
+                .HasOne(x => x.UserATCInfo)
+                .WithMany(x => x.TimeItems)
+                .HasForeignKey(x => x.UserATCInfoId);
+
+            entityBuilder
+                .HasOne(x => x.Sector)
+                .WithMany(x => x.TimeItems)
+                .HasForeignKey(x => x.SectorId);
+        }
     }
 }
